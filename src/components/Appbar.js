@@ -2,9 +2,6 @@ import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/material/Menu';
-
 
 export default function Appbar() {
 
@@ -13,9 +10,11 @@ export default function Appbar() {
       <AppBar position="static" style={{ backgroundColor: 'teal' }}>
         <Toolbar>
           <Typography variant="h6" className='title' align='left' style={{ flex: 2,  }}>
-            BQ Assets
+            <a href='/'>BQ Assets</a>
+            
           </Typography>
-          <Typography variant='h7' align='right' style={{ textAlign: 'right', }}><a>Team</a></Typography>
+          <Typography variant='h7' align='right' style={{ textAlign: 'right', }}><a href='/team'>Team</a></Typography>
+          <Typography variant='h7' align='right' style={{ textAlign: 'right', padding:'10px' }}><a a href='/employee'>Employee</a></Typography>
 
         </Toolbar>
       </AppBar>

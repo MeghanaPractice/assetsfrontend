@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container,Paper} from '@mui/material';
-import TeamTable from './TeamTable';
-import TeamAdd from './TeamAdd';
+import TeamTable from '../components/TeamComponenets/TeamTable';
+import TeamAdd from '../components/TeamComponenets/TeamAdd';
 
 export default function Team() {
   

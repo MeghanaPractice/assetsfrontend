@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { DataGrid, GridToolbar,useGridApiContext } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, useGridApiContext } from '@mui/x-data-grid';
 import { useState, useEffect } from 'react';
-import { IconButton,Select, MenuItem, OutlinedInput } from '@mui/material';
+import { IconButton, Select, MenuItem, OutlinedInput } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Check, Cancel} from '@mui/icons-material';
+import { Check, Cancel } from '@mui/icons-material';
 
 export default function EmployeeTable({ refreshTable }) {
 
@@ -13,10 +13,9 @@ export default function EmployeeTable({ refreshTable }) {
   const [employeeName, setEmployeeName] = useState('');
   const [teamIDNo, setTeamIDNo] = useState('');
   const [employees, setEmployees] = useState([]);
-  const [teamOptions,setTeamOptions] = useState([]);
+  const [teamOptions, setTeamOptions] = useState([]);
   const [editingRow, setEditingRow] = useState(null);
-
-
+  const [initialRow, setInitialRow] = useState(null);
   const fetchEmployees = () => {
     fetch('http://localhost:8081/employee/getAll')
       .then((res) => res.json())
@@ -33,18 +32,26 @@ export default function EmployeeTable({ refreshTable }) {
 
   const handleEdit = (params) => {
     const employee = params.row;
+    setInitialRow({ ...employee });
+
     setEmployeeID(employee.employeeID);
     setEmployeeName(employee.employeeName);
     setTeamIDNo(employee.teamIDNo);
     setColumnEditable(true);
     setEditingRow(params.row.id);
   };
-  
+
   const handleCancelEdit = () => {
+    if (initialRow) {
+      setEmployeeID(initialRow.employeeID);
+      setEmployeeName(initialRow.employeeName);
+      setTeamIDNo(initialRow.teamIDNo);
+    }
     setColumnEditable(false);
     setEditingRow(null);
+    fetchEmployees();
   };
-  
+
   const confirmEdit = (params) => {
     if (window.confirm('Edit Employee Permanently?')) {
       const employee = params.row;
@@ -59,6 +66,7 @@ export default function EmployeeTable({ refreshTable }) {
           fetchEmployees();
           setColumnEditable(false);
           setEditingRow(null);
+          setInitialRow(null);
         })
         .catch((error) => {
           console.error('Error Editing employee:', error);
@@ -74,23 +82,23 @@ export default function EmployeeTable({ refreshTable }) {
         setTeamOptions(result);
       });
   };
-  
+
   useEffect(() => {
     fetchTeams();
   }, []);
-  
+
   const TeamSelectCell = (props) => {
-    const { id, value, onChange,field } = props;
+    const { id, value, onChange, field } = props;
     const apiRef = useGridApiContext();
-  
+
     return (
       <Select
         value={value}
-        onChange={ async (event) => {
+        onChange={async (event) => {
           await apiRef.current.setEditCellValue({ id, field, value: event.target.value });
           apiRef.current.stopCellEditMode({ id, field });
         }}
-        input={<OutlinedInput/>}
+        input={<OutlinedInput />}
         fullWidth
       >
         {teamOptions.map((team) => (
@@ -101,19 +109,21 @@ export default function EmployeeTable({ refreshTable }) {
       </Select>
     );
   };
-  
+
   const columns = [
     { field: 'employeeID', headerName: 'Employee ID', flex: 1 },
     { field: 'employeeName', headerName: 'Employee name', editable: columnEditable, flex: 1 },
-    { field: 'teamIDNo', headerName: 'Team ID', editable: columnEditable, flex: 1 ,
+    {
+      field: 'teamIDNo', headerName: 'Team ID', editable: columnEditable, flex: 1,
       renderEditCell: (params) => (
-      <TeamSelectCell
-        id={params.id}
-        value={params.value}
-        field={params.field}
-        onChange={params.onChange}
-      />
-    ),},
+        <TeamSelectCell
+          id={params.id}
+          value={params.value}
+          field={params.field}
+          onChange={params.onChange}
+        />
+      ),
+    },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -140,7 +150,7 @@ export default function EmployeeTable({ refreshTable }) {
             fetchEmployees()
           }
         };
-  
+
         return (
           <div>
             {!isEditingRow && (

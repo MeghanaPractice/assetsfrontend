@@ -3,7 +3,6 @@ import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 
 export default function TeamAdd({ refreshTable, setRefreshTable }) {
-
     const [teamID, setTeamID] = useState('')
     const [teamName, setTeamName] = useState('')
     const handleClick = (e) => {

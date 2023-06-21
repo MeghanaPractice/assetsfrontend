@@ -5,6 +5,7 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel } from '@mui/icons-material';
+
 export default function TeamTable({ refreshTable }) {
 
   const [columnEditable, setColumnEditable] = useState(false);
@@ -38,6 +39,7 @@ export default function TeamTable({ refreshTable }) {
   const handleCancelEdit = () => {
     setColumnEditable(false);
     setEditingRow(null);
+    fetchTeams();
   };
 
   const confirmEdit = (params) => {
@@ -75,24 +77,24 @@ export default function TeamTable({ refreshTable }) {
       filterable: false,
       renderCell: (params) => {
         const isEditingRow = params.row.id === editingRow;
-          const handleDelete = (params) => {
-            if (window.confirm("Delete Team?")) {
-              const team = params.row;
-              fetch(`http://localhost:8081/team/delete/${team.teamID}`, {
-                method: "DELETE",
-                headers: { "Content-Type": "application/json" }
+        const handleDelete = (params) => {
+          if (window.confirm("Delete Team?")) {
+            const team = params.row;
+            fetch(`http://localhost:8081/team/delete/${team.teamID}`, {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" }
+            })
+              .then(() => {
+                console.log("Delete team:", team)
+                alert(`Deleting team: ${team.teamID}`)
+                fetchTeams();
               })
-                .then(() => {
-                  console.log("Delete team:", team)
-                  alert(`Deleting team: ${team.teamID}`)
-                  fetchTeams();
-                })
-                .catch((error) => {
-                  console.error("Error Deleting team:", error);
-                })
-              fetchTeams()
-            }
-          };
+              .catch((error) => {
+                console.error("Error Deleting team:", error);
+              })
+            fetchTeams()
+          }
+        };
 
         return (
           <div>

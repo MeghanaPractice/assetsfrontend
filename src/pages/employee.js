@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Paper } from '@mui/material';
-import EmployeeTable from '../components/EmployeeComponents/EmployeeTable';
 import EmployeeAdd from '../components/EmployeeComponents/EmployeeAdd';
+import EmployeeTable from '../components/EmployeeComponents/EmployeeTable';
 
 export default function Employee() {
   const [refreshTable, setRefreshTable] = useState(false)

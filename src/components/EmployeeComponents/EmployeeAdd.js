@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
-import { Button, MenuItem, Select } from '@mui/material';
+import { Button, MenuItem, Select, InputLabel } from '@mui/material';
 
 export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
 
@@ -24,26 +24,30 @@ export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
     e.preventDefault();
     const employee = { employeeID, employeeName, teamIDNo };
     console.log(employee);
-    fetch('http://localhost:8081/employee/add', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(employee),
-    })
-      .then(() => {
-        console.log('New employee added');
-        setEmployeeID('');
-        setEmployeeName('');
-        setTeamIDNo('');
-        alert('Added employee');
-        setRefreshTable(true);
+    if (employeeID && employeeName) {
+      fetch('http://localhost:8081/employee/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(employee),
       })
-      .catch((error) => {
-        console.error('Error adding employee:', error);
-      });
+        .then(() => {
+          console.log('New employee added');
+          setEmployeeID('');
+          setEmployeeName('');
+          setTeamIDNo('');
+          alert('Added employee');
+          setRefreshTable(true);
+        })
+        .catch((error) => {
+          console.error('Error adding employee:', error);
+        });
+    }
+    else
+      alert('Some fields are missing')
   };
 
   return (
-    <>
+    <div>
       <h1>Add employee</h1>
       <form className='root' noValidate autoComplete="off">
         <TextField
@@ -59,11 +63,14 @@ export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
           style={{ margin: '20px auto' }}
         />
         <Select
-          id="teamID-select" label="Team ID" variant="outlined" fullWidth
+          id="teamID-select" variant="outlined" fullWidth
           value={teamIDNo}
           onChange={(e) => setTeamIDNo(e.target.value)}
           style={{ margin: '20px auto' }}
+          inputProps={{ 'aria-label': 'Team ID' }}
+          renderValue={(selected) => selected || 'Team ID'}
         >
+          <InputLabel htmlFor="teamID-select-label">Team ID</InputLabel>
           {teams.map((team) => (
             <MenuItem key={team.teamID} value={team.teamID}>
               {team.teamID}
@@ -74,6 +81,6 @@ export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
           Submit
         </Button>
       </form>
-    </>
+    </div>
   );
 }

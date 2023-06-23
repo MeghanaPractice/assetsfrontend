@@ -1,17 +1,20 @@
 import React, { useEffect, useState, useContext } from 'react';
 import TextField from '@mui/material/TextField';
-import { Button, MenuItem, Select, InputLabel } from '@mui/material';
+import { Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import { TeamContext } from '../../context/TeamContext';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
-    const [deviceAssetID, setDeviceAssetID] = useState(null);
+    const [deviceAssetID, setDeviceAssetID] = useState('');
     const [brand, setBrand] = useState(null);
     const [codeRef2, setCodeRef2] = useState(null);
     const [modelName, setModelName] = useState(null);
     const [category, setCategory] = useState(null);
     const [purchaseDate, setPurchaseDate] = useState(null);
-    const [employeeID, setEmployeeID] = useState(null);
-    const [teamIDNo, setTeamIDNo] = useState(null);
+    const [emp_ID, setemp_ID] = useState(null);
+    const [team_IDf, setteam_IDf] = useState(null);
     const [contactNo1, setContactNo1] = useState(null);
     const [contactNo2, setContactNo2] = useState(null);
     const [imeiCode, setImeiCode] = useState(null);
@@ -19,6 +22,21 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
     const [accessories, setAccessories] = useState(null);
     const [additionalInfo, setAdditionalInfo] = useState(null);
     const { teamIDs } = useContext(TeamContext);
+    const [teamEmployees, setTeamEmployees] = useState([]);
+
+    useEffect(() => {
+        if (team_IDf) {
+            fetch(`http://localhost:8081/employee/getFrom/${team_IDf}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    const emps = data.map((emp) => emp.employeeID)
+                    setTeamEmployees(emps);
+                })
+                .catch((error) => {
+                    console.error('Error fetching employees:', error);
+                });
+        }
+    }, [team_IDf]);
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -29,8 +47,8 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
             modelName,
             category,
             purchaseDate,
-            employeeID,
-            teamIDNo,
+            emp_ID,
+            team_IDf,
             contactNo1,
             contactNo2,
             imeiCode,
@@ -46,21 +64,21 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
                 body: JSON.stringify(deviceAsset),
             })
                 .then(() => {
-                    console.log('New device asset added');
-                    setDeviceAssetID(null);
-                    setBrand(null);
-                    setCodeRef2(null);
-                    setModelName(null);
-                    setCategory(null);
-                    setPurchaseDate(null);
-                    setEmployeeID(null);
-                    setTeamIDNo(null);
-                    setContactNo1(null);
-                    setContactNo2(null);
-                    setImeiCode(null);
-                    setSerialNo(null);
-                    setAccessories(null);
-                    setAdditionalInfo(null);
+                    console.log(`New device asset added ${deviceAsset}`);
+                    setDeviceAssetID('');
+                    setBrand('');
+                    setCodeRef2('');
+                    setModelName('');
+                    setCategory('');
+                    setPurchaseDate('');
+                    setemp_ID('');
+                    setteam_IDf('');
+                    setContactNo1('');
+                    setContactNo2('');
+                    setImeiCode('');
+                    setSerialNo('');
+                    setAccessories('');
+                    setAdditionalInfo('');
                     alert('Added device asset');
                     setRefreshTable(true);
                 })
@@ -73,7 +91,7 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
     };
 
     return (
-        <div style={{ padding:'20px' }}>
+        <div style={{ padding: '20px' }}>
             <h1>Add Device Asset</h1>
             <form className='root' noValidate autoComplete="off">
                 <TextField
@@ -100,37 +118,49 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
                     onChange={(e) => setCodeRef2(e.target.value)}
                     style={{ margin: '20px auto' }}
                 />
-
                 <TextField
                     id="category-input" label="Category" variant="outlined" fullWidth
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                     style={{ margin: '20px auto' }}
                 />
-                <TextField
-                    id="purchaseDate-input" label="Purchase Date" variant="outlined" fullWidth
-                    value={purchaseDate}
-                    onChange={(e) => setPurchaseDate(e.target.value)}
-                    style={{ margin: '20px auto' }}
-                />
-                <TextField
-                    id="employeeID-input" label="Employee ID" variant="outlined" fullWidth
-                    value={employeeID}
-                    onChange={(e) => setEmployeeID(e.target.value)}
-                    style={{ margin: '20px auto' }}
-                />
+                <FormControl fullWidth style={{ margin: '20px auto' }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} >
+                        <DatePicker
+                            label="Purchase Date"
+                            value={purchaseDate}
+                            format='YYYY/MM/DD'
+                            onChange={(newVal) => setPurchaseDate(newVal)}
+                        />
+                    </LocalizationProvider>
+                </FormControl>
+                <InputLabel id="teamID-select-label" value="Team ID">Team ID</InputLabel>
                 <Select
                     id="teamID-select" variant="outlined" fullWidth
-                    value={teamIDNo}
-                    onChange={(e) => setTeamIDNo(e.target.value)}
+                    value={team_IDf}
+                    labelId="teamID-select-label"
+                    onChange={(e) => setteam_IDf(e.target.value)}
                     style={{ margin: '20px auto' }}
-                    inputProps={{ 'aria-label': 'Team ID' }}
-                    renderValue={(selected) => selected || 'Team ID'}
                 >
-                    <InputLabel htmlFor="teamID-select-label">Team ID</InputLabel>
+                    <InputLabel htmlFor="teamID-select">Team ID</InputLabel>
                     {teamIDs.map((team) => (
                         <MenuItem key={team} value={team}>
                             {team}
+                        </MenuItem>
+                    ))}
+                </Select>
+                <InputLabel id="emp_ID-select-label" value="Employee">Employee ID</InputLabel>
+                <Select
+                    id="emp_ID-select" variant="outlined" fullWidth
+                    value={emp_ID}
+                    labelId="emp_ID-select-label"
+                    onChange={(e) => setemp_ID(e.target.value)}
+                    style={{ margin: '20px auto' }}
+                >
+                    <InputLabel htmlFor="emp_ID-select">Employee ID</InputLabel>
+                    {teamEmployees.map((employee) => (
+                        <MenuItem key={employee} value={employee}>
+                            {employee}
                         </MenuItem>
                     ))}
                 </Select>

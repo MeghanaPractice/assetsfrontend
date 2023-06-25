@@ -12,7 +12,7 @@ export default function Appbar() {
           <Typography variant='h7' align='right' style={{ textAlign: 'right', padding:'10px' }}><a href='/team'>Team</a></Typography>
           <Typography variant='h7' align='right' style={{ textAlign: 'right', padding:'10px' }}><a href='/employee'>Employee</a></Typography>
           <Typography variant='h7' align='right' style={{ textAlign: 'right', padding:'10px' }}><a href='/deviceasset'>Device Asset</a></Typography>
-          <Typography variant='h7' align='right' style={{ textAlign: 'right', padding:'10px' }}><a href='/deviceasset'>Laptop Asset</a></Typography>
+          <Typography variant='h7' align='right' style={{ textAlign: 'right', padding:'10px' }}><a href='/laptopasset'>Laptop Asset</a></Typography>
         </Toolbar>
       </AppBar>
     </div>

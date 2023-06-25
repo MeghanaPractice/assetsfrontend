@@ -7,7 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
-    const [deviceAssetID, setDeviceAssetID] = useState('');
+    const [deviceAssetID, setDeviceAssetID] = useState(null);
     const [brand, setBrand] = useState(null);
     const [codeRef2, setCodeRef2] = useState(null);
     const [modelName, setModelName] = useState(null);
@@ -65,20 +65,20 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
             })
                 .then(() => {
                     console.log(`New device asset added ${deviceAsset}`);
-                    setDeviceAssetID('');
-                    setBrand('');
-                    setCodeRef2('');
-                    setModelName('');
-                    setCategory('');
-                    setPurchaseDate('');
-                    setemp_ID('');
-                    setteam_IDf('');
-                    setContactNo1('');
-                    setContactNo2('');
-                    setImeiCode('');
-                    setSerialNo('');
-                    setAccessories('');
-                    setAdditionalInfo('');
+                    setDeviceAssetID(null);
+                    setBrand(null);
+                    setCodeRef2(null);
+                    setModelName(null);
+                    setCategory(null);
+                    setPurchaseDate(null);
+                    setemp_ID(null);
+                    setteam_IDf(null);
+                    setContactNo1(null);
+                    setContactNo2(null);
+                    setImeiCode(null);
+                    setSerialNo(null);
+                    setAccessories(null);
+                    setAdditionalInfo(null);
                     alert('Added device asset');
                     setRefreshTable(true);
                 })

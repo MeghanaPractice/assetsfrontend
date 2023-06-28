@@ -127,7 +127,6 @@ export default function LaptopAssetTable({ refreshTable }) {
 
   const renderActionsCell = (params) => {
     const isEditingRow = params.row.id === editingRow;
-
     const handleEdit = () => {
       const laptop = params.row;
       setInitialRow({ ...laptop });

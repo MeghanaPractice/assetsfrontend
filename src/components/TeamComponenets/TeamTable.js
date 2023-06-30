@@ -5,9 +5,9 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel } from '@mui/icons-material';
+import CustomGridToolbar from '../CommonComponents/CustomGridToolbar';
 
 export default function TeamTable({ refreshTable }) {
-
   const [columnEditable, setColumnEditable] = useState(false);
   const [teamID, setTeamID] = useState('')
   const [teamName, setTeamName] = useState('')
@@ -64,7 +64,6 @@ export default function TeamTable({ refreshTable }) {
     }
 
   };
-
 
   const columns = [
     { field: 'teamID', headerName: 'Team ID', flex: 1 },
@@ -124,33 +123,6 @@ export default function TeamTable({ refreshTable }) {
   useEffect(() => {
     fetchTeams();
   }, []);
-
-
-  const CustomGridToolbar = () => {
-    return (
-      <GridToolbar
-        showQuickFilter
-        quickFilterProps={{ debounceMs: 500 }}
-        sx={{
-          display: 'flex',
-          flexDirection: 'row-reverse',
-          padding: '1%',
-          '& .MuiToolbar-root': {
-            justifyContent: 'flex-end',
-
-          },
-          '& .MuiInputBase-root': {
-            width: '500px',
-          },
-          bgcolor: '#70c4bc',
-          '& .MuiButton-root': {
-            color: 'black',
-          },
-        }}
-      />
-    );
-  };
-
 
   return (
     <DataGrid

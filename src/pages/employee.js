@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Paper } from '@mui/material';
 import EmployeeAdd from '../components/EmployeeComponents/EmployeeAdd';
 import EmployeeTable from '../components/EmployeeComponents/EmployeeTable';
+import { TeamProvider } from '../context/TeamContext';
 
 export default function Employee() {
   const [refreshTable, setRefreshTable] = useState(false)
@@ -13,7 +14,7 @@ export default function Employee() {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    margin: '30px',
+    margin: '10px',
     height: '100%',
     width: '100%',
     maxWidth: '1500px'
@@ -34,14 +35,16 @@ export default function Employee() {
   };
 
   return (
-    <Container style={containerStyle}>
-      <Paper elevation={3} style={paperStyle1}>
-        <EmployeeAdd refreshTable={refreshTable} setRefreshTable={handleRefreshTable} />
-      </Paper>
-      <Paper elevation={3} style={paperStyle2}>
-        <h1>Employee</h1>
-        <EmployeeTable refreshTable={refreshTable} />
-      </Paper>
-    </Container>
+    <TeamProvider>
+      <Container style={containerStyle}>
+        <Paper elevation={3} style={paperStyle1}>
+          <EmployeeAdd refreshTable={refreshTable} setRefreshTable={handleRefreshTable} />
+        </Paper>
+        <Paper elevation={3} style={paperStyle2}>
+          <h1>Employee</h1>
+          <EmployeeTable refreshTable={refreshTable} />
+        </Paper>
+      </Container>
+    </TeamProvider>
   );
 }

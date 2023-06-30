@@ -13,7 +13,7 @@ export default function Team() {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    margin: '30px',
+    margin: '10px',
     height: '100%',
     width: '100%',
     maxWidth: '1500px'

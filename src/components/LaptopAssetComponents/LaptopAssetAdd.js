@@ -109,8 +109,8 @@ export default function LaptopAssetAdd({ refreshTable, setRefreshTable }) {
     };
 
     return (
-        <div style={{ padding: '20px' }}>
-            <h1>Add Device Asset</h1>
+        <div className='div-centerstyle' style={{ padding: '20px' }}>
+            <h1>Add Laptop Asset</h1>
             <form className='root' noValidate autoComplete="off">
                 <TextField
                     id="laptopAssetID-input" label="Laptop Asset ID" variant="outlined" fullWidth
@@ -255,9 +255,11 @@ export default function LaptopAssetAdd({ refreshTable, setRefreshTable }) {
                     onChange={(e) => setOtherDetails(e.target.value)}
                     style={{ margin: '20px auto' }}
                 />
-                <Button variant="contained" color="secondary" onClick={handleClick}>
-                    Submit
-                </Button>
+                <div className='div-centerstyle'>
+                    <Button variant="contained" color="secondary" onClick={handleClick}>
+                        Submit
+                    </Button>
+                </div>
             </form>
         </div>
     );

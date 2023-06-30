@@ -28,7 +28,7 @@ export default function TeamAdd({ refreshTable, setRefreshTable }) {
     }
 
     return (
-        <>
+        <div className='div-centerstyle'>
             <h1>Add team</h1>
             <form className='root' noValidate autoComplete="off">
                 <TextField
@@ -43,10 +43,12 @@ export default function TeamAdd({ refreshTable, setRefreshTable }) {
                     onChange={(e) => setTeamName(e.target.value)}
                     style={{ margin: "20px auto" }}
                 />
-                <Button variant="contained" color="secondary" onClick={handleClick}>
-                    Submit
-                </Button>
+                <div className='div-centerstyle'>
+                    <Button variant="contained" color="secondary" onClick={handleClick}>
+                        Submit
+                    </Button>
+                </div>
             </form>
-        </>
+        </div>
     )
 }

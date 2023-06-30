@@ -58,7 +58,7 @@ export default function DeviceAssetTable({ refreshTable }) {
           const teamID = event.target.value;
           await apiRef.current.setEditCellValue({ id, field, value: teamID });
           apiRef.current.stopCellEditMode({ id, field });
-         }}
+        }}
         input={<OutlinedInput />}
         fullWidth
       >
@@ -77,10 +77,10 @@ export default function DeviceAssetTable({ refreshTable }) {
     const [teamEmployees, setTeamEmployees] = useState([]);
     useEffect(() => {
       fetchEmp();
-    },[]);
+    }, []);
     const fetchEmp = async () => {
       await fetchEmployees(teamID, setTeamEmployees);
-    }; 
+    };
 
     return (
       <Select
@@ -100,7 +100,7 @@ export default function DeviceAssetTable({ refreshTable }) {
       </Select>
     );
   };
-  
+
   const PurchaseDateCell = (props) => {
     const { id, value, onChange, field } = props;
     const apiRef = useGridApiContext();
@@ -112,14 +112,13 @@ export default function DeviceAssetTable({ refreshTable }) {
           format="YYYY/MM/DD"
           onChange={async (newDate) => {
             const newValue = dayjs(newDate);
-            await apiRef.current.setEditCellValue({ id, field, value: newValue});
+            await apiRef.current.setEditCellValue({ id, field, value: newValue });
             apiRef.current.stopCellEditMode({ id, field });
           }}
         />
       </LocalizationProvider>
     );
   }
-
 
   const renderActionsCell = (params) => {
     const isEditingRow = params.row.id === editingRow;
@@ -143,7 +142,6 @@ export default function DeviceAssetTable({ refreshTable }) {
       setColumnEditable(true);
       setEditingRow(params.row.id);
     };
-     
     const handleCancelEdit = () => {
       if (initialRow) {
         setDeviceAssetID(initialRow.deviceAssetID);
@@ -166,7 +164,6 @@ export default function DeviceAssetTable({ refreshTable }) {
       setEditingRow(null);
       fetchDeviceAssets();
     };
-  
     const confirmEdit = () => {
       if (window.confirm('Edit Device Asset Permanently?')) {
         const deviceasset = params.row;
@@ -207,7 +204,6 @@ export default function DeviceAssetTable({ refreshTable }) {
         fetchDeviceAssets();
       }
     };
-
     return (
       <div>
         {!isEditingRow && (
@@ -230,32 +226,34 @@ export default function DeviceAssetTable({ refreshTable }) {
     );
   };
 
- 
   const columns = [
-    { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: 'false', },
+    { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: 'false',  },
     { field: 'brand', headerName: 'Brand', editable: columnEditable, },
-    { field: 'codeRef2', headerName: 'Code Ref 2', editable: columnEditable,},
-    { field: 'modelName', headerName: 'Model Name', editable: columnEditable,},
+    { field: 'codeRef2', headerName: 'Code Ref 2', editable: columnEditable, },
+    { field: 'modelName', headerName: 'Model Name', editable: columnEditable, },
     { field: 'category', headerName: 'Category', editable: columnEditable, },
-    { field: 'purchaseDate', headerName: 'Purchase Date', editable: columnEditable, 
-       renderEditCell: (params) => (
-       <PurchaseDateCell
-       id={params.id}
-       value={dayjs(params.value)}
-       field={params.field}
-       onChange={params.onChange}/>)
+    {
+      field: 'purchaseDate', headerName: 'Purchase Date', editable: columnEditable,
+      renderEditCell: (params) => (
+        <PurchaseDateCell
+          id={params.id}
+          value={dayjs(params.value)}
+          field={params.field}
+          onChange={params.onChange} />)
     },
-    { field: 'team_IDf', headerName: 'Team ID', editable: columnEditable, 
-        renderEditCell: (params)  => (
-          <TeamSelectCell
-            id={params.id}
-            value={params.value}
-            field={params.field}
-            onChange={params.onChange}
-          />
-        ),
+    {
+      field: 'team_IDf', headerName: 'Team ID', editable: columnEditable,
+      renderEditCell: (params) => (
+        <TeamSelectCell
+          id={params.id}
+          value={params.value}
+          field={params.field}
+          onChange={params.onChange}
+        />
+      ),
     },
-    { field: 'emp_ID', headerName: 'Employee ID', editable: columnEditable, 
+    {
+      field: 'emp_ID', headerName: 'Employee ID', editable: columnEditable,
       renderEditCell: (params) => (
         <EmployeeSelectCell
           id={params.id}
@@ -267,12 +265,12 @@ export default function DeviceAssetTable({ refreshTable }) {
       ),
     },
     { field: 'contactNo1', headerName: 'Contact No 1', editable: columnEditable, },
-    { field: 'contactNo2', headerName: 'Contact No 2', editable: columnEditable,},
+    { field: 'contactNo2', headerName: 'Contact No 2', editable: columnEditable, },
     { field: 'imeiCode', headerName: 'IMEI Code', editable: columnEditable, },
     { field: 'serialNo', headerName: 'Serial No', editable: columnEditable, },
-    { field: 'accessories', headerName: 'Accessories', editable: columnEditable,},
-    { field: 'additionalInfo', headerName: 'Additional Info', editable: columnEditable,},
-    { field: 'actions', headerName: 'Actions', sortable: false, filterable: false, renderCell: renderActionsCell,},
+    { field: 'accessories', headerName: 'Accessories', editable: columnEditable, },
+    { field: 'additionalInfo', headerName: 'Additional Info', editable: columnEditable, },
+    { field: 'actions', headerName: 'Actions', sortable: false, filterable: false, renderCell: renderActionsCell, },
   ];
 
   useEffect(() => {
@@ -308,13 +306,15 @@ export default function DeviceAssetTable({ refreshTable }) {
       rows={deviceAssets}
       columns={columns}
       getRowId={(row) => row.deviceAssetID}
+      autoHeight
       sx={{
         display: 'flex',
         boxShadow: 2,
         padding: '2%',
+        width:'100%',
         '& .MuiDataGrid-cell:hover': {
           color: 'primary.main',
-          
+
         },
         '& .MuiDataGrid-columnHeader': {
           color: 'white',

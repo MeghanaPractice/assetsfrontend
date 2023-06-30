@@ -38,7 +38,69 @@ a {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
+.div-centerstyle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.containerStyle {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 10px;
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  padding: 1%;
+}
+
+.paperStyle1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.paperStyle2 {
+  align-items: center;
+  flex-direction: column;
+  padding: 20px 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.containerStyle2 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  margin: 10px;
+  height: 100%;
+  width: 100%;
+  max-width: 1500px;
+
+};
+.paperStyle3 {
+  padding: 20px;
+  width: 100%;
+  height: 25%;
+  margin-right: 25px;
+  flex: 1;
+}
+
+.paperStyle4 {
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  flex: 5;
+};

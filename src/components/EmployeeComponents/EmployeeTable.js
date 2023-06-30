@@ -1,21 +1,23 @@
 import * as React from 'react';
 import { DataGrid, GridToolbar, useGridApiContext } from '@mui/x-data-grid';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { IconButton, Select, MenuItem, OutlinedInput } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel } from '@mui/icons-material';
+import { TeamContext } from '../../context/TeamContext';
 
 export default function EmployeeTable({ refreshTable }) {
-
   const [columnEditable, setColumnEditable] = useState(false);
-  const [employeeID, setEmployeeID] = useState('');
-  const [employeeName, setEmployeeName] = useState('');
-  const [teamIDNo, setTeamIDNo] = useState('');
+  const [employeeID, setEmployeeID] = useState(null);
+  const [employeeName, setEmployeeName] = useState(null);
+  const [teamIDNo, setTeamIDNo] = useState(null);
   const [employees, setEmployees] = useState([]);
   const [teamOptions, setTeamOptions] = useState([]);
   const [editingRow, setEditingRow] = useState(null);
   const [initialRow, setInitialRow] = useState(null);
+  const { teamIDs } = useContext(TeamContext);
+  
   const fetchEmployees = () => {
     fetch('http://localhost:8081/employee/getAll')
       .then((res) => res.json())
@@ -33,7 +35,6 @@ export default function EmployeeTable({ refreshTable }) {
   const handleEdit = (params) => {
     const employee = params.row;
     setInitialRow({ ...employee });
-
     setEmployeeID(employee.employeeID);
     setEmployeeName(employee.employeeName);
     setTeamIDNo(employee.teamIDNo);
@@ -75,41 +76,29 @@ export default function EmployeeTable({ refreshTable }) {
     }
   };
 
-  const fetchTeams = () => {
-    fetch('http://localhost:8081/team/getAll')
-      .then((res) => res.json())
-      .then((result) => {
-        setTeamOptions(result);
-      });
-  };
-
-  useEffect(() => {
-    fetchTeams();
-  }, []);
 
   const TeamSelectCell = (props) => {
     const { id, value, onChange, field } = props;
     const apiRef = useGridApiContext();
-
     return (
       <Select
         value={value}
         onChange={async (event) => {
-          await apiRef.current.setEditCellValue({ id, field, value: event.target.value });
+          const teamID = event.target.value;
+          await apiRef.current.setEditCellValue({ id, field, value: teamID });
           apiRef.current.stopCellEditMode({ id, field });
-        }}
+         }}
         input={<OutlinedInput />}
         fullWidth
       >
-        {teamOptions.map((team) => (
-          <MenuItem key={team.teamID} value={team.teamID}>
-            {team.teamID}
+        {teamIDs.map((team) => (
+          <MenuItem key={team} value={team}>
+            {team}
           </MenuItem>
         ))}
       </Select>
     );
   };
-
   const columns = [
     { field: 'employeeID', headerName: 'Employee ID', flex: 1 },
     { field: 'employeeName', headerName: 'Employee name', editable: columnEditable, flex: 1 },

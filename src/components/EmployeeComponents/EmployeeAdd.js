@@ -47,7 +47,7 @@ export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
   };
 
   return (
-    <div>
+    <div className='div-centerstyle'>
       <h1>Add employee</h1>
       <form className='root' noValidate autoComplete="off">
         <TextField
@@ -77,9 +77,11 @@ export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
             </MenuItem>
           ))}
         </Select>
-        <Button variant="contained" color="secondary" onClick={handleClick}>
-          Submit
-        </Button>
+        <div className='div-centerstyle'>
+          <Button variant="contained" color="secondary" onClick={handleClick}>
+            Submit
+          </Button>
+        </div>
       </form>
     </div>
   );

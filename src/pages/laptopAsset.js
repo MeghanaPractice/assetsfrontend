@@ -44,8 +44,8 @@ export default function LaptopAsset() {
 
     return (
         <TeamProvider>
-            <Container style={containerStyle}>
-                <Paper elevation={3} style={paperStyle1}>
+            <Container className='containerStyle'>
+                <Paper elevation={3} className='paperStyle1'>
                     <Accordion expanded={isExpanded} onChange={handleAccordionToggle} style={{ backgroundcolor: 'teal' }}>
                         <AccordionSummary style={{ backgroundColor: 'teal' }} expandIcon={<ExpandMore />} aria-controls="panel-content" id="panel-header">
                             <h1>Add</h1>
@@ -53,8 +53,8 @@ export default function LaptopAsset() {
                         <LaptopAssetAdd refreshTable={refreshTable} setRefreshTable={handleRefreshTable} />
                     </Accordion>
                 </Paper>
-                <Paper elevation={3} style={paperStyle2}>
-                    <h1>Device Asset</h1>
+                <Paper elevation={3} className='paperStyle2'>
+                    <h1>Laptop Asset</h1>
                     <LaptopAssetTable refreshTable={refreshTable} />
                 </Paper>
             </Container >

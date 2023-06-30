@@ -1,104 +1,82 @@
-import * as React from 'react';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel } from '@mui/icons-material';
 import CustomGridToolbar from '../CommonComponents/CustomGridToolbar';
+import { fetchTeams,updateTeam,deleteTeam } from '../../models/TeamModel';
 
-export default function TeamTable({ refreshTable }) {
+export default function TeamTable({ refreshTable }){
   const [columnEditable, setColumnEditable] = useState(false);
-  const [teamID, setTeamID] = useState('')
-  const [teamName, setTeamName] = useState('')
-  const [teams, setTeams] = useState([])
-  const [editingRow, setEditingRow] = useState(null)
+  const [teams, setTeams] = useState([]);
+  const [editingRow, setEditingRow] = useState(null);
 
-  const fetchTeams = () => {
-    fetch("http://localhost:8081/team/getAll")
-      .then((res) => res.json())
+  const fetchData = () => {
+    fetchTeams()
       .then((result) => {
         setTeams(result);
       });
-  }
+  };
 
   useEffect(() => {
-    if (refreshTable) {
-      fetchTeams();
-    }
+    fetchData();
   }, [refreshTable]);
 
-  const renderActionsCell = (params) => {
-    const isEditingRow = params.row.id === editingRow;
+  const handleEdit = (team) => {
+    setColumnEditable(true);
+    setEditingRow(team.id);
+  };
 
-    const handleEdit = () => {
-      const team = params.row;
-      setTeamID(team.teamID);
-      setTeamName(team.teamName);
-      setColumnEditable(true);
-      setEditingRow(params.row.id);
-      console.log(params.row.id);
-    };
+  const handleCancelEdit = () => {
+    setColumnEditable(false);
+    setEditingRow(null);
+    fetchData();
+  };
 
-    const handleCancelEdit = () => {
+  const confirmEdit = async (team) => {
+    if (window.confirm('Edit Team Permanently?')) {
+      await updateTeam(team);
+      console.log('Edited team:', team);
+      alert(`Edited team: ${team.teamID}`);
+      fetchData();
       setColumnEditable(false);
       setEditingRow(null);
-      fetchTeams();
-    };
+    }
+  };
 
-    const confirmEdit = () => {
-      if (window.confirm("Edit Team Permanently?")) {
-        const team = params.row;
-        fetch(`http://localhost:8081/team/edit/${team.teamID}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(team),
-        })
-          .then(() => {
-            console.log("Edited team:", team);
-            alert(`Edited team: ${team.teamID}`);
-            fetchTeams();
-            setColumnEditable(false);
-            setEditingRow(null);
-          })
-          .catch((error) => {
-            console.error("Error Editing team:", error);
-          });
-        fetchTeams();
-      }
-    };
+  const handleDelete = async (team) => {
+    if (window.confirm('Delete Team?')) {
+      await deleteTeam(team.teamID);
+      console.log('Delete team:', team);
+      alert(`Deleting team: ${team.teamID}`);
+      fetchData();
+    }
+  };
 
-    const handleDelete = () => {
-      if (window.confirm("Delete Team?")) {
-        const team = params.row;
-        fetch(`http://localhost:8081/team/delete/${team.teamID}`, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-        })
-          .then(() => {
-            console.log("Delete team:", team);
-            alert(`Deleting team: ${team.teamID}`);
-            fetchTeams();
-          })
-          .catch((error) => {
-            console.error("Error Deleting team:", error);
-          });
-        fetchTeams();
-      }
-    };
+  const renderActionsCell = ({ row }) => {
+    const isEditingRow = row.id === editingRow;
 
     return (
       <div>
         {!isEditingRow && (
           <>
-            <IconButton onClick={handleEdit}><EditIcon /></IconButton>
-            <IconButton onClick={handleDelete}><DeleteIcon /></IconButton>
+            <IconButton onClick={() => handleEdit(row)}>
+              <EditIcon />
+            </IconButton>
+            <IconButton onClick={() => handleDelete(row)}>
+              <DeleteIcon />
+            </IconButton>
           </>
         )}
         {isEditingRow && (
           <>
-            <IconButton onClick={confirmEdit}><Check /></IconButton>
-            <IconButton onClick={handleCancelEdit}><Cancel /></IconButton>
+            <IconButton onClick={() => confirmEdit(row)}>
+              <Check />
+            </IconButton>
+            <IconButton onClick={handleCancelEdit}>
+              <Cancel />
+            </IconButton>
           </>
         )}
       </div>
@@ -114,13 +92,9 @@ export default function TeamTable({ refreshTable }) {
       flex: 1,
       sortable: false,
       filterable: false,
-      renderCell: renderActionsCell
+      renderCell: renderActionsCell,
     },
   ];
-
-  useEffect(() => {
-    fetchTeams();
-  }, []);
 
   return (
     <DataGrid
@@ -134,10 +108,10 @@ export default function TeamTable({ refreshTable }) {
         },
         '& .MuiDataGrid-columnHeader': {
           color: 'white',
-          backgroundColor: 'teal'
+          backgroundColor: 'teal',
         },
       }}
-      density='comfortable'
+      density="comfortable"
       slots={{ toolbar: CustomGridToolbar }}
       slotProps={{
         toolbar: {
@@ -153,5 +127,5 @@ export default function TeamTable({ refreshTable }) {
       pageSizeOptions={[5, 10, 15, 20]}
     />
   );
+};
 
-}

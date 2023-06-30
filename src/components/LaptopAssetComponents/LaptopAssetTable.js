@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { DataGrid, GridToolbar, useGridApiContext } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, useGridApiContext, useGridApiRef } from '@mui/x-data-grid';
 import { useState, useEffect, useContext } from 'react';
 import { TeamContext } from '../../context/TeamContext';
-import { IconButton, Select, MenuItem, OutlinedInput } from '@mui/material';
+import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel } from '@mui/icons-material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import PurchaseDateCell from '../CommonComponents/PurchaseDateCell';
+import TeamSelectCell from '../CommonComponents/TeamSelectCell';
+import EmployeeSelectCell from '../CommonComponents/EmployeeSelectCell';
+import CustomGridToolbar from '../CommonComponents/CustomGridToolbar';
 import dayjs from 'dayjs';
 
 export default function LaptopAssetTable({ refreshTable }) {
@@ -37,7 +38,7 @@ export default function LaptopAssetTable({ refreshTable }) {
   const [editingRow, setEditingRow] = useState(null);
   const [initialRow, setInitialRow] = useState(null);
   const { teamIDs, fetchEmployees } = useContext(TeamContext);
-
+  const apiRef = useGridApiRef();
   const fetchlaptopAssets = () => {
     fetch('http://localhost:8081/laptopasset/getAll')
       .then((res) => res.json())
@@ -51,79 +52,6 @@ export default function LaptopAssetTable({ refreshTable }) {
       fetchlaptopAssets();
     }
   }, [refreshTable]);
-
-
-  const TeamSelectCell = (props) => {
-    const { id, value, onChange, field } = props;
-    const apiRef = useGridApiContext();
-    return (
-      <Select
-        value={value}
-        onChange={async (event) => {
-          const teamID = event.target.value;
-          await apiRef.current.setEditCellValue({ id, field, value: teamID });
-          apiRef.current.stopCellEditMode({ id, field });
-         }}
-        input={<OutlinedInput />}
-        fullWidth
-      >
-        {teamIDs.map((team) => (
-          <MenuItem key={team} value={team}>
-            {team}
-          </MenuItem>
-        ))}
-      </Select>
-    );
-  };
-
-  const EmployeeSelectCell = (props) => {
-    const { id, value, onChange, field, teamID } = props;
-    const apiRef = useGridApiContext();
-    const [teamEmployees, setTeamEmployees] = useState([]);
-    useEffect(() => {
-      fetchEmp();
-    },[]);
-    const fetchEmp = async () => {
-      await fetchEmployees(teamID, setTeamEmployees);
-    }; 
-
-    return (
-      <Select
-        value={value}
-        onChange={async (event) => {
-          await apiRef.current.setEditCellValue({ id, field, value: event.target.value });
-          apiRef.current.stopCellEditMode({ id, field });
-        }}
-        input={<OutlinedInput />}
-        fullWidth
-      >
-        {teamEmployees.map((employee) => (
-          <MenuItem key={employee} value={employee}>
-            {employee}
-          </MenuItem>
-        ))}
-      </Select>
-    );
-  };
-  
-  const PurchaseDateCell = (props) => {
-    const { id, value, onChange, field } = props;
-    const apiRef = useGridApiContext();
-    return (
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          label="Purchase Date"
-          value={value}
-          format="YYYY/MM/DD"
-          onChange={async (newDate) => {
-            const newValue = dayjs(newDate);
-            await apiRef.current.setEditCellValue({ id, field, value: newValue});
-            apiRef.current.stopCellEditMode({ id, field });
-          }}
-        />
-      </LocalizationProvider>
-    );
-  }
 
   const renderActionsCell = (params) => {
     const isEditingRow = params.row.id === editingRow;
@@ -243,7 +171,6 @@ export default function LaptopAssetTable({ refreshTable }) {
     );
   };
 
- 
   const columns = [
     { field: 'brand', headerName: 'Brand', editable: columnEditable },
     { field: 'laptopAssetID', headerName: 'Laptop Asset ID', editable: columnEditable },
@@ -257,6 +184,8 @@ export default function LaptopAssetTable({ refreshTable }) {
             value={params.value}
             field={params.field}
             onChange={params.onChange}
+            teamIDs={teamIDs}
+            apiGridContext={apiRef}
           />
         ),
     },
@@ -268,6 +197,7 @@ export default function LaptopAssetTable({ refreshTable }) {
           field={params.field}
           teamID={params.row.team_ID}
           onChange={params.onChange}
+          apiRef={apiRef}
         />
       ),
     },
@@ -278,6 +208,7 @@ export default function LaptopAssetTable({ refreshTable }) {
         value={dayjs(params.value)}
         field={params.field}
         onChange={params.onChange}
+        apiRef={apiRef}
       />
     )
     },
@@ -300,34 +231,11 @@ export default function LaptopAssetTable({ refreshTable }) {
     fetchlaptopAssets();
   }, []);
 
-  const CustomGridToolbar = () => {
-    return (
-      <GridToolbar
-        showQuickFilter
-        quickFilterProps={{ debounceMs: 500 }}
-        sx={{
-          display: 'flex',
-          flexDirection: 'row-reverse',
-          padding: '1%',
-          '& .MuiToolbar-root': {
-            justifyContent: 'flex-end',
-          },
-          '& .MuiInputBase-root': {
-            width: '500px',
-          },
-          bgcolor: '#70c4bc',
-          '& .MuiButton-root': {
-            color: 'black',
-          },
-        }}
-      />
-    );
-  };
-
   return (
     <DataGrid
       rows={laptopAssets}
       columns={columns}
+      apiRef={apiRef}
       getRowId={(row) => row.laptopAssetID}
       sx={{
         display: 'flex',

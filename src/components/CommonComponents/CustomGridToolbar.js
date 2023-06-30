@@ -1,0 +1,27 @@
+import React from "react";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+export default function CustomGridToolbar() {
+    
+    return (
+        <GridToolbar
+            showQuickFilter
+            quickFilterProps={{ debounceMs: 500 }}
+            sx={{
+                display: 'flex',
+                flexDirection: 'row-reverse',
+                padding: '1%',
+                '& .MuiToolbar-root': {
+                    justifyContent: 'flex-end',
+
+                },
+                '& .MuiInputBase-root': {
+                    width: '500px',
+                },
+                bgcolor: '#70c4bc',
+                '& .MuiButton-root': {
+                    color: 'black',
+                },
+            }}
+        />
+    );
+};

@@ -10,6 +10,7 @@ import PurchaseDateCell from '../CommonComponents/PurchaseDateCell';
 import TeamSelectCell from '../CommonComponents/TeamSelectCell';
 import EmployeeSelectCell from '../CommonComponents/EmployeeSelectCell';
 import CustomGridToolbar from '../CommonComponents/CustomGridToolbar';
+import { fetchItems as fetchDeviceAsset, updateItem as updateDeviceAsset, deleteItem as deleteDeviceAsset } from '../../service/apiService';
 import dayjs from 'dayjs';
 
 export default function DeviceAssetTable({ refreshTable }) {
@@ -34,13 +35,10 @@ export default function DeviceAssetTable({ refreshTable }) {
   const [initialRow, setInitialRow] = useState(null);
   const { teamIDs } = useContext(TeamContext);
   const apiRef = useGridApiRef();
-  
+
   const fetchDeviceAssets = () => {
-    fetch('http://localhost:8081/deviceasset/getAll')
-      .then((res) => res.json())
-      .then((result) => {
-        setDeviceAssets(result);
-      });
+    fetchDeviceAsset('deviceasset')
+      .then((result) => setDeviceAssets(result));
   };
 
   useEffect(() => {
@@ -93,14 +91,11 @@ export default function DeviceAssetTable({ refreshTable }) {
       setEditingRow(null);
       fetchDeviceAssets();
     };
-    const confirmEdit = () => {
+    const confirmEdit = async() => {
       if (window.confirm('Edit Device Asset Permanently?')) {
         const deviceasset = params.row;
-        fetch(`http://localhost:8081/deviceasset/edit/${deviceasset.deviceAssetID}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(deviceasset),
-        })
+        try{
+        await updateDeviceAsset('deviceasset', deviceasset)
           .then(() => {
             console.log('Edited deviceasset:', deviceasset);
             alert(`Edited deviceasset: ${deviceasset.deviceassetID}`);
@@ -109,19 +104,16 @@ export default function DeviceAssetTable({ refreshTable }) {
             setEditingRow(null);
             setInitialRow(null);
           })
-          .catch((error) => {
+        } catch(error){
             console.error('Error Editing deviceasset:', error);
-          });
+          };
         fetchDeviceAssets();
       }
     };
     const handleDelete = () => {
       if (window.confirm('Delete deviceasset?')) {
         const deviceasset = params.row;
-        fetch(`http://localhost:8081/deviceasset/delete/${deviceasset.deviceAssetID}`, {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-        })
+        deleteDeviceAsset('deviceasset', deviceasset.deviceAssetID)
           .then(() => {
             console.log('Delete deviceasset:', deviceasset);
             alert(`Deleting deviceasset`);
@@ -156,7 +148,7 @@ export default function DeviceAssetTable({ refreshTable }) {
   };
 
   const columns = [
-    { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: 'false',  },
+    { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: 'false', },
     { field: 'brand', headerName: 'Brand', editable: columnEditable, },
     { field: 'codeRef2', headerName: 'Code Ref 2', editable: columnEditable, },
     { field: 'modelName', headerName: 'Model Name', editable: columnEditable, },
@@ -168,9 +160,9 @@ export default function DeviceAssetTable({ refreshTable }) {
           id={params.id}
           value={dayjs(params.value)}
           field={params.field}
-          onChange={params.onChange} 
+          onChange={params.onChange}
           apiRef={apiRef}
-          />)
+        />)
     },
     {
       field: 'team_IDf', headerName: 'Team ID', editable: columnEditable,
@@ -222,7 +214,7 @@ export default function DeviceAssetTable({ refreshTable }) {
         display: 'flex',
         boxShadow: 2,
         padding: '2%',
-        width:'100%',
+        width: '100%',
         '& .MuiDataGrid-cell:hover': {
           color: 'primary.main',
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Container, Paper } from '@mui/material';
 import EmployeeAdd from '../components/EmployeeComponents/EmployeeAdd';
 import EmployeeTable from '../components/EmployeeComponents/EmployeeTable';
@@ -9,6 +9,10 @@ export default function Employee() {
   const handleRefreshTable = (newState) => {
     setRefreshTable(newState);
   };
+  useEffect(()=>{
+    handleRefreshTable();
+  },[refreshTable])
+  
 
   const containerStyle = {
     display: 'flex',

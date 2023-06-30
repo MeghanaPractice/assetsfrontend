@@ -5,6 +5,7 @@ import { TeamContext } from '../../context/TeamContext';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { addItem as addDeviceAsset } from '../../service/apiService';
 
 export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
     const [deviceAssetID, setDeviceAssetID] = useState(null);
@@ -23,20 +24,6 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
     const [additionalInfo, setAdditionalInfo] = useState(null);
     const { teamIDs } = useContext(TeamContext);
     const [teamEmployees, setTeamEmployees] = useState([]);
-
-    useEffect(() => {
-        if (team_IDf) {
-            fetch(`http://localhost:8081/employee/getFrom/${team_IDf}`)
-                .then((response) => response.json())
-                .then((data) => {
-                    const emps = data.map((emp) => emp.employeeID)
-                    setTeamEmployees(emps);
-                })
-                .catch((error) => {
-                    console.error('Error fetching employees:', error);
-                });
-        }
-    }, [team_IDf]);
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -58,11 +45,7 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
         };
         console.log(deviceAsset);
         if (deviceAssetID) {
-            fetch('http://localhost:8081/deviceasset/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(deviceAsset),
-            })
+            addDeviceAsset('deviceasset',deviceAsset)    
                 .then(() => {
                     console.log(`New device asset added ${deviceAsset}`);
                     setDeviceAssetID(null);

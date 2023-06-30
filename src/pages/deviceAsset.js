@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Container, Paper } from '@mui/material';
 import DeviceAssetTable from '../components/DeviceAssetComponenets/DeviceAssetTable';
 import { Accordion, AccordionSummary } from '@mui/material';
@@ -11,6 +11,11 @@ export default function DeviceAsset() {
     const handleRefreshTable = (newState) => {
         setRefreshTable(newState);
     };
+
+    useEffect(()=>{
+        handleRefreshTable();
+      },[refreshTable])
+
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleAccordionToggle = () => {

@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel } from '@mui/icons-material';
 import CustomGridToolbar from '../CommonComponents/CustomGridToolbar';
-import { fetchTeams,updateTeam,deleteTeam } from '../../models/TeamModel';
+import { fetchItems as fetchTeams,updateItem as updateTeam, deleteItem as deleteTeam } from '../../service/apiService';
 
 export default function TeamTable({ refreshTable }){
   const [columnEditable, setColumnEditable] = useState(false);
@@ -13,7 +13,7 @@ export default function TeamTable({ refreshTable }){
   const [editingRow, setEditingRow] = useState(null);
 
   const fetchData = () => {
-    fetchTeams()
+    fetchTeams('team')
       .then((result) => {
         setTeams(result);
       });
@@ -23,40 +23,40 @@ export default function TeamTable({ refreshTable }){
     fetchData();
   }, [refreshTable]);
 
-  const handleEdit = (team) => {
-    setColumnEditable(true);
-    setEditingRow(team.id);
-  };
-
-  const handleCancelEdit = () => {
-    setColumnEditable(false);
-    setEditingRow(null);
-    fetchData();
-  };
-
-  const confirmEdit = async (team) => {
-    if (window.confirm('Edit Team Permanently?')) {
-      await updateTeam(team);
-      console.log('Edited team:', team);
-      alert(`Edited team: ${team.teamID}`);
-      fetchData();
-      setColumnEditable(false);
-      setEditingRow(null);
-    }
-  };
-
-  const handleDelete = async (team) => {
-    if (window.confirm('Delete Team?')) {
-      await deleteTeam(team.teamID);
-      console.log('Delete team:', team);
-      alert(`Deleting team: ${team.teamID}`);
-      fetchData();
-    }
-  };
 
   const renderActionsCell = ({ row }) => {
     const isEditingRow = row.id === editingRow;
-
+    const handleEdit = (team) => {
+      setColumnEditable(true);
+      setEditingRow(team.id);
+    };
+  
+    const handleCancelEdit = () => {
+      setColumnEditable(false);
+      setEditingRow(null);
+      fetchData();
+    };
+  
+    const confirmEdit = async (team) => {
+      if (window.confirm('Edit Team Permanently?')) {
+        await updateTeam('team',team);
+        console.log('Edited team:', team);
+        alert(`Edited team: ${team.teamID}`);
+        fetchData();
+        setColumnEditable(false);
+        setEditingRow(null);
+      }
+    };
+  
+    const handleDelete = async (team) => {
+      if (window.confirm('Delete Team?')) {
+        await deleteTeam('team',team.teamID);
+        console.log('Delete team:', team);
+        alert(`Deleting team: ${team.teamID}`);
+        fetchData();
+      }
+    };
+  
     return (
       <div>
         {!isEditingRow && (

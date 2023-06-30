@@ -8,6 +8,7 @@ import { Check, Cancel } from '@mui/icons-material';
 import { TeamContext } from '../../context/TeamContext';
 import TeamSelectCell from '../CommonComponents/TeamSelectCell';
 import CustomGridToolbar from '../CommonComponents/CustomGridToolbar';
+import { fetchItems as fetchEmployees ,updateItem as updateEmployee,deleteItem as deleteEmployee } from '../../service/apiService';
 
 export default function EmployeeTable({ refreshTable }) {
   const [columnEditable, setColumnEditable] = useState(false);
@@ -20,18 +21,13 @@ export default function EmployeeTable({ refreshTable }) {
   const { teamIDs } = useContext(TeamContext);
   const apiRef = useGridApiRef();
 
-  const fetchEmployees = () => {
-    fetch('http://localhost:8081/employee/getAll')
-      .then((res) => res.json())
-      .then((result) => {
-        setEmployees(result);
-      });
+  const fetchEmployeesData = () => {
+     fetchEmployees('employee')
+     .then((result) => setEmployees(result));
   };
 
   useEffect(() => {
-    if (refreshTable) {
-      fetchEmployees();
-    }
+      fetchEmployeesData();
   }, [refreshTable]);
 
   const renderActionsCell = (params) => {
@@ -46,7 +42,7 @@ export default function EmployeeTable({ refreshTable }) {
       setColumnEditable(true);
       setEditingRow(params.row.id);
     };
-  
+
     const handleCancelEdit = () => {
       if (initialRow) {
         setEmployeeID(initialRow.employeeID);
@@ -55,51 +51,42 @@ export default function EmployeeTable({ refreshTable }) {
       }
       setColumnEditable(false);
       setEditingRow(null);
-      fetchEmployees();
+      fetchEmployeesData();
     };
-  
-    const confirmEdit = () => {
-      if (window.confirm("Edit Employee Permanently?")) {
+
+    const confirmEdit = async () => {
+      if (window.confirm('Edit Employee Permanently?')) {
         const employee = params.row;
-        fetch(`http://localhost:8081/employee/edit/${employee.employeeID}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(employee),
-        })
-          .then(() => {
-            console.log("Edited employee:", employee);
-            alert(`Edited employee: ${employee.employeeID}`);
-            fetchEmployees();
-            setColumnEditable(false);
-            setEditingRow(null);
-            setInitialRow(null);
-          })
-          .catch((error) => {
-            console.error("Error Editing employee:", error);
-          });
-        fetchEmployees();
+        try {
+          await updateEmployee('employee',employee);
+          console.log('Edited employee:', employee);
+          alert(`Edited employee: ${employee.employeeID}`);
+          fetchEmployeesData();
+          setColumnEditable(false);
+          setEditingRow(null);
+          setInitialRow(null);
+        } catch (error) {
+          console.error('Error editing employee:', error);
+        }
+        fetchEmployeesData();
       }
     };
-  
-    const handleDelete = () => {
-      if (window.confirm("Delete Employee?")) {
+
+    const handleDelete = async () => {
+      if (window.confirm('Delete Employee?')) {
         const employee = params.row;
-        fetch(`http://localhost:8081/employee/delete/${employee.employeeID}`, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-        })
-          .then(() => {
-            console.log("Delete employee:", employee);
-            alert("Deleting employee");
-            fetchEmployees();
-          })
-          .catch((error) => {
-            console.error("Error Deleting employee:", error);
-          });
-        fetchEmployees();
+        try {
+          await deleteEmployee('employee',employee.employeeID);
+          console.log('Delete employee:', employee);
+          alert('Deleting employee');
+          fetchEmployeesData();
+        } catch (error) {
+          console.error('Error deleting employee:', error);
+        }
+        fetchEmployeesData();
       }
     };
-  
+
     return (
       <div>
         {!isEditingRow && (
@@ -148,7 +135,7 @@ export default function EmployeeTable({ refreshTable }) {
   ];
 
   useEffect(() => {
-    fetchEmployees();
+    fetchEmployeesData();
   }, []);
 
   return (

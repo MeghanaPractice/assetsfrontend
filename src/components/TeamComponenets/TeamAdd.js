@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
-import { addTeam } from '../../models/TeamModel';
+import { addItem as addTeam } from '../../service/apiService';
 
 export default function TeamAdd({ setRefreshTable }){
   const [teamID, setTeamID] = useState('');
@@ -11,7 +11,7 @@ export default function TeamAdd({ setRefreshTable }){
     e.preventDefault();
     const team = { teamID, teamName };
     console.log(team);
-    addTeam(team)
+    addTeam('team',team)
       .then(() => {
         console.log('New team added');
         setTeamID('');

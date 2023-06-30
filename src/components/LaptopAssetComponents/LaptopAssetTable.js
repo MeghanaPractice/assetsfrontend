@@ -9,7 +9,8 @@ import { Check, Cancel } from '@mui/icons-material';
 import PurchaseDateCell from '../CommonComponents/PurchaseDateCell';
 import TeamSelectCell from '../CommonComponents/TeamSelectCell';
 import EmployeeSelectCell from '../CommonComponents/EmployeeSelectCell';
-import CustomGridToolbar from '../CommonComponents/CustomGridToolbar';
+import CustomGridToolbar from '../CommonComponents/CustomGridToolbar'; 
+import { fetchItems as fetchLaptopAssets,updateItem as updateLaptopAsset,deleteItem as deleteLaptopAsset } from '../../service/apiService';
 import dayjs from 'dayjs';
 
 export default function LaptopAssetTable({ refreshTable }) {
@@ -41,8 +42,7 @@ export default function LaptopAssetTable({ refreshTable }) {
   const apiRef = useGridApiRef();
   
   const fetchlaptopAssets = () => {
-    fetch('http://localhost:8081/laptopasset/getAll')
-      .then((res) => res.json())
+    fetchLaptopAssets('laptopasset')
       .then((result) => {
         setlaptopAssets(result);
       });
@@ -109,14 +109,10 @@ export default function LaptopAssetTable({ refreshTable }) {
       fetchlaptopAssets();
     };
   
-    const confirmEdit = () => {
+    const confirmEdit = async() => {
       if (window.confirm('Edit laptop Asset Permanently?')) {
         const laptopasset = params.row;
-        fetch(`http://localhost:8081/laptopasset/edit/${laptopasset.laptopAssetID}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(laptopasset),
-        })
+          await updateLaptopAsset('laptopasset',laptopasset)
           .then(() => {
             console.log('Edited laptopasset:', laptopasset);
             alert(`Edited laptopasset: ${laptopasset.laptopAssetID}`);
@@ -134,10 +130,7 @@ export default function LaptopAssetTable({ refreshTable }) {
     const handleDelete = () => {
       if (window.confirm('Delete laptopasset?')) {
         const laptopasset = params.row;
-        fetch(`http://localhost:8081/laptopasset/delete/${laptopasset.laptopAssetID}`, {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-        })
+        deleteLaptopAsset('laptopasset',laptopasset.laptopAssetID)
           .then(() => {
             console.log('Delete laptop asset:', laptopasset);
             alert(`Deleting laptopasset`);

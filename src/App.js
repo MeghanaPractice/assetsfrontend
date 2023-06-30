@@ -1,5 +1,5 @@
 import './App.css';
-import Appbar from './components/Appbar'
+import Appbar from './components/CommonComponents/Appbar';
 import Home from './pages/index'
 import Team from './pages/Team';
 import Employee from './pages/employee';

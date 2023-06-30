@@ -39,6 +39,7 @@ export default function LaptopAssetTable({ refreshTable }) {
   const [initialRow, setInitialRow] = useState(null);
   const { teamIDs, fetchEmployees } = useContext(TeamContext);
   const apiRef = useGridApiRef();
+  
   const fetchlaptopAssets = () => {
     fetch('http://localhost:8081/laptopasset/getAll')
       .then((res) => res.json())

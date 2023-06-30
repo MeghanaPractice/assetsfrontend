@@ -13,6 +13,7 @@ export default function TeamTable({ refreshTable }) {
   const [teamName, setTeamName] = useState('')
   const [teams, setTeams] = useState([])
   const [editingRow, setEditingRow] = useState(null)
+
   const fetchTeams = () => {
     fetch("http://localhost:8081/team/getAll")
       .then((res) => res.json())
@@ -27,42 +28,81 @@ export default function TeamTable({ refreshTable }) {
     }
   }, [refreshTable]);
 
-  const handleEdit = (params) => {
-    const team = params.row;
-    setTeamID(team.teamID);
-    setTeamName(team.teamName);
-    setColumnEditable(true);
-    setEditingRow(params.row.id);
-    console.log(params.row.id)
-  };
+  const renderActionsCell = (params) => {
+    const isEditingRow = params.row.id === editingRow;
 
-  const handleCancelEdit = () => {
-    setColumnEditable(false);
-    setEditingRow(null);
-    fetchTeams();
-  };
-
-  const confirmEdit = (params) => {
-    if (window.confirm("Edit Team Permanently?")) {
+    const handleEdit = () => {
       const team = params.row;
-      fetch(`http://localhost:8081/team/edit/${team.teamID}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(team),
-      })
-        .then(() => {
-          console.log("Edited team:", team)
-          alert(`Edited team: ${team.teamID}`)
-          fetchTeams();
-          setColumnEditable(false);
-          setEditingRow(null);
-        })
-        .catch((error) => {
-          console.error("Error Editing team:", error);
-        })
-      fetchTeams()
-    }
+      setTeamID(team.teamID);
+      setTeamName(team.teamName);
+      setColumnEditable(true);
+      setEditingRow(params.row.id);
+      console.log(params.row.id);
+    };
 
+    const handleCancelEdit = () => {
+      setColumnEditable(false);
+      setEditingRow(null);
+      fetchTeams();
+    };
+
+    const confirmEdit = () => {
+      if (window.confirm("Edit Team Permanently?")) {
+        const team = params.row;
+        fetch(`http://localhost:8081/team/edit/${team.teamID}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(team),
+        })
+          .then(() => {
+            console.log("Edited team:", team);
+            alert(`Edited team: ${team.teamID}`);
+            fetchTeams();
+            setColumnEditable(false);
+            setEditingRow(null);
+          })
+          .catch((error) => {
+            console.error("Error Editing team:", error);
+          });
+        fetchTeams();
+      }
+    };
+
+    const handleDelete = () => {
+      if (window.confirm("Delete Team?")) {
+        const team = params.row;
+        fetch(`http://localhost:8081/team/delete/${team.teamID}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        })
+          .then(() => {
+            console.log("Delete team:", team);
+            alert(`Deleting team: ${team.teamID}`);
+            fetchTeams();
+          })
+          .catch((error) => {
+            console.error("Error Deleting team:", error);
+          });
+        fetchTeams();
+      }
+    };
+
+    return (
+      <div>
+        {!isEditingRow && (
+          <>
+            <IconButton onClick={handleEdit}><EditIcon /></IconButton>
+            <IconButton onClick={handleDelete}><DeleteIcon /></IconButton>
+          </>
+        )}
+        {isEditingRow && (
+          <>
+            <IconButton onClick={confirmEdit}><Check /></IconButton>
+            <IconButton onClick={handleCancelEdit}><Cancel /></IconButton>
+          </>
+        )}
+      </div>
+    );
   };
 
   const columns = [
@@ -74,49 +114,7 @@ export default function TeamTable({ refreshTable }) {
       flex: 1,
       sortable: false,
       filterable: false,
-      renderCell: (params) => {
-        const isEditingRow = params.row.id === editingRow;
-        const handleDelete = (params) => {
-          if (window.confirm("Delete Team?")) {
-            const team = params.row;
-            fetch(`http://localhost:8081/team/delete/${team.teamID}`, {
-              method: "DELETE",
-              headers: { "Content-Type": "application/json" }
-            })
-              .then(() => {
-                console.log("Delete team:", team)
-                alert(`Deleting team: ${team.teamID}`)
-                fetchTeams();
-              })
-              .catch((error) => {
-                console.error("Error Deleting team:", error);
-              })
-            fetchTeams()
-          }
-        };
-
-        return (
-          <div>
-            {!isEditingRow && (
-              <>
-                <IconButton onClick={() => handleEdit(params)}><EditIcon /></IconButton>
-                <IconButton onClick={handleDelete}><DeleteIcon /></IconButton>
-              </>
-
-            )}
-            {isEditingRow && (
-              <>
-                <IconButton onClick={() => confirmEdit(params)}>
-                  <Check />
-                </IconButton>
-                <IconButton onClick={handleCancelEdit}>
-                  <Cancel />
-                </IconButton>
-              </>
-            )}
-          </div>
-        );
-      },
+      renderCell: renderActionsCell
     },
   ];
 

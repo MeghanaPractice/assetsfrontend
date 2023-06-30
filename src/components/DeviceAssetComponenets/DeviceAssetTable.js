@@ -34,6 +34,7 @@ export default function DeviceAssetTable({ refreshTable }) {
   const [initialRow, setInitialRow] = useState(null);
   const { teamIDs } = useContext(TeamContext);
   const apiRef = useGridApiRef();
+  
   const fetchDeviceAssets = () => {
     fetch('http://localhost:8081/deviceasset/getAll')
       .then((res) => res.json())

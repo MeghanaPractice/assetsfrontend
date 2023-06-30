@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container,Paper} from '@mui/material';
 import TeamTable from '../components/TeamComponenets/TeamTable';
 import TeamAdd from '../components/TeamComponenets/TeamAdd'
+
 export default function Team() {
   
   const[refreshTable,setRefreshTable]=useState(false)
   const handleRefreshTable = (newState) => {
       setRefreshTable(newState);
     };
-
+  useEffect(()=>{
+    handleRefreshTable();
+  },[refreshTable])
+  
   const containerStyle = {
     display: 'flex',
     alignItems: 'flex-start',

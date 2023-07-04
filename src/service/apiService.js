@@ -55,3 +55,16 @@ export const addItem = async (modelName, item) => {
         console.error(`Error adding ${modelName}:`, error);
     }
 };
+
+export const fetchEmp = async (teamID) => {
+    try {
+        const response = await fetch(`${BASE_URL}/employee/getFrom/${teamID}`);
+        const data = await response.json();
+        const emps = data.map((emp) => emp.employeeID);
+        return emps;
+    }
+    catch (error) {
+        console.error(`Error finding employees`, error);
+        return [];
+    }
+}

@@ -1,7 +1,12 @@
-import * as React from 'react';
-import { DataGrid, useGridApiRef } from '@mui/x-data-grid';
-import { useState, useEffect, useContext } from 'react';
-import { TeamContext } from '../../context/TeamContext';
+import React, { useState, useEffect, useContext } from 'react';
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridRowEditStopReasons,
+  useGridApiRef,
+  GridRowModes,
+  GridRowModel,
+} from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -9,152 +14,107 @@ import { Check, Cancel } from '@mui/icons-material';
 import PurchaseDateCell from '../CommonComponents/PurchaseDateCell';
 import TeamSelectCell from '../CommonComponents/TeamSelectCell';
 import EmployeeSelectCell from '../CommonComponents/EmployeeSelectCell';
-import CustomGridToolbar from '../CommonComponents/CustomGridToolbar';
+import CustomGridToolbarNoAdd from '../CommonComponents/CustomGridToolbarNoAdd';
+import { TeamContext } from '../../context/TeamContext';
 import { fetchItems as fetchDeviceAsset, updateItem as updateDeviceAsset, deleteItem as deleteDeviceAsset } from '../../service/apiService';
 import dayjs from 'dayjs';
 
 export default function DeviceAssetTable({ refreshTable }) {
-  const [columnEditable, setColumnEditable] = useState(false);
-  const [deviceAssetID, setDeviceAssetID] = useState(null);
-  const [brand, setBrand] = useState(null);
-  const [codeRef2, setCodeRef2] = useState(null);
-  const [modelName, setModelName] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [purchaseDate, setPurchaseDate] = useState(null);
-  const [deviceassetID, setdeviceassetID] = useState(null);
-  const [team_IDf, setteam_IDf] = useState(null);
-  const [emp_ID, setemp_ID] = useState(null);
-  const [contactNo1, setContactNo1] = useState(null);
-  const [contactNo2, setContactNo2] = useState(null);
-  const [imeiCode, setImeiCode] = useState(null);
-  const [serialNo, setSerialNo] = useState(null);
-  const [accessories, setAccessories] = useState(null);
-  const [additionalInfo, setAdditionalInfo] = useState(null);
   const [deviceAssets, setDeviceAssets] = useState([]);
-  const [editingRow, setEditingRow] = useState(null);
-  const [initialRow, setInitialRow] = useState(null);
+  const [rowModes, setRowModes] = useState({});
+  const [rowModels, setRowModels] = useState({});
   const { teamIDs } = useContext(TeamContext);
   const apiRef = useGridApiRef();
 
-  const fetchDeviceAssets = () => {
+  const fetchDeviceAssetsData = () => {
     fetchDeviceAsset('deviceasset')
-      .then((result) => setDeviceAssets(result));
+      .then((result) => {
+        setDeviceAssets(result);
+      });
   };
 
   useEffect(() => {
     if (refreshTable) {
-      fetchDeviceAssets();
+      fetchDeviceAssetsData();
     }
   }, [refreshTable]);
 
+  const handleEdit = (deviceAssetID) => {
+    setRowModes((prevRowModes) => ({
+      ...prevRowModes,
+      [deviceAssetID]: { mode: GridRowModes.Edit },
+    }));
+  };
+
+  const handleCancelEdit = (deviceAssetID) => {
+    setRowModes((prevRowModes) => ({
+      ...prevRowModes,
+      [deviceAssetID]: { mode: GridRowModes.View },
+    }));
+    fetchDeviceAssetsData();
+  };
+
+  const confirmEdit = async (deviceAsset) => {
+    if (window.confirm('Edit Device Asset Permanently?')) {
+      await updateDeviceAsset('deviceasset', deviceAsset);
+      console.log('Edited Device Asset:', deviceAsset);
+      alert(`Edited Device Asset: ${deviceAsset.deviceAssetID}`);
+      fetchDeviceAssetsData();
+      setRowModes((prevRowModes) => ({
+        ...prevRowModes,
+        [deviceAsset.deviceAssetID]: { mode: GridRowModes.View },
+      }));
+    }
+  };
+
+  const handleDelete = async (deviceAsset) => {
+    if (window.confirm('Delete Device Asset?')) {
+      await deleteDeviceAsset('deviceasset', deviceAsset.deviceAssetID);
+      console.log('Delete Device Asset:', deviceAsset);
+      alert(`Deleting Device Asset: ${deviceAsset.deviceAssetID}`);
+      fetchDeviceAssetsData();
+    }
+  };
+
   const renderActionsCell = (params) => {
-    const isEditingRow = params.row.id === editingRow;
-    const handleEdit = () => {
-      const device = params.row;
-      setInitialRow({ ...device });
-      setDeviceAssetID(device.deviceAssetID);
-      setBrand(device.brand);
-      setCodeRef2(device.codeRef2);
-      setModelName(device.modelName);
-      setCategory(device.category);
-      setPurchaseDate(device.purchaseDate);
-      setteam_IDf(device.team_IDf);
-      setemp_ID(device.emp_ID);
-      setContactNo1(device.contactNo1);
-      setContactNo2(device.contactNo2);
-      setImeiCode(device.imeiCode);
-      setSerialNo(device.serialNo);
-      setAccessories(device.accessories);
-      setAdditionalInfo(device.additionalInfo);
-      setColumnEditable(true);
-      setEditingRow(params.row.id);
-    };
-    const handleCancelEdit = () => {
-      if (initialRow) {
-        setDeviceAssetID(initialRow.deviceAssetID);
-        setBrand(initialRow.brand);
-        setCodeRef2(initialRow.codeRef2);
-        setModelName(initialRow.modelName);
-        setCategory(initialRow.category);
-        setPurchaseDate(initialRow.purchaseDate);
-        setdeviceassetID(initialRow.emp_ID);
-        setteam_IDf(initialRow.team_IDf);
-        setemp_ID(initialRow.emp_ID);
-        setContactNo1(initialRow.contactNo1);
-        setContactNo2(initialRow.contactNo2);
-        setImeiCode(initialRow.imeiCode);
-        setSerialNo(initialRow.serialNo);
-        setAccessories(initialRow.accessories);
-        setAdditionalInfo(initialRow.additionalInfo);
-      }
-      setColumnEditable(false);
-      setEditingRow(null);
-      fetchDeviceAssets();
-    };
-    const confirmEdit = async() => {
-      if (window.confirm('Edit Device Asset Permanently?')) {
-        const deviceasset = params.row;
-        try{
-        await updateDeviceAsset('deviceasset', deviceasset)
-          .then(() => {
-            console.log('Edited deviceasset:', deviceasset);
-            alert(`Edited deviceasset: ${deviceasset.deviceassetID}`);
-            fetchDeviceAssets();
-            setColumnEditable(false);
-            setEditingRow(null);
-            setInitialRow(null);
-          })
-        } catch(error){
-            console.error('Error Editing deviceasset:', error);
-          };
-        fetchDeviceAssets();
-      }
-    };
-    const handleDelete = () => {
-      if (window.confirm('Delete deviceasset?')) {
-        const deviceasset = params.row;
-        deleteDeviceAsset('deviceasset', deviceasset.deviceAssetID)
-          .then(() => {
-            console.log('Delete deviceasset:', deviceasset);
-            alert(`Deleting deviceasset`);
-            fetchDeviceAssets();
-          })
-          .catch((error) => {
-            console.error('Error Deleting deviceasset:', error);
-          });
-        fetchDeviceAssets();
-      }
-    };
+    const { row } = params;
+    const { mode } = rowModes[row.deviceAssetID] || {};
+
+    if (mode === GridRowModes.Edit) {
+      return (
+        <>
+          <IconButton onClick={() => confirmEdit(row)}>
+            <Check />
+          </IconButton>
+          <IconButton onClick={() => handleCancelEdit(row.deviceAssetID)}>
+            <Cancel />
+          </IconButton>
+        </>
+      );
+    }
+
     return (
-      <div>
-        {!isEditingRow && (
-          <>
-            <IconButton onClick={() => handleEdit(params)}><EditIcon /></IconButton>
-            <IconButton onClick={handleDelete}><DeleteIcon /></IconButton>
-          </>
-        )}
-        {isEditingRow && (
-          <>
-            <IconButton onClick={() => confirmEdit(params)}>
-              <Check />
-            </IconButton>
-            <IconButton onClick={handleCancelEdit}>
-              <Cancel />
-            </IconButton>
-          </>
-        )}
-      </div>
+      <>
+        <IconButton onClick={() => handleEdit(row.deviceAssetID)}>
+          <EditIcon />
+        </IconButton>
+        <IconButton onClick={() => handleDelete(row)}>
+          <DeleteIcon />
+        </IconButton>
+      </>
     );
   };
 
   const columns = [
-    { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: 'false', },
-    { field: 'brand', headerName: 'Brand', editable: columnEditable, },
-    { field: 'codeRef2', headerName: 'Code Ref 2', editable: columnEditable, },
-    { field: 'modelName', headerName: 'Model Name', editable: columnEditable, },
-    { field: 'category', headerName: 'Category', editable: columnEditable, },
+    { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: false },
+    { field: 'brand', headerName: 'Brand', editable: true },
+    { field: 'codeRef2', headerName: 'Code Ref 2', editable: true },
+    { field: 'modelName', headerName: 'Model Name', editable: true },
+    { field: 'category', headerName: 'Category', editable: true },
     {
-      field: 'purchaseDate', headerName: 'Purchase Date', editable: columnEditable,
+      field: 'purchaseDate',
+      headerName: 'Purchase Date',
+      editable: true,
       renderEditCell: (params) => (
         <PurchaseDateCell
           id={params.id}
@@ -162,10 +122,13 @@ export default function DeviceAssetTable({ refreshTable }) {
           field={params.field}
           onChange={params.onChange}
           apiRef={apiRef}
-        />)
+        />
+      ),
     },
     {
-      field: 'team_IDf', headerName: 'Team ID', editable: columnEditable,
+      field: 'team_IDf',
+      headerName: 'Team ID',
+      editable: true,
       renderEditCell: (params) => (
         <TeamSelectCell
           id={params.id}
@@ -178,7 +141,9 @@ export default function DeviceAssetTable({ refreshTable }) {
       ),
     },
     {
-      field: 'emp_ID', headerName: 'Employee ID', editable: columnEditable,
+      field: 'emp_ID',
+      headerName: 'Employee ID',
+      editable: true,
       renderEditCell: (params) => (
         <EmployeeSelectCell
           id={params.id}
@@ -190,26 +155,29 @@ export default function DeviceAssetTable({ refreshTable }) {
         />
       ),
     },
-    { field: 'contactNo1', headerName: 'Contact No 1', editable: columnEditable, },
-    { field: 'contactNo2', headerName: 'Contact No 2', editable: columnEditable, },
-    { field: 'imeiCode', headerName: 'IMEI Code', editable: columnEditable, },
-    { field: 'serialNo', headerName: 'Serial No', editable: columnEditable, },
-    { field: 'accessories', headerName: 'Accessories', editable: columnEditable, },
-    { field: 'additionalInfo', headerName: 'Additional Info', editable: columnEditable, },
-    { field: 'actions', headerName: 'Actions', sortable: false, filterable: false, renderCell: renderActionsCell, },
+    { field: 'contactNo1', headerName: 'Contact No 1', editable: true },
+    { field: 'contactNo2', headerName: 'Contact No 2', editable: true },
+    { field: 'imeiCode', headerName: 'IMEI Code', editable: true },
+    { field: 'serialNo', headerName: 'Serial No', editable: true },
+    { field: 'accessories', headerName: 'Accessories', editable: true },
+    { field: 'additionalInfo', headerName: 'Additional Info', editable: true },
+    { field: 'actions', headerName: 'Actions', sortable: false, filterable: false, renderCell: renderActionsCell },
   ];
 
   useEffect(() => {
-    fetchDeviceAssets();
-  }, []);
+    fetchDeviceAssetsData();
+  });
 
   return (
     <DataGrid
       rows={deviceAssets}
       columns={columns}
       getRowId={(row) => row.deviceAssetID}
+      rowModes={rowModes}
+      onRowModeChange={setRowModes}
+      rowModels={rowModels}
+      onRowModelChange={setRowModels}
       apiRef={apiRef}
-      autoHeight
       sx={{
         display: 'flex',
         boxShadow: 2,
@@ -217,7 +185,6 @@ export default function DeviceAssetTable({ refreshTable }) {
         width: '100%',
         '& .MuiDataGrid-cell:hover': {
           color: 'primary.main',
-
         },
         '& .MuiDataGrid-columnHeader': {
           color: 'white',
@@ -225,19 +192,13 @@ export default function DeviceAssetTable({ refreshTable }) {
         },
       }}
       density="comfortable"
-      slots={{ toolbar: CustomGridToolbar }}
-      slotProps={{
-        toolbar: {
-          showQuickFilter: true,
-          quickFilterProps: { debounceMs: 500 },
-        },
-      }}
+      slots={{ toolbar: CustomGridToolbarNoAdd }}
       initialState={{
         pagination: {
           paginationModel: { page: 0, pageSize: 5 },
         },
       }}
-      pageSizeOptions={[5, 10, 15, 20]}
+      pageSizeOptions={[5, 10, 15, 20, 100]}
     />
   );
 }

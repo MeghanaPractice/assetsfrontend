@@ -1,14 +1,16 @@
 import React from "react";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-export default function CustomGridToolbar() {
-    
+import { Button } from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
+import { DataGrid, GridToolbar, GridToolbarContainer, GridRowModes } from "@mui/x-data-grid";
+
+export default function CustomGridToolbar(props) {
+    const { setRows, setRowModes, RenderAddButton } = props;
+
     return (
-        <GridToolbar
-            showQuickFilter
-            quickFilterProps={{ debounceMs: 500 }}
+        <GridToolbarContainer
             sx={{
                 display: 'flex',
-                flexDirection: 'row-reverse',
+                flexDirection: 'row',
                 padding: '1%',
                 '& .MuiToolbar-root': {
                     justifyContent: 'flex-end',
@@ -21,7 +23,17 @@ export default function CustomGridToolbar() {
                 '& .MuiButton-root': {
                     color: 'black',
                 },
-            }}
-        />
+            }}>
+            <RenderAddButton />
+            <GridToolbar
+                showQuickFilter={true}
+                quickFilterProps={{ debounceMs: 500 }}
+
+            />
+        </GridToolbarContainer>
+
     );
+
+
+
 };

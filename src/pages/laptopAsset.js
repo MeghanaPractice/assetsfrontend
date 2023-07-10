@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Paper } from '@mui/material';
-import DeviceAssetTable from '../components/DeviceAssetComponenets/DeviceAssetTable';
 import { Accordion, AccordionSummary } from '@mui/material';
 import { ExpandMore } from '@mui/icons-material';
-import DeviceAssetAdd from '../components/DeviceAssetComponenets/DeviceAssetAdd';
 import { TeamProvider } from '../context/TeamContext';
 import LaptopAssetAdd from '../components/LaptopAssetComponents/LaptopAssetAdd';
 import LaptopAssetTable from '../components/LaptopAssetComponents/LaptopAssetTable';

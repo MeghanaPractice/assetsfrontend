@@ -1,7 +1,7 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Paper } from '@mui/material';
 import EmployeeAdd from '../components/EmployeeComponents/EmployeeAdd';
-import EmployeeTable from '../components/EmployeeComponents/EmployeeTable';
+import EmployeeTable2 from '../components/EmployeeComponents/EmployeeTable2';
 import { TeamProvider } from '../context/TeamContext';
 
 export default function Employee() {
@@ -9,10 +9,10 @@ export default function Employee() {
   const handleRefreshTable = (newState) => {
     setRefreshTable(newState);
   };
-  useEffect(()=>{
+  useEffect(() => {
     handleRefreshTable();
-  },[refreshTable])
-  
+  }, [refreshTable])
+
 
   const containerStyle = {
     display: 'flex',
@@ -41,12 +41,9 @@ export default function Employee() {
   return (
     <TeamProvider>
       <Container style={containerStyle}>
-        <Paper elevation={3} style={paperStyle1}>
-          <EmployeeAdd refreshTable={refreshTable} setRefreshTable={handleRefreshTable} />
-        </Paper>
         <Paper elevation={3} style={paperStyle2}>
           <h1>Employee</h1>
-          <EmployeeTable refreshTable={refreshTable} />
+          <EmployeeTable2 refreshTable={refreshTable} />
         </Paper>
       </Container>
     </TeamProvider>

@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridRowModes, GridRowModels, GridActionsCellItem, GridRowEditStopReasons } from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel } from '@mui/icons-material';
 import CustomGridToolbar from '../CommonComponents/CustomGridToolbar';
-import { fetchItems as fetchTeams,updateItem as updateTeam, deleteItem as deleteTeam } from '../../service/apiService';
+import { fetchItems as fetchTeams,updateItem as updateTeam, deleteItem as deleteTeam,addItem as addTeam  } from '../../service/apiService';
 
-export default function TeamTable({ refreshTable }){
+export default function TeamTable({ refreshTable, addNew, setAddNew }){
   const [columnEditable, setColumnEditable] = useState(false);
   const [teams, setTeams] = useState([]);
   const [editingRow, setEditingRow] = useState(null);
+  const [editableForNew,setEditableForNew] = useState(false);
+  const [isNew,setIsNew]=useState(false);
 
   const fetchData = () => {
     fetchTeams('team')
@@ -22,13 +24,36 @@ export default function TeamTable({ refreshTable }){
   useEffect(() => {
     fetchData();
   }, [refreshTable]);
+  
+  const addNewRow = () =>
+  {
+    const newTeam = { teamID:'Add TeamID', teamName:'' };
+    setTeams([newTeam,...teams]);
+    setIsNew(true);
+    addTeam('team',newTeam)
+    .then(() => {
+      console.log('New team added');
+      alert('Added team');
 
-
+    })
+    .catch((error) => {
+      console.error('Error adding team:', error);
+    });
+    setAddNew(false);
+    setIsNew(false);
+  }
+  
+  useEffect(()=>{
+    if(addNew)
+      addNewRow();
+  },[addNew]);
+  
   const renderActionsCell = ({ row }) => {
-    const isEditingRow = row.id === editingRow;
     const handleEdit = (team) => {
       setColumnEditable(true);
       setEditingRow(team.id);
+      if(isNew) 
+        setEditableForNew(true);
     };
   
     const handleCancelEdit = () => {
@@ -59,7 +84,7 @@ export default function TeamTable({ refreshTable }){
   
     return (
       <div>
-        {!isEditingRow && (
+        {editingRow !== row.id && (
           <>
             <IconButton onClick={() => handleEdit(row)}>
               <EditIcon />
@@ -69,7 +94,7 @@ export default function TeamTable({ refreshTable }){
             </IconButton>
           </>
         )}
-        {isEditingRow && (
+        {editingRow === row.id  && (
           <>
             <IconButton onClick={() => confirmEdit(row)}>
               <Check />
@@ -84,7 +109,7 @@ export default function TeamTable({ refreshTable }){
   };
 
   const columns = [
-    { field: 'teamID', headerName: 'Team ID', flex: 1 },
+    { field: 'teamID', headerName: 'Team ID',editable:editableForNew, flex: 1 },
     { field: 'teamName', headerName: 'Team name', editable: columnEditable, flex: 1 },
     {
       field: 'actions',
@@ -92,7 +117,7 @@ export default function TeamTable({ refreshTable }){
       flex: 1,
       sortable: false,
       filterable: false,
-      renderCell: renderActionsCell,
+      renderCell: (params) => renderActionsCell(params),
     },
   ];
 
@@ -101,7 +126,7 @@ export default function TeamTable({ refreshTable }){
       rows={teams}
       columns={columns}
       getRowId={(row) => row.teamID}
-      sx={{
+          sx={{
         boxShadow: 2,
         '& .MuiDataGrid-cell:hover': {
           color: 'primary.main',
@@ -113,12 +138,6 @@ export default function TeamTable({ refreshTable }){
       }}
       density="comfortable"
       slots={{ toolbar: CustomGridToolbar }}
-      slotProps={{
-        toolbar: {
-          showQuickFilter: true,
-          quickFilterProps: { debounceMs: 500 },
-        },
-      }}
       initialState={{
         pagination: {
           paginationModel: { page: 0, pageSize: 5 },

@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Container,Paper} from '@mui/material';
+import { Container, Paper } from '@mui/material';
 import TeamTable from '../components/TeamComponenets/TeamTable';
+import TeamTable2 from '../components/TeamComponenets/TeamTable2';
 import TeamAdd from '../components/TeamComponenets/TeamAdd'
-
+import AddIcon from '@mui/icons-material/Add';
+import Button from '@mui/material/Button';
 export default function Team() {
-  
-  const[refreshTable,setRefreshTable]=useState(false)
+
+  const [refreshTable, setRefreshTable] = useState(false)
+  const [addNew, setAddNew] = useState(false)
+
   const handleRefreshTable = (newState) => {
-      setRefreshTable(newState);
-    };
-  useEffect(()=>{
+    setRefreshTable(newState);
+  };
+
+  useEffect(() => {
     handleRefreshTable();
-  },[refreshTable])
-  
+  }, [refreshTable]);
+
+
   const containerStyle = {
     display: 'flex',
     alignItems: 'flex-start',
@@ -28,24 +34,22 @@ export default function Team() {
     width: '100%',
     height: '25%',
     marginRight: '25px',
-    flex:1
+    flex: 1
   };
   const paperStyle2 = {
     padding: '20px',
     width: '100%',
     height: '100%',
-    flex:5
+    flex: 5
   };
-  
+
   return (
     <Container style={containerStyle}>
-      <Paper elevation={3} style={paperStyle1}>
-        <TeamAdd refreshTable={refreshTable} setRefreshTable={handleRefreshTable}/>
-      </Paper>
+
       <Paper elevation={3} style={paperStyle2}>
-          <h1>Teams</h1>
-          <TeamTable refreshTable = { refreshTable } />   
-       </Paper>
+        <h1>Teams</h1>
+        <TeamTable2 refreshTable={refreshTable}/>
+      </Paper>
     </Container>
   );
 }

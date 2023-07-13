@@ -17,7 +17,7 @@ export const updateItem = async (modelName, item) => {
         switch (modelName) {
             case 'team': id = item.teamID; break;
             case 'employee': id = item.employeeID; break;
-            case 'deviceasset': id = item.deviceAssetID; break;
+            case 'deviceasset': id = item.deviceNo; break;
             case 'laptopasset': id = item.laptopNo; break;
             default: throw new Error('Invalid modelName');
         }

@@ -63,7 +63,7 @@ export default function LaptopAssetTable({ refreshTable }) {
 
   const handleDelete = async (laptopAsset) => {
     if (window.confirm('Delete Laptop Asset?')) {
-      await deleteLaptopAsset('laptopasset', laptopAsset.laptopAssetID);
+      await deleteLaptopAsset('laptopasset', laptopAsset.laptopNo);
       console.log('Delete Laptop Asset:', laptopAsset);
       alert(`Deleting Laptop Asset: ${laptopAsset.laptopAssetID}`);
       fetchLaptopAssetsData();

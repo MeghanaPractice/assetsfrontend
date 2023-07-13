@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {
-  DataGrid,
-  GridActionsCellItem,
-  GridRowEditStopReasons,
-  useGridApiRef,
-  GridRowModes,
-  GridRowModel,
-} from '@mui/x-data-grid';
+import { DataGrid, GridRowEditStopReasons, useGridApiRef, GridRowModes, GridRowModel } from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -39,17 +32,17 @@ export default function DeviceAssetTable({ refreshTable }) {
     }
   }, [refreshTable]);
 
-  const handleEdit = (deviceAssetID) => {
+  const handleEdit = (deviceNo) => {
     setRowModes((prevRowModes) => ({
       ...prevRowModes,
-      [deviceAssetID]: { mode: GridRowModes.Edit },
+      [deviceNo]: { mode: GridRowModes.Edit },
     }));
   };
 
-  const handleCancelEdit = (deviceAssetID) => {
+  const handleCancelEdit = (deviceNo) => {
     setRowModes((prevRowModes) => ({
       ...prevRowModes,
-      [deviceAssetID]: { mode: GridRowModes.View },
+      [deviceNo]: { mode: GridRowModes.View },
     }));
     fetchDeviceAssetsData();
   };
@@ -58,18 +51,18 @@ export default function DeviceAssetTable({ refreshTable }) {
     if (window.confirm('Edit Device Asset Permanently?')) {
       await updateDeviceAsset('deviceasset', deviceAsset);
       console.log('Edited Device Asset:', deviceAsset);
-      alert(`Edited Device Asset: ${deviceAsset.deviceAssetID}`);
+      alert(`Edited Device Asset: ${deviceAsset.deviceNo}`);
       fetchDeviceAssetsData();
       setRowModes((prevRowModes) => ({
         ...prevRowModes,
-        [deviceAsset.deviceAssetID]: { mode: GridRowModes.View },
+        [deviceAsset.deviceNo]: { mode: GridRowModes.View },
       }));
     }
   };
 
   const handleDelete = async (deviceAsset) => {
     if (window.confirm('Delete Device Asset?')) {
-      await deleteDeviceAsset('deviceasset', deviceAsset.deviceAssetID);
+      await deleteDeviceAsset('deviceasset', deviceAsset.deviceNo);
       console.log('Delete Device Asset:', deviceAsset);
       alert(`Deleting Device Asset: ${deviceAsset.deviceAssetID}`);
       fetchDeviceAssetsData();
@@ -78,7 +71,7 @@ export default function DeviceAssetTable({ refreshTable }) {
 
   const renderActionsCell = (params) => {
     const { row } = params;
-    const { mode } = rowModes[row.deviceAssetID] || {};
+    const { mode } = rowModes[row.deviceNo] || {};
 
     if (mode === GridRowModes.Edit) {
       return (
@@ -86,7 +79,7 @@ export default function DeviceAssetTable({ refreshTable }) {
           <IconButton onClick={() => confirmEdit(row)}>
             <Check />
           </IconButton>
-          <IconButton onClick={() => handleCancelEdit(row.deviceAssetID)}>
+          <IconButton onClick={() => handleCancelEdit(row.deviceNo)}>
             <Cancel />
           </IconButton>
         </>
@@ -95,7 +88,7 @@ export default function DeviceAssetTable({ refreshTable }) {
 
     return (
       <>
-        <IconButton onClick={() => handleEdit(row.deviceAssetID)}>
+        <IconButton onClick={() => handleEdit(row.deviceNo)}>
           <EditIcon />
         </IconButton>
         <IconButton onClick={() => handleDelete(row)}>
@@ -106,7 +99,7 @@ export default function DeviceAssetTable({ refreshTable }) {
   };
 
   const columns = [
-    { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: false },
+    { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: true },
     { field: 'brand', headerName: 'Brand', editable: true },
     { field: 'codeRef2', headerName: 'Code Ref 2', editable: true },
     { field: 'modelName', headerName: 'Model Name', editable: true },
@@ -166,13 +159,13 @@ export default function DeviceAssetTable({ refreshTable }) {
 
   useEffect(() => {
     fetchDeviceAssetsData();
-  });
+  },[]);
 
   return (
     <DataGrid
       rows={deviceAssets}
       columns={columns}
-      getRowId={(row) => row.deviceAssetID}
+      getRowId={(row) => row.deviceNo}
       rowModes={rowModes}
       onRowModeChange={setRowModes}
       rowModels={rowModels}
@@ -193,12 +186,26 @@ export default function DeviceAssetTable({ refreshTable }) {
       }}
       density="comfortable"
       slots={{ toolbar: CustomGridToolbarNoAdd }}
+      onRowEditStop={(params, event) => {
+        if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+          event.defaultMuiPrevented = true;
+        }
+      }}
+      processRowUpdate={(newRow) => {
+        const updatedRow = { ...newRow, isNew: false };
+        setDeviceAssets((prevDeviceAssets) =>
+          prevDeviceAssets.map((deviceAsset) => (deviceAsset.deviceNo === newRow.deviceNo ? updatedRow : deviceAsset))
+        );
+        return updatedRow;
+      }}
       initialState={{
         pagination: {
           paginationModel: { page: 0, pageSize: 5 },
         },
       }}
       pageSizeOptions={[5, 10, 15, 20, 100]}
+
     />
+
   );
 }

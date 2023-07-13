@@ -33,17 +33,17 @@ export default function LaptopAssetTable({ refreshTable }) {
     }
   }, [refreshTable]);
 
-  const handleEdit = (laptopAssetID) => {
+  const handleEdit = (laptopNo) => {
     setRowModes((prevRowModes) => ({
       ...prevRowModes,
-      [laptopAssetID]: { mode: GridRowModes.Edit },
+      [laptopNo]: { mode: GridRowModes.Edit },
     }));
   };
 
-  const handleCancelEdit = (laptopAssetID) => {
+  const handleCancelEdit = (laptopNo) => {
     setRowModes((prevRowModes) => ({
       ...prevRowModes,
-      [laptopAssetID]: { mode: GridRowModes.View },
+      [laptopNo]: { mode: GridRowModes.View },
     }));
     fetchLaptopAssetsData();
   };
@@ -52,11 +52,11 @@ export default function LaptopAssetTable({ refreshTable }) {
     if (window.confirm('Edit Laptop Asset Permanently?')) {
       await updateLaptopAsset('laptopasset', laptopAsset);
       console.log('Edited Laptop Asset:', laptopAsset);
-      alert(`Edited Laptop Asset: ${laptopAsset.laptopAssetID}`);
+      alert(`Edited Laptop Asset: ${laptopAsset.laptopNo}`);
       fetchLaptopAssetsData();
       setRowModes((prevRowModes) => ({
         ...prevRowModes,
-        [laptopAsset.laptopAssetID]: { mode: GridRowModes.View },
+        [laptopAsset.laptopNo]: { mode: GridRowModes.View },
       }));
     }
   };
@@ -72,7 +72,7 @@ export default function LaptopAssetTable({ refreshTable }) {
 
   const renderActionsCell = (params) => {
     const { row } = params;
-    const { mode } = rowModes[row.laptopAssetID] || {};
+    const { mode } = rowModes[row.laptopNo] || {};
 
     if (mode === GridRowModes.Edit) {
       return (
@@ -80,7 +80,7 @@ export default function LaptopAssetTable({ refreshTable }) {
           <IconButton onClick={() => confirmEdit(row)}>
             <Check />
           </IconButton>
-          <IconButton onClick={() => handleCancelEdit(row.laptopAssetID)}>
+          <IconButton onClick={() => handleCancelEdit(row.laptopNo)}>
             <Cancel />
           </IconButton>
         </>
@@ -89,7 +89,7 @@ export default function LaptopAssetTable({ refreshTable }) {
 
     return (
       <>
-        <IconButton onClick={() => handleEdit(row.laptopAssetID)}>
+        <IconButton onClick={() => handleEdit(row.laptopNo)}>
           <EditIcon />
         </IconButton>
         <IconButton onClick={() => handleDelete(row)}>
@@ -101,7 +101,7 @@ export default function LaptopAssetTable({ refreshTable }) {
 
   const columns = [
     { field: 'brand', headerName: 'Brand', editable: true },
-    { field: 'laptopAssetID', headerName: 'Laptop Asset ID', editable: true },
+    { field: 'laptopAssetID', headerName: 'Laptop Asset ID', editable: true},
     { field: 'modelName', headerName: 'Model Name', editable: true },
     { field: 'modelNo', headerName: 'Model No', editable: true },
     { field: 'serialNo', headerName: 'Serial No', editable: true },
@@ -172,7 +172,7 @@ export default function LaptopAssetTable({ refreshTable }) {
     <DataGrid
       rows={laptopAssets}
       columns={columns}
-      getRowId={(row) => row.laptopAssetID}
+      getRowId={(row) => row.laptopNo}
       rowModes={rowModes}
       onRowModeChange={setRowModes}
       rowModels={rowModels}
@@ -200,7 +200,7 @@ export default function LaptopAssetTable({ refreshTable }) {
       processRowUpdate={(newRow) => {
         const updatedRow = { ...newRow, isNew: false };
         setLaptopAssets((prevLaptopAssets) =>
-          prevLaptopAssets.map((laptopAsset) => (laptopAsset.laptopAssetID === newRow.laptopAssetID ? updatedRow : laptopAsset))
+          prevLaptopAssets.map((laptopAsset) => (laptopAsset.laptopNo === newRow.laptopNo ? updatedRow : laptopAsset))
         );
         return updatedRow;
       }}

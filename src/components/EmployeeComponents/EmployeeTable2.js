@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { DataGrid, GridActionsCellItem, GridRowEditStopReasons, useGridApiRef, GridRowModes, GridRowModel } from '@mui/x-data-grid';
+import { DataGrid, GridRowEditStopReasons, useGridApiRef, GridRowModes } from '@mui/x-data-grid';
 import { IconButton, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel } from '@mui/icons-material';
-import CustomGridToolbar from '../CommonComponents/CustomGridToolbar';
+import CustomGridToolbarNoAdd from '../CommonComponents/CustomGridToolbarNoAdd';
 import { Add as AddIcon } from '@mui/icons-material';
 import TeamSelectCell from '../CommonComponents/TeamSelectCell';
 import { TeamContext } from '../../context/TeamContext';
-import { fetchItems as fetchEmployees, updateItem as updateEmployee, deleteItem as deleteEmployee, addItem as addEmployee } from '../../service/apiService';
+import { fetchItems as fetchEmployees, updateItem as updateEmployee, deleteItem as deleteEmployee } from '../../service/apiService';
 
 export default function EmployeeTable({ refreshTable }) {
     const [employees, setEmployees] = useState([]);
-    const [addNew, setAddNew] = useState(false);
     const [rowModes, setRowModes] = useState({});
     const [rowModels, setRowModels] = useState({});
     const { teamIDs } = useContext(TeamContext);
@@ -26,8 +25,8 @@ export default function EmployeeTable({ refreshTable }) {
     };
 
     useEffect(() => {
-        if(refreshTable) 
-          fetchData();
+        if (refreshTable)
+            fetchData();
     }, [refreshTable]);
 
     const handleEdit = (personID) => {
@@ -46,17 +45,6 @@ export default function EmployeeTable({ refreshTable }) {
     };
 
     const confirmEdit = async (employee) => {
-        if (addNew) {
-            addEmployee('employee', employee)
-                .then(() => {
-                    console.log('New employee added');
-                    alert('Added employee');
-                })
-                .catch((error) => {
-                    console.error('Error adding team:', error);
-                });
-            setAddNew(false);
-        }
         if (window.confirm('Edit Employee Permanently?')) {
             await updateEmployee('employee', employee);
             console.log('Edited employee:', employee);
@@ -107,28 +95,6 @@ export default function EmployeeTable({ refreshTable }) {
         );
     };
 
-    const handleAddEmployee = () => {
-        if (addNew) {
-            const id = 'Employee' + (employees.length + 1);
-            const newEmployee = { employeeID: id, employeeName: '', teamID: '' };
-            setEmployees((prevEmployees) => [newEmployee, ...prevEmployees]);
-            setRowModes((prevRowModes) => ({
-                ...prevRowModes,
-                [newEmployee.personID]: { mode: GridRowModes.Edit, fieldToFocus: 'employeeName' }
-            }));
-        }
-    };
-
-    const renderAddButton = () => {
-        return (
-            <Button variant="contained" onClick={() => { 
-                handleAddEmployee(); 
-                setAddNew(true); 
-                }}>
-                <AddIcon /> Add Employee
-            </Button>
-        );
-    };
 
     const columns = [
         { field: 'employeeID', headerName: 'Employee ID', editable: true, flex: 1 },
@@ -149,9 +115,9 @@ export default function EmployeeTable({ refreshTable }) {
                 />
             ),
         },
-        {field: 'designation', headerName: 'Designation', editable: true, flex: 1 },
-        {field: 'contactNo', headerName: 'Contact No', editable: true, flex: 1 },
-        {field: 'email', headerName: 'Email', editable: true, flex: 1 },
+        { field: 'designation', headerName: 'Designation', editable: true, flex: 1 },
+        { field: 'contactNo', headerName: 'Contact No', editable: true, flex: 1 },
+        { field: 'email', headerName: 'Email', editable: true, flex: 1 },
         {
             field: 'actions',
             headerName: 'Actions',
@@ -161,11 +127,11 @@ export default function EmployeeTable({ refreshTable }) {
             renderCell: renderActionsCell,
         },
     ];
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         fetchData();
 
-    },[])
+    }, [])
 
     return (
         <DataGrid
@@ -189,12 +155,7 @@ export default function EmployeeTable({ refreshTable }) {
             }}
             density="comfortable"
             slots={{
-                toolbar: () => (
-                    <CustomGridToolbar RenderAddButton={renderAddButton} />
-                ),
-            }}
-            slotProps={{
-                toolbar: { setRows: setEmployees, setRowModes: setRowModes, renderAddButton: renderAddButton },
+                toolbar: CustomGridToolbarNoAdd
             }}
             onRowEditStop={(params, event) => {
                 if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -210,11 +171,11 @@ export default function EmployeeTable({ refreshTable }) {
             }}
             initialState={{
                 pagination: {
-                  paginationModel: { page: 0, pageSize: 5 },
+                    paginationModel: { page: 0, pageSize: 5 },
                 },
-              }}
-              pageSizeOptions={[5, 10, 15, 20, 100]}
-        
+            }}
+            pageSizeOptions={[5, 10, 15, 20, 100]}
+
         />
     );
 }

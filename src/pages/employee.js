@@ -9,10 +9,10 @@ export default function Employee() {
   const handleRefreshTable = (newState) => {
     setRefreshTable(newState);
   };
+
   useEffect(() => {
     handleRefreshTable();
   }, [refreshTable])
-
 
   const containerStyle = {
     display: 'flex',
@@ -22,8 +22,8 @@ export default function Employee() {
     height: '100%',
     width: '100%',
     maxWidth: '1500px'
-
   };
+
   const paperStyle1 = {
     padding: '20px 20px',
     width: '100%',
@@ -31,6 +31,7 @@ export default function Employee() {
     marginRight: '25px',
     flex: 1
   };
+  
   const paperStyle2 = {
     padding: '20px',
     width: '100%',
@@ -43,6 +44,7 @@ export default function Employee() {
       <Container style={containerStyle}>
         <Paper elevation={3} style={paperStyle2}>
           <h1>Employee</h1>
+          <EmployeeAdd setRefreshTable={setRefreshTable}></EmployeeAdd>
           <EmployeeTable2 refreshTable={refreshTable} />
         </Paper>
       </Container>

@@ -3,7 +3,6 @@ import { Container, Paper } from '@mui/material';
 import TeamTable from '../components/TeamComponenets/TeamTable';
 import TeamTable2 from '../components/TeamComponenets/TeamTable2';
 import TeamAdd from '../components/TeamComponenets/TeamAdd'
-import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 export default function Team() {
 
@@ -45,10 +44,10 @@ export default function Team() {
 
   return (
     <Container style={containerStyle}>
-
       <Paper elevation={3} style={paperStyle2}>
         <h1>Teams</h1>
-        <TeamTable2 refreshTable={refreshTable}/>
+        <TeamAdd setRefreshTable={setRefreshTable}></TeamAdd>
+        <TeamTable2 refreshTable={refreshTable} />
       </Paper>
     </Container>
   );

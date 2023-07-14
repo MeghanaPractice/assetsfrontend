@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { DataGrid, GridRowEditStopReasons, useGridApiRef, GridRowModes, GridRowModel } from '@mui/x-data-grid';
+import { DataGrid, GridRowEditStopReasons, useGridApiRef, GridRowModes, GridColDef } from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -11,6 +11,7 @@ import CustomGridToolbarNoAdd from '../CommonComponents/CustomGridToolbarNoAdd';
 import { TeamContext } from '../../context/TeamContext';
 import { fetchItems as fetchDeviceAsset, updateItem as updateDeviceAsset, deleteItem as deleteDeviceAsset } from '../../service/apiService';
 import dayjs from 'dayjs';
+
 
 export default function DeviceAssetTable({ refreshTable }) {
   const [deviceAssets, setDeviceAssets] = useState([]);
@@ -98,16 +99,17 @@ export default function DeviceAssetTable({ refreshTable }) {
     );
   };
 
-  const columns = [
-    { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: true },
-    { field: 'brand', headerName: 'Brand', editable: true },
-    { field: 'codeRef2', headerName: 'Code Ref 2', editable: true },
-    { field: 'modelName', headerName: 'Model Name', editable: true },
-    { field: 'category', headerName: 'Category', editable: true },
+  const columns= [
+    { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: true, width: 150 },
+    { field: 'brand', headerName: 'Brand', editable: true, width: 150 },
+    { field: 'codeRef2', headerName: 'Code Ref 2', editable: true, width: 150 },
+    { field: 'modelName', headerName: 'Model Name', editable: true, width: 150 },
+    { field: 'category', headerName: 'Category', editable: true, width: 150 },
     {
       field: 'purchaseDate',
       headerName: 'Purchase Date',
       editable: true,
+      width: 150,
       renderEditCell: (params) => (
         <PurchaseDateCell
           id={params.id}
@@ -122,6 +124,7 @@ export default function DeviceAssetTable({ refreshTable }) {
       field: 'team_IDf',
       headerName: 'Team ID',
       editable: true,
+      width: 150,
       renderEditCell: (params) => (
         <TeamSelectCell
           id={params.id}
@@ -137,6 +140,7 @@ export default function DeviceAssetTable({ refreshTable }) {
       field: 'emp_ID',
       headerName: 'Employee ID',
       editable: true,
+      width: 150,
       renderEditCell: (params) => (
         <EmployeeSelectCell
           id={params.id}
@@ -148,18 +152,18 @@ export default function DeviceAssetTable({ refreshTable }) {
         />
       ),
     },
-    { field: 'contactNo1', headerName: 'Contact No 1', editable: true },
-    { field: 'contactNo2', headerName: 'Contact No 2', editable: true },
-    { field: 'imeiCode', headerName: 'IMEI Code', editable: true },
-    { field: 'serialNo', headerName: 'Serial No', editable: true },
-    { field: 'accessories', headerName: 'Accessories', editable: true },
-    { field: 'additionalInfo', headerName: 'Additional Info', editable: true },
-    { field: 'actions', headerName: 'Actions', sortable: false, filterable: false, renderCell: renderActionsCell },
+    { field: 'contactNo1', headerName: 'Contact No 1', editable: true, width: 150 },
+    { field: 'contactNo2', headerName: 'Contact No 2', editable: true, width: 150 },
+    { field: 'imeiCode', headerName: 'IMEI Code', editable: true, width: 150 },
+    { field: 'serialNo', headerName: 'Serial No', editable: true, width: 150 },
+    { field: 'accessories', headerName: 'Accessories', editable: true, width: 150 },
+    { field: 'additionalInfo', headerName: 'Additional Info', editable: true, width: 150 },
+    { field: 'actions', headerName: 'Actions', sortable: false, filterable: false, width: 150, renderCell: renderActionsCell },
   ];
 
   useEffect(() => {
     fetchDeviceAssetsData();
-  },[]);
+  }, []);
 
   return (
     <DataGrid
@@ -204,8 +208,7 @@ export default function DeviceAssetTable({ refreshTable }) {
         },
       }}
       pageSizeOptions={[5, 10, 15, 20, 100]}
-
+      autoHeight
     />
-
   );
 }

@@ -4,7 +4,7 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel } from '@mui/icons-material';
-import CustomGridToolbar from '../CommonComponents/CustomGridToolbar';
+import CustomGridToolbarNoAdd from '../CommonComponents/CustomGridToolbarNoAdd';
 import { fetchItems as fetchTeams,updateItem as updateTeam, deleteItem as deleteTeam,addItem as addTeam  } from '../../service/apiService';
 
 export default function TeamTable({ refreshTable, addNew, setAddNew }){
@@ -25,28 +25,6 @@ export default function TeamTable({ refreshTable, addNew, setAddNew }){
     fetchData();
   }, [refreshTable]);
   
-  const addNewRow = () =>
-  {
-    const newTeam = { teamID:'Add TeamID', teamName:'' };
-    setTeams([newTeam,...teams]);
-    setIsNew(true);
-    addTeam('team',newTeam)
-    .then(() => {
-      console.log('New team added');
-      alert('Added team');
-
-    })
-    .catch((error) => {
-      console.error('Error adding team:', error);
-    });
-    setAddNew(false);
-    setIsNew(false);
-  }
-  
-  useEffect(()=>{
-    if(addNew)
-      addNewRow();
-  },[addNew]);
   
   const renderActionsCell = ({ row }) => {
     const handleEdit = (team) => {
@@ -137,7 +115,7 @@ export default function TeamTable({ refreshTable, addNew, setAddNew }){
         },
       }}
       density="comfortable"
-      slots={{ toolbar: CustomGridToolbar }}
+      slots={{ toolbar: CustomGridToolbarNoAdd }}
       initialState={{
         pagination: {
           paginationModel: { page: 0, pageSize: 5 },

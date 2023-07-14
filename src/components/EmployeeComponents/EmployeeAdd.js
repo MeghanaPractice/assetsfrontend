@@ -1,29 +1,45 @@
 import React, { useContext, useState } from 'react';
 import TextField from '@mui/material/TextField';
-import { Button, MenuItem, Select, InputLabel } from '@mui/material';
+import { Button, MenuItem, Select, InputLabel, Dialog, DialogTitle, DialogContent, DialogActions, FormControl } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { addItem as addEmployee } from '../../service/apiService';
 import { TeamContext } from '../../context/TeamContext';
 
 export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
   const [employeeID, setEmployeeID] = useState('');
   const [employeeName, setEmployeeName] = useState('');
-  const [teams, setTeams] = useState([]);
   const [teamIDNo, setTeamIDNo] = useState('');
+  const [designation, setDesignation] = useState('');
+  const [contactNo, setContactNo] = useState('');
+  const [email, setEmail] = useState('');
   const { teamIDs } = useContext(TeamContext);
+  const [open, setOpen] = useState(false);
 
-  const handleClick = (e) => {
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const emp = { employeeID, employeeName, teamIDNo };
+    const emp = { employeeID, employeeName, teamIDNo, designation, contactNo, email };
     console.log(emp);
     if (employeeID && employeeName) {
-      addEmployee('employee',emp) 
+      addEmployee('employee', emp)
         .then(() => {
           console.log('New employee added');
           setEmployeeID('');
           setEmployeeName('');
           setTeamIDNo('');
+          setDesignation('');
+          setContactNo('');
+          setEmail('');
           alert('Added employee');
           setRefreshTable(true);
+          setOpen(false);
         })
         .catch((error) => {
           console.error('Error adding employee:', error);
@@ -34,50 +50,89 @@ export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
   };
 
   return (
-    <div className='div-centerstyle'>
-      <h1>Add employee</h1>
-      <form className='root' noValidate autoComplete='off'>
-        <TextField
-          id='outlined-basic'
-          label='Employee ID'
-          variant='outlined'
-          fullWidth
-          value={employeeID}
-          onChange={(e) => setEmployeeID(e.target.value)}
-          style={{ margin: '20px auto' }}
-        />
-        <TextField
-          id='outlined-basic'
-          label='Employee name'
-          variant='outlined'
-          fullWidth
-          value={employeeName}
-          onChange={(e) => setEmployeeName(e.target.value)}
-          style={{ margin: '20px auto' }}
-        />
-        <Select
-          id='teamID-select'
-          variant='outlined'
-          fullWidth
-          value={teamIDNo}
-          onChange={(e) => setTeamIDNo(e.target.value)}
-          style={{ margin: '20px auto' }}
-          inputProps={{ 'aria-label': 'Team ID' }}
-          renderValue={(selected) => selected || 'Team ID'}
-        >
-          <InputLabel htmlFor='teamID-select-label'>Team ID</InputLabel>
-          {teamIDs.map((team) => (
-            <MenuItem key={team} value={team}>
-              {team}
-            </MenuItem>
-          ))}
-        </Select>
-        <div className='div-centerstyle'>
-          <Button variant='contained' color='secondary' onClick={handleClick}>
+    <div className='div-rightstyle'>
+      <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+        <AddIcon />
+        Add Employee
+      </Button>
+      <Dialog open={open} onClose={handleClose} fullWidth>
+        <DialogTitle>Add employee</DialogTitle>
+        <DialogContent>
+          <form className='root' noValidate autoComplete='off'>
+            <TextField
+              id='outlined-basic'
+              label='Employee ID'
+              variant='outlined'
+              fullWidth
+              value={employeeID}
+              onChange={(e) => setEmployeeID(e.target.value)}
+              style={{ margin: '20px auto' }}
+            />
+            <TextField
+              id='outlined-basic'
+              label='Employee name'
+              variant='outlined'
+              fullWidth
+              value={employeeName}
+              onChange={(e) => setEmployeeName(e.target.value)}
+              style={{ margin: '20px auto' }}
+            />
+            <FormControl fullWidth style={{ margin: '20px auto' }}>
+              <InputLabel id='teamID-select-label'>Team ID</InputLabel>
+              <Select
+                id='teamID-select'
+                variant='outlined'
+                fullWidth
+                value={teamIDNo}
+                onChange={(e) => setTeamIDNo(e.target.value)}
+                inputProps={{ 'aria-label': 'Team ID' }}
+                renderValue={(selected) => selected || 'Team ID'}
+                label="Team ID"
+              >
+
+                {teamIDs.map((team) => (
+                  <MenuItem key={team} value={team}>
+                    {team}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              id='outlined-basic'
+              label='Designation'
+              variant='outlined'
+              fullWidth
+              value={designation}
+              onChange={(e) => setDesignation(e.target.value)}
+              style={{ margin: '20px auto' }}
+            />
+            <TextField
+              id='outlined-basic'
+              label='Contact No'
+              variant='outlined'
+              fullWidth
+              value={contactNo}
+              onChange={(e) => setContactNo(e.target.value)}
+              style={{ margin: '20px auto' }}
+            />
+            <TextField
+              id='outlined-basic'
+              label='Email'
+              variant='outlined'
+              fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{ margin: '20px auto' }}
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSubmit} variant="contained" color="secondary">
             Submit
           </Button>
-        </div>
-      </form>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

@@ -7,6 +7,8 @@ import { Check, Cancel } from '@mui/icons-material';
 import CustomGridToolbar from '../CommonComponents/CustomGridToolbar';
 import { Add as AddIcon } from '@mui/icons-material';
 import { fetchItems as fetchTeams, updateItem as updateTeam, deleteItem as deleteTeam, addItem as addTeam } from '../../service/apiService';
+import TeamAdd from './TeamAdd';
+import CustomGridToolbarNoAdd from '../CommonComponents/CustomGridToolbarNoAdd';
 
 export default function TeamTable({ refreshTable }) {
     const [teams, setTeams] = useState([]);
@@ -22,20 +24,21 @@ export default function TeamTable({ refreshTable }) {
     };
 
     useEffect(() => {
-        fetchData();
+        if(refreshTable)
+         fetchData();
     }, [refreshTable]);
 
-    const handleEdit = (teamID) => {
+    const handleEdit = (teamNo) => {
         setRowModes((prevRowModes) => ({
             ...prevRowModes,
-            [teamID]: { mode: GridRowModes.Edit },
+            [teamNo]: { mode: GridRowModes.Edit },
         }));
     };
 
-    const handleCancelEdit = (teamID) => {
+    const handleCancelEdit = (teamNo) => {
         setRowModes((prevRowModes) => ({
             ...prevRowModes,
-            [teamID]: { mode: GridRowModes.View },
+            [teamNo]: { mode: GridRowModes.View },
         }));
         fetchData();
     };
@@ -55,18 +58,18 @@ export default function TeamTable({ refreshTable }) {
         if (window.confirm('Edit Team Permanently?')) {
             await updateTeam('team', team);
             console.log('Edited team:', team);
-            alert(`Edited team: ${team.teamID}`);
+            alert(`Edited team: ${team.teamNo}`);
             fetchData();
             setRowModes((prevRowModes) => ({
                 ...prevRowModes,
-                [team.teamID]: { mode: GridRowModes.Edit },
+                [team.teamNo]: { mode: GridRowModes.View },
             }));
         }
     };
 
     const handleDelete = async (team) => {
         if (window.confirm('Delete Team?')) {
-            await deleteTeam('team', team.teamID);
+            await deleteTeam('team', team.teamNo);
             console.log('Delete team:', team);
             alert(`Deleting team: ${team.teamID}`);
             fetchData();
@@ -76,7 +79,7 @@ export default function TeamTable({ refreshTable }) {
 
     const renderActionsCell = (params) => {
         const { row } = params;
-        const { mode } = rowModes[row.teamID] || {};
+        const { mode } = rowModes[row.teamNo] || {};
 
         if (mode === GridRowModes.Edit) {
             return (
@@ -84,7 +87,7 @@ export default function TeamTable({ refreshTable }) {
                     <IconButton onClick={() => confirmEdit(row)}>
                         <Check />
                     </IconButton>
-                    <IconButton onClick={() => handleCancelEdit(row.teamID)}>
+                    <IconButton onClick={() => handleCancelEdit(row.teamNo)}>
                         <Cancel />
                     </IconButton>
                 </>
@@ -92,33 +95,13 @@ export default function TeamTable({ refreshTable }) {
         }
         return (
             <>
-                <IconButton onClick={() => handleEdit(row.teamID)}>
+                <IconButton onClick={() => handleEdit(row.teamNo)}>
                     <EditIcon />
                 </IconButton>
                 <IconButton onClick={() => handleDelete(row)}>
                     <DeleteIcon />
                 </IconButton>
             </>
-        );
-    };
-
-    const handleAddTeam = () => {
-        if (addNew) {
-            const id = "Team" + (teams.length + 1);
-            const newTeam = { teamID: id, teamName: 'Enter TeamName' };
-            setTeams((prevTeams) => [newTeam, ...prevTeams]);
-            setRowModes((prevRowModes) => ({
-                ...prevRowModes,
-                [newTeam.teamID]: { mode: GridRowModes.Edit, fieldToFocus: 'teamName' },
-            }));
-
-        }
-    }
-    const renderAddButton = () => {
-        return (
-            <Button variant='contained' onClick={() => { setAddNew(true); handleAddTeam(); }}>
-                <AddIcon />Add team
-            </Button>
         );
     };
 
@@ -135,11 +118,15 @@ export default function TeamTable({ refreshTable }) {
         },
     ];
 
+    useEffect(() => {
+         fetchData();
+    }, []);
+
     return (
         <DataGrid
             rows={teams}
             columns={columns}
-            getRowId={(row) => row.teamID}
+            getRowId={(row) => row.teamNo}
             rowModes={rowModes}
             onRowModeChange={(newRowModes) => setRowModes(newRowModes)}
             rowModels={rowModels}
@@ -157,10 +144,7 @@ export default function TeamTable({ refreshTable }) {
             density="comfortable"
             pageSize={5}
             slots={{
-                toolbar: () => <CustomGridToolbar RenderAddButton={renderAddButton} ></CustomGridToolbar>,
-            }}
-            slotProps={{
-                toolbar: { setRows: setTeams, setRowModes: setRowModes, renderAddButton: renderAddButton },
+                toolbar: CustomGridToolbarNoAdd
             }}
             onRowEditStop={(params, event) => {
                 if (params.reason === GridRowEditStopReasons.rowFocusOut) {

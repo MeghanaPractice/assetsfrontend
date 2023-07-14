@@ -1,58 +1,80 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
-import { Button } from '@mui/material';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { addItem as addTeam } from '../../service/apiService';
 
-export default function TeamAdd({ setRefreshTable }){
+export default function TeamAdd({ setRefreshTable }) {
+  const [open, setOpen] = useState(false);
   const [teamID, setTeamID] = useState('');
   const [teamName, setTeamName] = useState('');
-  
-  const handleClick = (e) => {
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     const team = { teamID, teamName };
     console.log(team);
-    addTeam('team',team)
+    addTeam('team', team)
       .then(() => {
         console.log('New team added');
         setTeamID('');
         setTeamName('');
         alert('Added team');
         setRefreshTable(true);
+        handleClose();
       })
       .catch((error) => {
         console.error('Error adding team:', error);
       });
+      setOpen(false);
+      setRefreshTable(true);
   };
 
   return (
-    <div className="div-centerstyle">
-      <h1>Add team</h1>
-      <form className="root" noValidate autoComplete="off">
-        <TextField
-          id="outlined-basic"
-          label="Team ID"
-          variant="outlined"
-          fullWidth
-          value={teamID}
-          onChange={(e) => setTeamID(e.target.value)}
-          style={{ margin: '20px auto' }}
-        />
-        <TextField
-          id="outlined-basic"
-          label="Team name"
-          variant="outlined"
-          fullWidth
-          value={teamName}
-          onChange={(e) => setTeamName(e.target.value)}
-          style={{ margin: '20px auto' }}
-        />
-        <div className="div-centerstyle">
-          <Button variant="contained" color="secondary" onClick={handleClick}>
+    <div className='div-rightstyle'>
+      <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+        <AddIcon/>
+        Add Team
+      </Button>
+      <Dialog open={open} onClose={handleClose} fullWidth>
+        <DialogTitle>Add Team</DialogTitle>
+        <DialogContent>
+          <form className="root" noValidate autoComplete="off">
+            <TextField
+              id="outlined-basic"
+              label="Team ID"
+              variant="outlined"
+              fullWidth
+              value={teamID}
+              onChange={(e) => setTeamID(e.target.value)}
+              style={{ margin: '20px auto' }}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Team name"
+              variant="outlined"
+              fullWidth
+              value={teamName}
+              onChange={(e) => setTeamName(e.target.value)}
+              style={{ margin: '20px auto' }}
+            />
+            
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSubmit} variant="contained" color="secondary">
             Submit
           </Button>
-        </div>
-      </form>
+        </DialogActions>
+      </Dialog>
     </div>
   );
-};
-
+}

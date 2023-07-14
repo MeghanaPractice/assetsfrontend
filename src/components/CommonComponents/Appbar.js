@@ -2,7 +2,7 @@ import { useState,React } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Button, Menu, MenuItem, Box, IconButton } from '@mui/material';
+import { Menu, MenuItem, Box, IconButton } from '@mui/material';
 import { useAuth0 } from '@auth0/auth0-react';
 import { AccountCircleRounded } from '@mui/icons-material';
 import Profile from './Profile';

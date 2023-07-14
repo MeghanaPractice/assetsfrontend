@@ -15,7 +15,7 @@ export const updateItem = async (modelName, item) => {
     try {
         let id;
         switch (modelName) {
-            case 'team': id = item.teamID; break;
+            case 'team': id = item.teamNo; break;
             case 'employee': id = item.personID; break;
             case 'deviceasset': id = item.deviceNo; break;
             case 'laptopasset': id = item.laptopNo; break;

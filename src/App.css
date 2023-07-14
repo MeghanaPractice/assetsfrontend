@@ -50,6 +50,11 @@ a {
   align-items: center;
 }
 
+.div-rightstyle {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: start;
+}
 .containerStyle {
   display: flex;
   align-items: center;

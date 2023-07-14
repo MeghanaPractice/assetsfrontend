@@ -26,20 +26,21 @@ export default function EmployeeTable({ refreshTable }) {
     };
 
     useEffect(() => {
-        fetchData();
+        if(refreshTable) 
+          fetchData();
     }, [refreshTable]);
 
-    const handleEdit = (employeeID) => {
+    const handleEdit = (personID) => {
         setRowModes((prevRowModes) => ({
             ...prevRowModes,
-            [employeeID]: { mode: GridRowModes.Edit },
+            [personID]: { mode: GridRowModes.Edit },
         }));
     };
 
-    const handleCancelEdit = (employeeID) => {
+    const handleCancelEdit = (personID) => {
         setRowModes((prevRowModes) => ({
             ...prevRowModes,
-            [employeeID]: { mode: GridRowModes.View },
+            [personID]: { mode: GridRowModes.View },
         }));
         fetchData();
     };
@@ -63,14 +64,14 @@ export default function EmployeeTable({ refreshTable }) {
             fetchData();
             setRowModes((prevRowModes) => ({
                 ...prevRowModes,
-                [employee.employeeID]: { mode: GridRowModes.View },
+                [employee.personID]: { mode: GridRowModes.View },
             }));
         }
     };
 
     const handleDelete = async (employee) => {
         if (window.confirm('Delete Employee?')) {
-            await deleteEmployee('employee', employee.employeeID);
+            await deleteEmployee('employee', employee.personID);
             console.log('Delete employee:', employee);
             alert(`Deleting employee: ${employee.employeeID}`);
             fetchData();
@@ -79,7 +80,7 @@ export default function EmployeeTable({ refreshTable }) {
 
     const renderActionsCell = (params) => {
         const { row } = params;
-        const { mode } = rowModes[row.employeeID] || {};
+        const { mode } = rowModes[row.personID] || {};
 
         if (mode === GridRowModes.Edit) {
             return (
@@ -87,7 +88,7 @@ export default function EmployeeTable({ refreshTable }) {
                     <IconButton onClick={() => confirmEdit(row)}>
                         <Check />
                     </IconButton>
-                    <IconButton onClick={() => handleCancelEdit(row.employeeID)}>
+                    <IconButton onClick={() => handleCancelEdit(row.personID)}>
                         <Cancel />
                     </IconButton>
                 </>
@@ -96,7 +97,7 @@ export default function EmployeeTable({ refreshTable }) {
 
         return (
             <>
-                <IconButton onClick={() => handleEdit(row.employeeID)}>
+                <IconButton onClick={() => handleEdit(row.personID)}>
                     <EditIcon />
                 </IconButton>
                 <IconButton onClick={() => handleDelete(row)}>
@@ -113,7 +114,7 @@ export default function EmployeeTable({ refreshTable }) {
             setEmployees((prevEmployees) => [newEmployee, ...prevEmployees]);
             setRowModes((prevRowModes) => ({
                 ...prevRowModes,
-                [newEmployee.employeeID]: { mode: GridRowModes.Edit, fieldToFocus: 'employeeName' }
+                [newEmployee.personID]: { mode: GridRowModes.Edit, fieldToFocus: 'employeeName' }
             }));
         }
     };
@@ -148,7 +149,9 @@ export default function EmployeeTable({ refreshTable }) {
                 />
             ),
         },
-
+        {field: 'designation', headerName: 'Designation', editable: true, flex: 1 },
+        {field: 'contactNo', headerName: 'Contact No', editable: true, flex: 1 },
+        {field: 'email', headerName: 'Email', editable: true, flex: 1 },
         {
             field: 'actions',
             headerName: 'Actions',
@@ -158,12 +161,17 @@ export default function EmployeeTable({ refreshTable }) {
             renderCell: renderActionsCell,
         },
     ];
+    
+    useEffect(()=>{
+        fetchData();
+
+    },[])
 
     return (
         <DataGrid
             rows={employees}
             columns={columns}
-            getRowId={(row) => row.employeeID}
+            getRowId={(row) => row.personID}
             rowModes={rowModes}
             onRowModeChange={(newRowModes) => setRowModes(newRowModes)}
             rowModels={rowModels}
@@ -180,7 +188,6 @@ export default function EmployeeTable({ refreshTable }) {
                 },
             }}
             density="comfortable"
-            pageSize={5}
             slots={{
                 toolbar: () => (
                     <CustomGridToolbar RenderAddButton={renderAddButton} />
@@ -197,10 +204,17 @@ export default function EmployeeTable({ refreshTable }) {
             processRowUpdate={(newRow) => {
                 const updatedRow = { ...newRow, isNew: false };
                 setEmployees((prevEmployees) =>
-                    prevEmployees.map((emp) => (emp.employeeID === newRow.employeeID ? updatedRow : emp))
+                    prevEmployees.map((emp) => (emp.personID === newRow.personID ? updatedRow : emp))
                 );
                 return updatedRow;
             }}
+            initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 5 },
+                },
+              }}
+              pageSizeOptions={[5, 10, 15, 20, 100]}
+        
         />
     );
 }

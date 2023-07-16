@@ -9,6 +9,7 @@ import DeviceAsset from './pages/deviceAsset';
 import LaptopAsset from './pages/laptopAsset';
 import LoginButton from './components/CommonComponents/login';
 import PrivateRoute from './components/CommonComponents/PrivateRoute';
+import Footer from './components/CommonComponents/Footer';
 function App() {
   return (
     <Router>
@@ -16,11 +17,12 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<LoginButton></LoginButton>} />
-        <Route path='/team' element={<PrivateRoute><Team/></PrivateRoute>} />
+        <Route path='/team' element={<PrivateRoute><Team /></PrivateRoute>} />
         <Route path='/employee' element={<PrivateRoute><Employee /></PrivateRoute>} />
         <Route path='/deviceasset' element={<PrivateRoute><DeviceAsset /></PrivateRoute>} />
         <Route path='/laptopasset' element={<PrivateRoute><LaptopAsset /></PrivateRoute>} />
       </Routes>
+      <Footer />
     </Router>
   );
 }

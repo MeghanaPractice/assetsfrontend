@@ -16,25 +16,12 @@ export default function DeviceAsset() {
         handleRefreshTable();
       },[refreshTable])
 
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const handleAccordionToggle = () => {
-        setIsExpanded(!isExpanded);
-    };
-
     return (
         <TeamProvider>
             <Container className='containerStyle'>
-                <Paper elevation={3} className='paperStyle1'>
-                    <Accordion expanded={isExpanded} onChange={handleAccordionToggle} style={{ backgroundcolor: 'teal' }}>
-                        <AccordionSummary style={{ backgroundColor: 'teal' }} expandIcon={<ExpandMore />} aria-controls="panel-content" id="panel-header">
-                            <h1>Add</h1>
-                        </AccordionSummary>
-                        <DeviceAssetAdd refreshTable={refreshTable} setRefreshTable={handleRefreshTable} />
-                    </Accordion>
-                </Paper>
                 <Paper elevation={3} className='paperStyle2'>
                     <h1>Device Asset</h1>
+                    <DeviceAssetAdd refreshTable={refreshTable} setRefreshTable={handleRefreshTable}/>
                     <DeviceAssetTable refreshTable={refreshTable} />
                 </Paper>
             </Container >

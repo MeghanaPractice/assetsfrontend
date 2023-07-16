@@ -67,4 +67,39 @@ export const fetchEmp = async (teamID) => {
         console.error(`Error finding employees`, error);
         return [];
     }
+    
 }
+
+export const fetchEmployeesAssigned = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/employee/getAll`);
+      const employees = await response.json();
+      const employeesWithDevices = await Promise.all(
+        employees.map(async (employee) => {
+          const devicesResponse = await fetch(
+            `${BASE_URL}/employee/getdevices/${employee.employeeID}`
+          );
+          const devices = await devicesResponse.json();
+          const deviceNames = devices.map((device)=> device.modelName)
+          return { ...employee, deviceNames };
+        })
+      );
+ 
+      const employeesWithDevicesAndLaptops = await Promise.all(
+        employeesWithDevices.map(async (employee) => {
+          const laptopsResponse = await fetch(
+            `${BASE_URL}/employee/getlaptops/${employee.employeeID}`
+          );
+          const laptops = await laptopsResponse.json();
+          const laptopNames = laptops.map((laptop)=> laptop.modelName)
+          return { ...employee, laptopNames };
+        })
+      );
+  
+      return employeesWithDevicesAndLaptops;
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+      return [];
+    }
+  };
+  

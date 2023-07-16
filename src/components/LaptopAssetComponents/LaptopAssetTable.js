@@ -1,114 +1,26 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { DataGrid, GridActionsCellItem, GridRowEditStopReasons, useGridApiRef, GridRowModes, GridRowModel } from '@mui/x-data-grid';
-import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { Check, Cancel } from '@mui/icons-material';
+import React, { useState, useContext } from 'react';
+import {useGridApiRef} from '@mui/x-data-grid';
 import PurchaseDateCell from '../CommonComponents/PurchaseDateCell';
 import TeamSelectCell from '../CommonComponents/TeamSelectCell';
 import EmployeeSelectCell from '../CommonComponents/EmployeeSelectCell';
 import { TeamContext } from '../../context/TeamContext';
-import CustomGridToolbarNoAdd from '../CommonComponents/CustomGridToolbarNoAdd';
-import { fetchItems as fetchLaptopAssets, updateItem as updateLaptopAsset, deleteItem as deleteLaptopAsset } from '../../service/apiService';
+import TableComponent from '../CommonComponents/TableComponent';
 import dayjs from 'dayjs';
 
 export default function LaptopAssetTable({ refreshTable }) {
-  const [laptopAssets, setLaptopAssets] = useState([]);
-  const [addNew, setAddNew] = useState(false);
-  const [rowModes, setRowModes] = useState({});
-  const [rowModels, setRowModels] = useState({});
   const { teamIDs } = useContext(TeamContext);
   const apiRef = useGridApiRef();
-
-  const fetchLaptopAssetsData = () => {
-    fetchLaptopAssets('laptopasset')
-      .then((result) => {
-        setLaptopAssets(result);
-      });
-  };
-
-  useEffect(() => {
-    if (refreshTable) {
-      fetchLaptopAssetsData();
-    }
-  }, [refreshTable]);
-
-  const handleEdit = (laptopNo) => {
-    setRowModes((prevRowModes) => ({
-      ...prevRowModes,
-      [laptopNo]: { mode: GridRowModes.Edit },
-    }));
-  };
-
-  const handleCancelEdit = (laptopNo) => {
-    setRowModes((prevRowModes) => ({
-      ...prevRowModes,
-      [laptopNo]: { mode: GridRowModes.View },
-    }));
-    fetchLaptopAssetsData();
-  };
-
-  const confirmEdit = async (laptopAsset) => {
-    if (window.confirm('Edit Laptop Asset Permanently?')) {
-      await updateLaptopAsset('laptopasset', laptopAsset);
-      console.log('Edited Laptop Asset:', laptopAsset);
-      alert(`Edited Laptop Asset: ${laptopAsset.laptopNo}`);
-      fetchLaptopAssetsData();
-      setRowModes((prevRowModes) => ({
-        ...prevRowModes,
-        [laptopAsset.laptopNo]: { mode: GridRowModes.View },
-      }));
-    }
-  };
-
-  const handleDelete = async (laptopAsset) => {
-    if (window.confirm('Delete Laptop Asset?')) {
-      await deleteLaptopAsset('laptopasset', laptopAsset.laptopNo);
-      console.log('Delete Laptop Asset:', laptopAsset);
-      alert(`Deleting Laptop Asset: ${laptopAsset.laptopAssetID}`);
-      fetchLaptopAssetsData();
-    }
-  };
-
-  const renderActionsCell = (params) => {
-    const { row } = params;
-    const { mode } = rowModes[row.laptopNo] || {};
-
-    if (mode === GridRowModes.Edit) {
-      return (
-        <>
-          <IconButton onClick={() => confirmEdit(row)}>
-            <Check />
-          </IconButton>
-          <IconButton onClick={() => handleCancelEdit(row.laptopNo)}>
-            <Cancel />
-          </IconButton>
-        </>
-      );
-    }
-
-    return (
-      <>
-        <IconButton onClick={() => handleEdit(row.laptopNo)}>
-          <EditIcon />
-        </IconButton>
-        <IconButton onClick={() => handleDelete(row)}>
-          <DeleteIcon />
-        </IconButton>
-      </>
-    );
-  };
-
   const columns = [
-    { field: 'brand', headerName: 'Brand', editable: true },
-    { field: 'laptopAssetID', headerName: 'Laptop Asset ID', editable: true},
-    { field: 'modelName', headerName: 'Model Name', editable: true },
-    { field: 'modelNo', headerName: 'Model No', editable: true },
-    { field: 'serialNo', headerName: 'Serial No', editable: true },
+    { field: 'brand', headerName: 'Brand', editable: true, width: 150 },
+    { field: 'laptopAssetID', headerName: 'Laptop Asset ID', editable: true, width: 150},
+    { field: 'modelName', headerName: 'Model Name', editable: true, width: 150 },
+    { field: 'modelNo', headerName: 'Model No', editable: true, width: 150 },
+    { field: 'serialNo', headerName: 'Serial No', editable: true, width: 150 },
     {
       field: 'team_ID',
       headerName: 'Team ID',
       editable: true,
+      width: 150,
       renderEditCell: (params) => (
         <TeamSelectCell
           id={params.id}
@@ -124,6 +36,7 @@ export default function LaptopAssetTable({ refreshTable }) {
       field: 'empID',
       headerName: 'Employee ID',
       editable: true,
+      width: 150, 
       renderEditCell: (params) => (
         <EmployeeSelectCell
           id={params.id}
@@ -139,6 +52,7 @@ export default function LaptopAssetTable({ refreshTable }) {
       field: 'purchaseDate',
       headerName: 'Purchase Date',
       editable: true,
+      width: 150,
       renderEditCell: (params) => (
         <PurchaseDateCell
           id={params.id}
@@ -149,68 +63,29 @@ export default function LaptopAssetTable({ refreshTable }) {
         />
       ),
     },
-    { field: 'screenSize', headerName: 'Screen Size', editable: true },
-    { field: 'charlesID', headerName: 'Charles ID', editable: true },
-    { field: 'charlesKey', headerName: 'Charles Key', editable: true },
-    { field: 'msofficeKey', headerName: 'MS Office Key', editable: true },
-    { field: 'msofficeUsername', headerName: 'MS Office Username', editable: true },
-    { field: 'msofficePassword', headerName: 'MS Office Password', editable: true },
-    { field: 'wlanmac', headerName: 'WLAN MAC', editable: true },
-    { field: 'ethernetMAC', headerName: 'Ethernet MAC', editable: true },
-    { field: 'accessories', headerName: 'Accessories', editable: true },
-    { field: 'warranty', headerName: 'Warranty', editable: true },
-    { field: 'additionalItems', headerName: 'Additional Items', editable: true },
-    { field: 'otherDetails', headerName: 'Other Details', editable: true },
-    { field: 'actions', headerName: 'Actions', sortable: false, filterable: false, renderCell: renderActionsCell },
+    { field: 'screenSize', headerName: 'Screen Size', editable: true , width: 150 },
+    { field: 'charlesID', headerName: 'Charles ID', editable: true , width: 150 },
+    { field: 'charlesKey', headerName: 'Charles Key', editable: true , width: 150 },
+    { field: 'msofficeKey', headerName: 'MS Office Key', editable: true , width: 150 },
+    { field: 'msofficeUsername', headerName: 'MS Office Username', editable: true , width: 150 },
+    { field: 'msofficePassword', headerName: 'MS Office Password', editable: true , width: 150 },
+    { field: 'wlanmac', headerName: 'WLAN MAC', editable: true , width: 150 },
+    { field: 'ethernetMAC', headerName: 'Ethernet MAC', editable: true , width: 150 },
+    { field: 'accessories', headerName: 'Accessories', editable: true , width: 150 },
+    { field: 'warranty', headerName: 'Warranty', editable: true , width: 150 },
+    { field: 'additionalItems', headerName: 'Additional Items', editable: true , width: 150 },
+    { field: 'otherDetails', headerName: 'Other Details', editable: true , width: 150 },
   ];
 
-  useEffect(() => {
-    fetchLaptopAssetsData();
-  }, []);
-
+  const itemName = 'laptopasset';
+  const itemID = 'laptopNo';
   return (
-    <DataGrid
-      rows={laptopAssets}
+    <TableComponent
+      refreshTable={refreshTable}
+      itemID={itemID}
+      itemName={itemName}
       columns={columns}
-      getRowId={(row) => row.laptopNo}
-      rowModes={rowModes}
-      onRowModeChange={setRowModes}
-      rowModels={rowModels}
-      onRowModelChange={setRowModels}
       apiRef={apiRef}
-      sx={{
-        display: 'flex',
-        boxShadow: 2,
-        padding: '2%',
-        '& .MuiDataGrid-cell:hover': {
-          color: 'primary.main',
-        },
-        '& .MuiDataGrid-columnHeader': {
-          color: 'white',
-          backgroundColor: 'teal',
-        },
-      }}
-      density="comfortable"
-      slots={{ toolbar: CustomGridToolbarNoAdd }}
-      onRowEditStop={(params, event) => {
-        if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-          event.defaultMuiPrevented = true;
-        }
-      }}
-      processRowUpdate={(newRow) => {
-        const updatedRow = { ...newRow, isNew: false };
-        setLaptopAssets((prevLaptopAssets) =>
-          prevLaptopAssets.map((laptopAsset) => (laptopAsset.laptopNo === newRow.laptopNo ? updatedRow : laptopAsset))
-        );
-        return updatedRow;
-      }}
-      initialState={{
-        pagination: {
-          paginationModel: { page: 0, pageSize: 5 },
-        },
-        
-      }}
-      pageSizeOptions={[5, 10, 15, 20,100]}
     />
   );
 }

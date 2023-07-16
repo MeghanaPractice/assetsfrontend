@@ -14,35 +14,10 @@ export default function Employee() {
     handleRefreshTable();
   }, [refreshTable])
 
-  const containerStyle = {
-    display: 'flex',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    margin: '10px',
-    height: '100%',
-    width: '100%',
-    maxWidth: '1500px'
-  };
-
-  const paperStyle1 = {
-    padding: '20px 20px',
-    width: '100%',
-    height: '25%',
-    marginRight: '25px',
-    flex: 1
-  };
-  
-  const paperStyle2 = {
-    padding: '20px',
-    width: '100%',
-    height: '100%',
-    flex: 5
-  };
-
   return (
     <TeamProvider>
-      <Container style={containerStyle}>
-        <Paper elevation={3} style={paperStyle2}>
+      <Container className='containerStyle'>
+        <Paper elevation={3} className='paperStyle2'>
           <h1>Employee</h1>
           <EmployeeAdd setRefreshTable={setRefreshTable}></EmployeeAdd>
           <EmployeeTable2 refreshTable={refreshTable} />

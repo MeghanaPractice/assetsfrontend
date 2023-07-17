@@ -21,17 +21,17 @@ export default function Appbar() {
 
   if (isAuthenticated) {
     return (
-      <AppBar position='relative' style={{ backgroundColor: 'white', marginBottom: '20px', marginTop: '0px' }} >
+      <AppBar position='relative' >
         <Toolbar>
           <div style={{ textAlign: 'left', flex: 2 }}>
             <a href='/'>
               <img src='https://beqisoft.netlify.app/static/media/logo.2b9cdc650085bb26e80a.png' alt='BQ' height='50px' width='200px' />
             </a>
           </div>
-          <Typography variant='h7' align='right' style={{ textAlign: 'right', padding: '10px', color: 'black' }} component={Link} to='/team'>Team</Typography>
-          <Typography variant='h7' align='right' style={{ textAlign: 'right', padding: '10px', color: 'black' }} component={Link} to='/employee'>Employee</Typography>
-          <Typography variant='h7' align='right' style={{ textAlign: 'right', padding: '10px', color: 'black' }} component={Link} to='/deviceasset'>Device Asset</Typography>
-          <Typography variant='h7' align='right' style={{ textAlign: 'right', padding: '10px', color: 'black' }} component={Link} to='/laptopasset'>Laptop Asset</Typography>
+          <Typography variant='h7' align='right' component={Link} to='/team'>Team</Typography>
+          <Typography variant='h7' align='right' component={Link} to='/employee'>Employee</Typography>
+          <Typography variant='h7' align='right' component={Link} to='/deviceasset'>Device Asset</Typography>
+          <Typography variant='h7' align='right' component={Link} to='/laptopasset'>Laptop Asset</Typography>
           <Box>
             <div>
               <IconButton onClick={handleProfileClick}><AccountCircleRounded /></IconButton>

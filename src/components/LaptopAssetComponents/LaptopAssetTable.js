@@ -69,8 +69,6 @@ export default function LaptopAssetTable({ refreshTable }) {
     { field: 'msofficeKey', headerName: 'MS Office Key', editable: true , width: 150 },
     { field: 'msofficeUsername', headerName: 'MS Office Username', editable: true , width: 150 },
     { field: 'msofficePassword', headerName: 'MS Office Password', editable: true , width: 150 },
-    { field: 'wlanmac', headerName: 'WLAN MAC', editable: true , width: 150 },
-    { field: 'ethernetMAC', headerName: 'Ethernet MAC', editable: true , width: 150 },
     { field: 'accessories', headerName: 'Accessories', editable: true , width: 150 },
     { field: 'warranty', headerName: 'Warranty', editable: true , width: 150 },
     { field: 'additionalItems', headerName: 'Additional Items', editable: true , width: 150 },

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Paper } from '@mui/material';
 import DeviceAssetTable from '../components/DeviceAssetComponenets/DeviceAssetTable';
 import { Accordion, AccordionSummary } from '@mui/material';
@@ -12,16 +12,18 @@ export default function DeviceAsset() {
         setRefreshTable(newState);
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         handleRefreshTable();
-      },[refreshTable])
+    }, [refreshTable])
 
     return (
         <TeamProvider>
             <Container className='containerStyle'>
                 <Paper elevation={3} className='paperStyle2'>
-                    <h1>Device Asset</h1>
-                    <DeviceAssetAdd refreshTable={refreshTable} setRefreshTable={handleRefreshTable}/>
+                    <div className='div-spaceToSides'>
+                        <h1>Device Asset</h1>
+                        <DeviceAssetAdd refreshTable={refreshTable} setRefreshTable={handleRefreshTable} />
+                    </div>
                     <DeviceAssetTable refreshTable={refreshTable} />
                 </Paper>
             </Container >

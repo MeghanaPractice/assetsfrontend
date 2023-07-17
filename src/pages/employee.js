@@ -18,8 +18,10 @@ export default function Employee() {
     <TeamProvider>
       <Container className='containerStyle'>
         <Paper elevation={3} className='paperStyle2'>
-          <h1>Employee</h1>
-          <EmployeeAdd setRefreshTable={setRefreshTable}></EmployeeAdd>
+          <div className='div-spaceToSides'>
+            <h1>Employee</h1>
+            <EmployeeAdd setRefreshTable={setRefreshTable}></EmployeeAdd>
+          </div>
           <EmployeeTable2 refreshTable={refreshTable} />
         </Paper>
       </Container>

@@ -34,6 +34,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
 .App-link {
   color: #61dafb;
 }
@@ -57,6 +58,7 @@ body {
   margin: 0;
   padding: 0;
 }
+
 .div-centerstyle {
   display: flex;
   flex-direction: column;
@@ -68,6 +70,13 @@ body {
   display: flex;
   flex-direction: row-reverse;
   align-items: start;
+}
+
+.div-spaceToSides {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .containerStyle {
@@ -102,3 +111,13 @@ body {
   background-color: #dde5eb;
 }
 
+.button-gradient {
+  background: linear-gradient(125.59deg, #0094DE 0.66%, #017F01 );
+  outline: green;
+}
+
+.button-outlined {
+  color: green;
+  background: white;
+  outline: green;
+}

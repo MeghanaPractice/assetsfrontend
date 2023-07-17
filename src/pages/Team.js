@@ -23,7 +23,7 @@ export default function Team() {
     width: '100%',
     maxWidth: '1500px'
   };
-  
+
   const paperStyle2 = {
     padding: '20px',
     width: '100%',
@@ -32,10 +32,12 @@ export default function Team() {
   };
 
   return (
-    <Container style={containerStyle}>
-      <Paper elevation={3} style={paperStyle2}>
-        <h1>Teams</h1>
-        <TeamAdd setRefreshTable={setRefreshTable}></TeamAdd>
+    <Container className='containerStyle'>
+      <Paper elevation={3} className='paperStyle2'>
+        <div className='div-spaceToSides'>
+          <h1>Teams</h1>
+          <TeamAdd setRefreshTable={setRefreshTable}></TeamAdd>
+        </div>
         <TeamTable2 refreshTable={refreshTable} />
       </Paper>
     </Container>

@@ -120,7 +120,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         },
         '& .MuiDataGrid-columnHeader': {
           color: 'white',
-          backgroundColor: 'teal',
+          backgroundColor: 'secondary.main',
         },
       }}
       density="comfortable"

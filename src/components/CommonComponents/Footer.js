@@ -4,7 +4,7 @@ export default function Footer(){
   return (
     <footer
       style={{
-        backgroundColor: 'teal',
+        backgroundColor: '#0091BE',
         textAlign: 'center',
         position: 'static',
         left: 0,

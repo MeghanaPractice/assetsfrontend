@@ -63,8 +63,6 @@ export default function DeviceAssetTable({ refreshTable }) {
         />
       ),
     },
-    { field: 'contactNo1', headerName: 'Contact No 1', editable: true, width: 150 },
-    { field: 'contactNo2', headerName: 'Contact No 2', editable: true, width: 150 },
     { field: 'imeiCode', headerName: 'IMEI Code', editable: true, width: 150 },
     { field: 'serialNo', headerName: 'Serial No', editable: true, width: 150 },
     { field: 'accessories', headerName: 'Accessories', editable: true, width: 150 },

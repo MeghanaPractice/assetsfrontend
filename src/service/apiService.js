@@ -95,8 +95,7 @@ export const fetchEmployeesAssigned = async () => {
           return { ...employee, laptopNames };
         })
       );
-  
-      return employeesWithDevicesAndLaptops;
+     return employeesWithDevicesAndLaptops;
     } catch (error) {
       console.error("Error fetching employees:", error);
       return [];

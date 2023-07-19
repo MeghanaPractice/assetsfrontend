@@ -39,7 +39,7 @@ export default function TeamAdd({ setRefreshTable }) {
 
   return (
     <div className='div-rightstyle'>
-      <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+      <Button variant="contained" className='button-gradient' onClick={handleClickOpen}>
         <AddIcon/>
         Add Team
       </Button>

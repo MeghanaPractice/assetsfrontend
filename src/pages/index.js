@@ -17,10 +17,8 @@ export default function Home() {
             <>
             <TeamProvider>
             <Container className='containerStyle2'>
-                    <Card className='paperStyle2'>
                       <LandingPageCharts/>
-                    </Card>
-                </Container>
+            </Container>
                 <Container className='containerStyle'>
                     <Paper className='paperStyle2'>
                         <h1>Employee Device Assignments</h1>

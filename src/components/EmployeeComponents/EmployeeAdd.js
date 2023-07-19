@@ -51,7 +51,7 @@ export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
 
   return (
     <div className='div-rightstyle'>
-      <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+      <Button variant="contained" className='button-gradient' onClick={handleClickOpen}>
         <AddIcon />
         Add Employee
       </Button>

@@ -4,6 +4,6 @@ import { Button } from "@mui/material";
 export default function LoginButton() 
 {
     const { loginWithRedirect } = useAuth0();
-    return <Button variant='outlined' onClick={() => loginWithRedirect()}>Log In</Button>;
+    return <Button variant='contained' className="button-gradient" onClick={() => loginWithRedirect()}>Log In</Button>;
 };
 

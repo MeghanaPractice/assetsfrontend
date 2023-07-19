@@ -19,7 +19,7 @@ export default function Profile(){
         <Avatar src={user.picture} alt={user.name}></Avatar>
         <p>{user.name}</p>
         <p>{user.email}</p>
-        <Button variant="outlined" onClick={() => logout({ logoutParams: { returnTo: 'http://127.0.0.1:3000' } })}>Logout</Button>
+        <Button variant="contained" className="button-gradient" onClick={() => logout({ logoutParams: { returnTo: 'http://127.0.0.1:3000' } })}>Logout</Button>
       </div>
     )
   );

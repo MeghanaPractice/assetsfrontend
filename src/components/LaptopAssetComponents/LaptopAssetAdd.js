@@ -103,7 +103,7 @@ export default function LaptopAssetAdd({ refreshTable, setRefreshTable }) {
     return (
         <div>
             <Button variant="contained"
-                className='button-outlined'
+                className='button-gradient'
                 onClick={handleClickOpen}>
                 <AddIcon />Add Laptop Asset
             </Button>

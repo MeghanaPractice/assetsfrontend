@@ -2,14 +2,13 @@ import { useState, React } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Menu, MenuItem, Box, IconButton } from '@mui/material';
+import { Menu, MenuItem, Box, IconButton, Avatar } from '@mui/material';
 import { useAuth0 } from '@auth0/auth0-react';
-import { AccountCircleRounded } from '@mui/icons-material';
 import Profile from './Profile';
 import { Link } from 'react-router-dom';
 export default function Appbar() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated,user } = useAuth0();
 
   const handleProfileClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -21,20 +20,20 @@ export default function Appbar() {
 
   if (isAuthenticated) {
     return (
-      <AppBar position='relative' >
+      <AppBar position='relative' elevation={0}>
         <Toolbar>
           <div style={{ textAlign: 'left', flex: 2 }}>
             <a href='/'>
-              <img src='https://beqisoft.netlify.app/static/media/logo.2b9cdc650085bb26e80a.png' alt='BQ' height='50px' width='200px' />
+              <img src='https://beqisoft.netlify.app/static/media/logo.2b9cdc650085bb26e80a.png' alt='BQ' height='34px' width='120px' />
             </a>
           </div>
-          <Typography variant='h7' align='right' component={Link} to='/team'>Team</Typography>
-          <Typography variant='h7' align='right' component={Link} to='/employee'>Employee</Typography>
-          <Typography variant='h7' align='right' component={Link} to='/deviceasset'>Device Asset</Typography>
-          <Typography variant='h7' align='right' component={Link} to='/laptopasset'>Laptop Asset</Typography>
+          <Typography variant='h9' component={Link} to='/team'>Team</Typography>
+          <Typography variant='h9' component={Link} to='/employee'>Employee</Typography>
+          <Typography variant='h9' component={Link} to='/deviceasset'>Device Asset</Typography>
+          <Typography variant='h9' component={Link} to='/laptopasset'>Laptop Asset</Typography>
           <Box>
             <div>
-              <IconButton onClick={handleProfileClick}><AccountCircleRounded /></IconButton>
+              <IconButton onClick={handleProfileClick}><Avatar src={user.picture} alt={user.name} /></IconButton>
               <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleProfileClose}>
                 <MenuItem onClick={handleProfileClose}><Profile /></MenuItem>
               </Menu>
@@ -46,10 +45,10 @@ export default function Appbar() {
   }
   else {
     return (
-      <AppBar position='sticky' style={{ backgroundColor: 'white', marginBottom: '20px', marginTop: '0px' }}>
+      <AppBar elevation={0} position='sticky'>
         <Toolbar>
           <a href='/'>
-            <img src='https://beqisoft.netlify.app/static/media/logo.2b9cdc650085bb26e80a.png' alt='BQ' height='50px' width='200px' />
+            <img src='https://beqisoft.netlify.app/static/media/logo.2b9cdc650085bb26e80a.png' alt='BQ' height='34px' width='120px'  />
           </a>
         </Toolbar>
       </AppBar>

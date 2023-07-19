@@ -36,7 +36,21 @@ export const theme = createTheme({
         root: {
           padding: '10px',
           color: 'black',
+          fontFamily: 'Roboto,sans-serif',
         },
+        h9:
+        {
+          align: 'right',
+          fontSize: '0.9rem',
+          fontWeight: '550' ,
+          margin: '20px',
+          lineHeight: '0.8',
+          '&:hover': {
+            color: 'green'
+          },
+          
+        }
+        
       },
     },
     MuiIconButton: {
@@ -60,5 +74,6 @@ export const theme = createTheme({
         },
       },
     },
+    
   },
 });

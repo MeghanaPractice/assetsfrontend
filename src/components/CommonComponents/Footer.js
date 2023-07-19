@@ -6,9 +6,9 @@ export default function Footer(){
       style={{
         backgroundColor: '#0091BE',
         textAlign: 'center',
-        position: 'static',
+        position: 'relative',
         left: 0,
-        bottom: 0,
+        bottom: -100,
         width: '100%',
         padding: '10px 0',
         color: 'white',

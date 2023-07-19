@@ -107,7 +107,7 @@ body {
   margin: 10px;
   height: 100%;
   width: 100%;
-  max-width: 1500px;
+  max-width: 1000px;
   min-width: 400px;
   padding: 1%;
   background-color: #e5f4fc;
@@ -142,5 +142,6 @@ body {
 .button-outlined {
   color: green;
   background: white;
+  border: 5px solid green;
   outline: green;
 }

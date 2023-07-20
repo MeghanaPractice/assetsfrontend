@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Paper } from '@mui/material';
 import TeamTable2 from '../components/TeamComponenets/TeamTable2';
 import TeamAdd from '../components/TeamComponenets/TeamAdd'
+import TeamImport from '../components/TeamComponenets/TeamImport';
 export default function Team() {
   const [refreshTable, setRefreshTable] = useState(false)
   const [addNew, setAddNew] = useState(false)
@@ -37,6 +38,7 @@ export default function Team() {
         <div className='div-spaceToSides'>
           <h1>Teams</h1>
           <TeamAdd setRefreshTable={setRefreshTable}></TeamAdd>
+          <TeamImport/>
         </div>
         <TeamTable2 refreshTable={refreshTable} />
       </Paper>

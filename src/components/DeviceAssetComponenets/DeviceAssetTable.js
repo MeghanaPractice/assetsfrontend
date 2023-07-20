@@ -14,7 +14,7 @@ export default function DeviceAssetTable({ refreshTable }) {
     { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: true, width: 150 },
     { field: 'brand', headerName: 'Brand', editable: true, width: 150 },
     { field: 'codeRef2', headerName: 'Code Ref 2', editable: true, width: 150 },
-    { field: 'modelName', headerName: 'Model Name', editable: true, width: 150 },
+    { field: 'modelName', headerName: 'Model Name', editable: true, width: 300 },
     { field: 'category', headerName: 'Category', editable: true, width: 150 },
     {
       field: 'purchaseDate',
@@ -65,8 +65,8 @@ export default function DeviceAssetTable({ refreshTable }) {
     },
     { field: 'imeiCode', headerName: 'IMEI Code', editable: true, width: 150 },
     { field: 'serialNo', headerName: 'Serial No', editable: true, width: 150 },
-    { field: 'accessories', headerName: 'Accessories', editable: true, width: 150 },
-    { field: 'additionalInfo', headerName: 'Additional Info', editable: true, width: 150 },
+    { field: 'accessories', headerName: 'Accessories', editable: true, width: 300 },
+    { field: 'additionalInfo', headerName: 'Additional Info', editable: true, width: 300 },
   ];
   const itemName = 'deviceasset';
   const itemID = 'deviceNo';

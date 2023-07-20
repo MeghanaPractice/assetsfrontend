@@ -111,7 +111,6 @@ export default function LaptopAssetAdd({ refreshTable, setRefreshTable }) {
                 <DialogTitle>Add Laptop Asset</DialogTitle>
                 <DialogContent>
                     <div className='div-centerstyle' style={{ padding: '20px' }}>
-                        <h1>Add Laptop Asset</h1>
                         <form className="root" noValidate autoComplete="off">
                             <TextField
                                 id="startingID-input"

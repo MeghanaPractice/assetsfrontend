@@ -13,7 +13,7 @@ export default function LaptopAssetTable({ refreshTable }) {
   const columns = [
     { field: 'brand', headerName: 'Brand', editable: true, width: 150 },
     { field: 'laptopAssetID', headerName: 'Laptop Asset ID', editable: true, width: 150},
-    { field: 'modelName', headerName: 'Model Name', editable: true, width: 150 },
+    { field: 'modelName', headerName: 'Model Name', editable: true, width: 300 },
     { field: 'modelNo', headerName: 'Model No', editable: true, width: 150 },
     { field: 'serialNo', headerName: 'Serial No', editable: true, width: 150 },
     {
@@ -64,15 +64,15 @@ export default function LaptopAssetTable({ refreshTable }) {
       ),
     },
     { field: 'screenSize', headerName: 'Screen Size', editable: true , width: 150 },
-    { field: 'charlesID', headerName: 'Charles ID', editable: true , width: 150 },
-    { field: 'charlesKey', headerName: 'Charles Key', editable: true , width: 150 },
-    { field: 'msofficeKey', headerName: 'MS Office Key', editable: true , width: 150 },
-    { field: 'msofficeUsername', headerName: 'MS Office Username', editable: true , width: 150 },
-    { field: 'msofficePassword', headerName: 'MS Office Password', editable: true , width: 150 },
-    { field: 'accessories', headerName: 'Accessories', editable: true , width: 150 },
+    { field: 'charlesID', headerName: 'Charles ID', editable: true , width: 400 },
+    { field: 'charlesKey', headerName: 'Charles Key', editable: true , width: 300 },
+    { field: 'msofficeKey', headerName: 'MS Office Key', editable: true , width: 300 },
+    { field: 'msofficeUsername', headerName: 'MS Office Username', editable: true , width: 300 },
+    { field: 'msofficePassword', headerName: 'MS Office Password', editable: true , width: 300 },
+    { field: 'accessories', headerName: 'Accessories', editable: true , width: 300 },
     { field: 'warranty', headerName: 'Warranty', editable: true , width: 150 },
     { field: 'additionalItems', headerName: 'Additional Items', editable: true , width: 150 },
-    { field: 'otherDetails', headerName: 'Other Details', editable: true , width: 150 },
+    { field: 'otherDetails', headerName: 'Other Details', editable: true , width: 400 },
   ];
 
   const itemName = 'laptopasset';

@@ -14,7 +14,6 @@ ReactDOM.render(
     >
          <ThemeProvider theme={theme}>
         <React.StrictMode>
-           
             <App />
         </React.StrictMode>
         </ThemeProvider>

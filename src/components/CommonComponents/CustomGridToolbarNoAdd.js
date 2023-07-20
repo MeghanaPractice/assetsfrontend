@@ -17,7 +17,7 @@ export default function CustomGridToolbarNoAdd() {
                 },
                 backgroundColor: 'primary.main',
                 '& .MuiButton-root': {
-                  color: 'black',
+                  color: 'info.main',
                 },
               }}
         />

@@ -90,7 +90,6 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
                 <DialogTitle>Add Device Asset</DialogTitle>
                 <DialogContent>
                     <div className='div-centerstyle' style={{ padding: '20px' }}>
-                        <h1>Add Device Asset</h1>
                         <form className="root" noValidate autoComplete="off">
                             <TextField
                                 id="startingID-input"

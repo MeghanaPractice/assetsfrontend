@@ -1,3 +1,4 @@
+import { teal } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
@@ -5,10 +6,14 @@ export const theme = createTheme({
     primary: {
       main: '#A7EBFF',
       contrastText: 'white',
-    },
+      },
     secondary: {
       main: '#008B7F',
       contrastText: 'white',
+    },
+    info: {
+      main: '#018221',
+      contrastText: 'white'
     }
   },
   components: {

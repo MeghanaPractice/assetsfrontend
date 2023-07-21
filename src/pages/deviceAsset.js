@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Paper } from '@mui/material';
+import { Container, Paper, Typography } from '@mui/material';
 import DeviceAssetTable from '../components/DeviceAssetComponenets/DeviceAssetTable';
 import DeviceImport from '../components/DeviceAssetComponenets/DeviceImport';
 import DeviceAssetAdd from '../components/DeviceAssetComponenets/DeviceAssetAdd';
@@ -20,9 +20,11 @@ export default function DeviceAsset() {
             <Container className='containerStyle'>
                 <Paper elevation={3} className='paperStyle2'>
                     <div className='div-spaceToSides'>
-                        <h1>Device Asset</h1>
-                        <DeviceAssetAdd refreshTable={refreshTable} setRefreshTable={handleRefreshTable} />
-                        <DeviceImport/>
+                        <Typography variant="h1">Mobile Device Asset</Typography>
+                        <div className='div-rightstyle'>
+                            <DeviceImport />
+                            <DeviceAssetAdd setRefreshTable={setRefreshTable}></DeviceAssetAdd>
+                        </div>
                     </div>
                     <DeviceAssetTable refreshTable={refreshTable} />
                 </Paper>

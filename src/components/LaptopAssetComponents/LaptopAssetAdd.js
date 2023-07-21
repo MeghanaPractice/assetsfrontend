@@ -104,7 +104,8 @@ export default function LaptopAssetAdd({ refreshTable, setRefreshTable }) {
         <div>
             <Button variant="contained"
                 className='button-gradient'
-                onClick={handleClickOpen}>
+                onClick={handleClickOpen}
+                style={{margin:'5px'}}>
                 <AddIcon />Add Laptop Asset
             </Button>
             <Dialog open={open} onClose={handleClose}>

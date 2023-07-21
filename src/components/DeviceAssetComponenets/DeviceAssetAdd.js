@@ -83,7 +83,7 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
 
     return (
         <div>
-            <Button variant="contained" className='button-gradient' onClick={handleClickOpen}>
+            <Button variant="contained" className='button-gradient' onClick={handleClickOpen} style={{margin:'5px'}}>
                 <AddIcon />Add Device Asset
             </Button>
             <Dialog open={open} onClose={handleClose}>

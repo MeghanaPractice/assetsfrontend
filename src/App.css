@@ -62,6 +62,15 @@ body {
   font-size: '1.6rem';
 
 }
+.header {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 2rem; 
+}
 
 .div-centerstyle {
   display: flex;

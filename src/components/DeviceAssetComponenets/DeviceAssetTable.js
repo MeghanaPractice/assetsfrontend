@@ -1,4 +1,4 @@
-import React, {  useContext } from 'react';
+import React, { useContext } from 'react';
 import { useGridApiRef } from '@mui/x-data-grid';
 import PurchaseDateCell from '../CommonComponents/PurchaseDateCell';
 import TeamSelectCell from '../CommonComponents/TeamSelectCell';
@@ -21,10 +21,12 @@ export default function DeviceAssetTable({ refreshTable }) {
       headerName: 'Purchase Date',
       editable: true,
       width: 150,
+      type: 'date',
+      valueGetter: ({ value }) => (value !== null ? new Date(value) : null),
       renderEditCell: (params) => (
         <PurchaseDateCell
           id={params.id}
-          value={dayjs(params.value)}
+          value={dayjs(params.value, 'YYYY-MM-DD')}
           field={params.field}
           onChange={params.onChange}
           apiRef={apiRef}

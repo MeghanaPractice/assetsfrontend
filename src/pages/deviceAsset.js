@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Paper } from '@mui/material';
 import DeviceAssetTable from '../components/DeviceAssetComponenets/DeviceAssetTable';
-import { Accordion, AccordionSummary } from '@mui/material';
-import { ExpandMore } from '@mui/icons-material';
+import DeviceImport from '../components/DeviceAssetComponenets/DeviceImport';
 import DeviceAssetAdd from '../components/DeviceAssetComponenets/DeviceAssetAdd';
 import { TeamProvider } from '../context/TeamContext';
 
@@ -23,6 +22,7 @@ export default function DeviceAsset() {
                     <div className='div-spaceToSides'>
                         <h1>Device Asset</h1>
                         <DeviceAssetAdd refreshTable={refreshTable} setRefreshTable={handleRefreshTable} />
+                        <DeviceImport/>
                     </div>
                     <DeviceAssetTable refreshTable={refreshTable} />
                 </Paper>

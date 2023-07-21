@@ -16,6 +16,12 @@ export const theme = createTheme({
       contrastText: 'white'
     }
   },
+  typography: {
+    h1: {
+      fontSize: '2rem',
+      fontWeight: 'bold',
+    },
+  },
   components: {
     MuiAppBar: {
       styleOverrides: {

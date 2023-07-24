@@ -22,7 +22,7 @@ export default function Employee() {
         <div className='div-spaceToSides'>
           <Typography variant="h1">Employees</Typography>
           <div className='div-rightstyle'>
-            <EmployeeImport />
+            <EmployeeImport/>
             <EmployeeAdd setRefreshTable={setRefreshTable}></EmployeeAdd>
           </div>
         </div>

@@ -9,6 +9,7 @@ import DeviceAsset from './pages/deviceAsset';
 import LaptopAsset from './pages/laptopAsset';
 import LoginButton from './components/CommonComponents/login';
 import PrivateRoute from './components/CommonComponents/PrivateRoute';
+import CreateUser from './pages/createUser';
 import Footer from './components/CommonComponents/Footer';
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/employee' element={<PrivateRoute><Employee /></PrivateRoute>} />
         <Route path='/deviceasset' element={<PrivateRoute><DeviceAsset /></PrivateRoute>} />
         <Route path='/laptopasset' element={<PrivateRoute><LaptopAsset /></PrivateRoute>} />
+        <Route path='/createuser' element={<PrivateRoute><CreateUser/></PrivateRoute>}/>
       </Routes>
       <Footer />
     </Router>

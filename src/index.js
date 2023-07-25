@@ -4,12 +4,15 @@ import App from './App';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './theme.js';
+import auth_config from './auth_config.json';
+const {domain,clientId,appOrigin} = auth_config;
+
 ReactDOM.render(
     <Auth0Provider
-        domain="dev-dzdeplr5qenffej4.eu.auth0.com"
-        clientId="8seDdJkJPGNInrGfq2QBUKkX7Yvle6wp"
+        domain={domain}
+        clientId={clientId}
         authorizationParams={{
-            redirect_uri: 'http://127.0.0.1:3000'
+            redirect_uri: appOrigin
         }}
     >
          <ThemeProvider theme={theme}>

@@ -1,5 +1,5 @@
 {
     "domain": "dev-dzdeplr5qenffej4.eu.auth0.com",
     "clientId": "8seDdJkJPGNInrGfq2QBUKkX7Yvle6wp",
-    "appOrigin": "https://127.0.0.1:3000"
+    "appOrigin": "http://127.0.0.1:3000"
  }

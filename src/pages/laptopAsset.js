@@ -16,7 +16,7 @@ export default function LaptopAsset() {
             <Container className='containerStyle'>
                 <Paper elevation={3} className='paperStyle2'>
                 <div className='div-spaceToSides'>
-                        <Typography variant="h1">Laptop Asset</Typography>
+                        <Typography variant="h1"><Laptop/> Laptop Asset</Typography>
                         <div className='div-rightstyle'>
                             <LaptopImport />
                             <LaptopAssetAdd setRefreshTable={setRefreshTable}></LaptopAssetAdd>

@@ -4,7 +4,7 @@ import EmployeeAdd from '../components/EmployeeComponents/EmployeeAdd';
 import EmployeeTable2 from '../components/EmployeeComponents/EmployeeTable2';
 import EmployeeImport from '../components/EmployeeComponents/EmployeeImport';
 import { TeamProvider } from '../context/TeamContext';
-
+import { Person2Outlined } from '@mui/icons-material';
 export default function Employee() {
   const [refreshTable, setRefreshTable] = useState(false)
   const handleRefreshTable = (newState) => {
@@ -20,7 +20,7 @@ export default function Employee() {
       <Container className='containerStyle'>
         <Paper elevation={3} className='paperStyle2'>
         <div className='div-spaceToSides'>
-          <Typography variant="h1">Employees</Typography>
+          <Typography variant="h1"><Person2Outlined/>  Employees</Typography>
           <div className='div-rightstyle'>
             <EmployeeImport/>
             <EmployeeAdd setRefreshTable={setRefreshTable}></EmployeeAdd>

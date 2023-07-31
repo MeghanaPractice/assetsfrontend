@@ -1,10 +1,8 @@
 import React from "react";
-import { Button } from "@mui/material";
-import { Add as AddIcon } from "@mui/icons-material";
 import { DataGrid, GridToolbar, GridToolbarContainer, GridRowModes } from "@mui/x-data-grid";
 
 export default function CustomGridToolbar(props) {
-    const { setRows, setRowModes, RenderAddButton } = props;
+    const {  RenderAddButton } = props;
 
     return (
         <GridToolbarContainer

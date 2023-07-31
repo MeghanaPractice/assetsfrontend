@@ -1,7 +1,7 @@
 import { PieChart } from '@mui/x-charts';
 import { fetchEmployeesAssigned } from '../../service/apiService';
 import { useEffect, useState, useContext } from 'react';
-import { Container, FormControl, InputLabel, MenuItem, Select, Card } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, Card } from '@mui/material';
 import { TeamContext } from '../../context/TeamContext';
 
 export default function LandingPageCharts() {
@@ -55,45 +55,42 @@ export default function LandingPageCharts() {
     return (
         <Card style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: 'auto' }}>
             <h1>Charts</h1>
-            <form style={{ display: 'flex', flexDirection: 'row', width: '60%' }}>
-                <FormControl fullWidth>
-                    <InputLabel id="chart-option-label" >Chart Option</InputLabel>
+            <div >
+                <FormControl variant='outlined'  sx={{ m: 5, width:300 }}>
+                    <InputLabel id='chart-option-label' >Chart Option</InputLabel>
                     <Select
-                        label='Chart Option'
+                        labelId='chart-option-label'
                         id='chart-option-select'
+                        label="Chart Option" 
                         value={selectedOption}
                         onChange={handleOptionChange}
-                        fullWidth
                         MenuProps={{
                             anchorOrigin: {
-                              vertical: "top",
-                              horizontal: "center"
-                            },
-                            getContentAnchorEl: null
+                              vertical: 'top',
+                              horizontal: 'center',
+                            }
                           }}
                     >
                         <MenuItem key={'laptops'} value="laptops">Laptops</MenuItem>
                         <MenuItem key={'devices'} value="devices">Devices</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl fullWidth >
+                <FormControl sx={{ m: 5, width:300 }} >
                     <InputLabel id="team-id-label" >Team ID</InputLabel>
                     <Select
                         label="Team ID"
+                        labelId='team-id-label'
                         id="team-id-select"
-                        variant='outlined'
                         value={selectedTeamID}
                         onChange={handleTeamIDChange}
-                        fullWidth
                         MenuProps={{
                             anchorOrigin: {
-                              vertical: "top",
-                              horizontal: "center"
-                            },
-                            getContentAnchorEl: null
+                              vertical: 'top',
+                              horizontal: 'center',
+                            }
                           }}
                     >
-                        <MenuItem>All</MenuItem>
+                        <MenuItem key={'All'} value={''}>All</MenuItem>
                         {teamIDs.map((team) => (
                             <MenuItem key={team} value={team}>
                                 {team}
@@ -101,7 +98,7 @@ export default function LandingPageCharts() {
                         ))}
                     </Select>
                 </FormControl>
-            </form>
+            </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px', textAlign: 'left', width: '100%' }}>
                 <PieChart
                     series={[{

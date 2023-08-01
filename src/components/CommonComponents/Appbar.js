@@ -55,8 +55,9 @@ export default function Appbar() {
               onClose={handleProfileClose}
               anchorOrigin={{
                 vertical: 'bottom',
-                horizontal: 'left',
-              }}>
+                horizontal: 'center',
+              }}
+            >
               <Profile />
             </Popover>
           </>

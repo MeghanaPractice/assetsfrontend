@@ -15,27 +15,27 @@ export default function Home() {
     return isAuthenticated ?
         (
             <>
-            <TeamProvider>
-            <Container className='containerStyle2'>
-                      <LandingPageCharts/>
-            </Container>
-                <Container className='containerStyle'>
-                    <Paper className='paperStyle2'>
-                        <h1>Employee Device Assignments</h1>
-                        <LandingPageTable />
-                    </Paper>
-                </Container>
+                <TeamProvider>
+                    <Container className='containerStyle2'>
+                        <LandingPageCharts />
+                    </Container>
+                    <Container className='containerStyle'>
+                        <Paper className='paperStyle2'>
+                            <h1>Employee Device Assignments</h1>
+                            <LandingPageTable />
+                        </Paper>
+                    </Container>
 
-            </TeamProvider>
+                </TeamProvider>
             </>
         )
         :
         (
-            <Container className='div-centerstyle' style={{ backgroundColor: 'primary.main' }}>
-                <Paper className='paperStyle1'>
-                    <h1>Need to Login to access</h1>
-                    <LoginButton />
-                </Paper>
-            </Container>
+                <Container className='containerStyle2'>
+                    <Paper className='div-centerstyle' style={{padding:'50px'}}>
+                        <h1>Need to Login to access</h1>
+                        <LoginButton />
+                    </Paper>
+                </Container>
         )
 }

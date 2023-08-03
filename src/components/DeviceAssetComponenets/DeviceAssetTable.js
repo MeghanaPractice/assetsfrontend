@@ -6,20 +6,24 @@ import EmployeeSelectCell from '../CommonComponents/EmployeeSelectCell';
 import { TeamContext } from '../../context/TeamContext';
 import dayjs from 'dayjs';
 import TableComponent from '../CommonComponents/TableComponent';
-
+import { UserRoleContext } from '../../context/UserRoleContext';
 export default function DeviceAssetTable({ refreshTable }) {
   const { teamIDs } = useContext(TeamContext);
   const apiRef = useGridApiRef();
+  const { userRole } = useContext(UserRoleContext);
+  const editOption = !userRole.includes('Standard');
+  const standardUserExceptions = ['inUse','team_IDf','emp_ID','additionalInfo'];
   const columns = [
-    { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: true, width: 150 },
-    { field: 'brand', headerName: 'Brand', editable: true, width: 150 },
-    { field: 'codeRef2', headerName: 'Code Ref 2', editable: true, width: 150 },
-    { field: 'modelName', headerName: 'Model Name', editable: true, width: 300 },
-    { field: 'category', headerName: 'Category', editable: true, width: 150 },
+    { field: 'inUse', headerName: 'Device In Use', type: 'boolean', editable: !editOption, width: 150 },
+    { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: editOption, width: 150 },
+    { field: 'brand', headerName: 'Brand', editable: editOption, width: 150 },
+    { field: 'codeRef2', headerName: 'Code Ref 2', editable: editOption, width: 150 },
+    { field: 'modelName', headerName: 'Model Name', editable: editOption, width: 300 },
+    { field: 'category', headerName: 'Category', editable: editOption, width: 150 },
     {
       field: 'purchaseDate',
       headerName: 'Purchase Date',
-      editable: true,
+      editable: editOption,
       width: 150,
       type: 'date',
       valueGetter: ({ value }) => (value !== null ? new Date(value) : null),
@@ -35,8 +39,8 @@ export default function DeviceAssetTable({ refreshTable }) {
     },
     {
       field: 'team_IDf',
-      headerName: 'Team ID',
-      editable: true,
+      headerName: 'Team',
+      editable: !editOption,
       width: 150,
       renderEditCell: (params) => (
         <TeamSelectCell
@@ -51,8 +55,8 @@ export default function DeviceAssetTable({ refreshTable }) {
     },
     {
       field: 'emp_ID',
-      headerName: 'Employee ID',
-      editable: true,
+      headerName: 'Assigned To',
+      editable: !editOption,
       width: 150,
       renderEditCell: (params) => (
         <EmployeeSelectCell
@@ -65,10 +69,10 @@ export default function DeviceAssetTable({ refreshTable }) {
         />
       ),
     },
-    { field: 'imeiCode', headerName: 'IMEI Code', editable: true, width: 150 },
-    { field: 'serialNo', headerName: 'Serial No', editable: true, width: 150 },
-    { field: 'accessories', headerName: 'Accessories', editable: true, width: 300 },
-    { field: 'additionalInfo', headerName: 'Additional Info', editable: true, width: 300 },
+    { field: 'imeiCode', headerName: 'IMEI Code', editable: editOption, width: 150 },
+    { field: 'serialNo', headerName: 'Serial No', editable: editOption, width: 150 },
+    { field: 'accessories', headerName: 'Accessories', editable: editOption, width: 300 },
+    { field: 'additionalInfo', headerName: 'Comments', editable: !editOption, width: 300 },
   ];
   const itemName = 'deviceasset';
   const itemID = 'deviceNo';

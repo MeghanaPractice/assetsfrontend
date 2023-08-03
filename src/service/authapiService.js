@@ -51,6 +51,30 @@ export const confirmIfAdmin = async (accessToken, userId) => {
         throw error;
     }
 };
+export const confirmIfStandard = async (accessToken, userId) => {
+    try {
+        const response = await fetch(`https://${config.domain}/api/v2/users/${userId}/roles`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data)
+            return data.some(role => role.name === 'Standard');
+        } else {
+            console.error('Failed to fetch user roles:', response.status, response.statusText);
+            throw new Error('Failed to fetch user roles');
+        }
+    } catch (error) {
+        console.error('Error fetching user roles:', error);
+        throw error;
+    }
+};
+
 
 
 const setPasswordResetEmail = async (userData) => {
@@ -100,7 +124,7 @@ export const createUser = async (userData) => {
             return;
         }
         await setPasswordResetEmail(userData);
-        console.log('User created successfully');
+        console.log('User created successfully:',userData);
 
     } catch (error) {
         console.error('Error creating user:', error);

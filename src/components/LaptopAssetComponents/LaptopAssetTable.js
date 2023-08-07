@@ -8,29 +8,23 @@ import TableComponent from '../CommonComponents/TableComponent';
 import dayjs from 'dayjs';
 import { Checkbox } from '@mui/material';
 import { UserRoleContext } from '../../context/UserRoleContext';
+import CommentsEditCell from '../CommonComponents/CommentEditCell';
 
 export default function LaptopAssetTable({ refreshTable }) {
   const { teamIDs } = useContext(TeamContext);
   const apiRef = useGridApiRef();
   const { userRole } = useContext(UserRoleContext);
-  const editOption = !userRole.includes('Standard');
+  const isAdmin = userRole.includes('Admin');
+  const editOption = isAdmin || (!isAdmin && !userRole.includes('Standard')); 
   const standardUserExceptions = ['inUse','team_ID','empID','otherDetails'];
   const columns = [
     {
       field: 'inUse',
       headerName: 'Laptop In Use',
       type: 'boolean',
-      editable: !editOption,
+      editable: standardUserExceptions.includes('inUse') ? true : editOption,
       width: 150,
-      renderCell: (params) => (
-        <Checkbox
-        id={params.id}
-        value={params.value}
-        field={params.field}
-        onChange={params.onChange}
-        checked={params.value === 1}
-        />
-      ),
+
     },
     { field: 'brand', headerName: 'Brand', editable: editOption, width: 150 },
     { field: 'laptopAssetID', headerName: 'Laptop Asset ID', editable: editOption, width: 150 },
@@ -40,7 +34,7 @@ export default function LaptopAssetTable({ refreshTable }) {
     {
       field: 'team_ID',
       headerName: 'Team ID',
-      editable: !editOption,
+      editable: standardUserExceptions.includes('team_ID') ? true : editOption,
       width: 150,
       renderEditCell: (params) => (
         <TeamSelectCell
@@ -56,7 +50,7 @@ export default function LaptopAssetTable({ refreshTable }) {
     {
       field: 'empID',
       headerName: 'Employee ID',
-      editable: !editOption,
+      editable: standardUserExceptions.includes('empID') ? true : editOption,
       width: 150,
       renderEditCell: (params) => (
         <EmployeeSelectCell
@@ -95,7 +89,17 @@ export default function LaptopAssetTable({ refreshTable }) {
     { field: 'accessories', headerName: 'Accessories', editable: editOption, width: 300 },
     { field: 'warranty', headerName: 'Warranty', editable: editOption, width: 150 },
     { field: 'additionalItems', headerName: 'Additional Items', editable: editOption, width: 150 },
-    { field: 'otherDetails', headerName: 'Comments', editable: !editOption, width: 400 },
+    { field: 'otherDetails', headerName: 'Comments', editable: standardUserExceptions.includes('otherDetails') ? true : editOption, width: 400,
+    renderEditCell: (params) => (
+      <CommentsEditCell
+        id={params.id}
+        value={params.value}
+        field={params.field}
+        onChange={params.onChange}
+        apiRef={apiRef}
+      />
+    ),
+  },
   ];
 
   const itemName = 'laptopasset';

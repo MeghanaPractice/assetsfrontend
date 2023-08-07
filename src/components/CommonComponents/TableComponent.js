@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DataGrid, GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
+import { DataGrid, GridRowEditStopReasons, GridRowModes, useGridApiRef } from '@mui/x-data-grid';
 import { IconButton, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -11,11 +11,8 @@ import { useContext } from 'react';
 export default function TableComponent({ refreshTable, itemName, itemID, columns, apiRef }) {
   const [items, setItems] = useState([]);
   const [rowModes, setRowModes] = useState({});
-  const [rowModels, setRowModels] = useState({});
   const [column, setColumn] = useState(columns);
-  const [editMode, setEditMode] = useState(false);
   const { userRole, userID } = useContext(UserRoleContext);
-
   const fetchData = () => {
     fetchItems(itemName).then((result) => {
       setItems(result);
@@ -33,25 +30,17 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
   };
 
   const isCellEditable = (params) => {
-    if (userRole.includes('Standard') ) {
-      console.log('Standard user',userID);
-      return editMode && (params.row.emp_ID||params.row.empID) === userID;
+    if (((params.row.emp_ID || params.row.empID) === userID) && userRole.includes('Standard') ) {
+      console.log('Standard user', userID);
+      return (params.row.emp_ID || params.row.empID) === userID;
     }
-    else if(userRole.includes('Admin')){ 
-      return editMode && isRowInEditMode(params.row[itemID]); 
+    else if (userRole.includes('Admin')) {
+      return isRowInEditMode(params.row[itemID]);
     }
     else 
      return false;
   };
 
-
-  const handleEdit = (itemID) => {
-    setRowModes((prevRowModes) => ({
-      ...prevRowModes,
-      [itemID]: { mode: GridRowModes.Edit },
-    }));
-    setEditMode(true);
-  };
 
   const handleCancelEdit = (itemID) => {
     setRowModes((prevRowModes) => ({
@@ -59,38 +48,45 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
       [itemID]: { mode: GridRowModes.View },
     }));
     fetchData();
-    setEditMode(false);
   };
+
+  const handleEdit = (itemID) => {
+    setRowModes((prevRowModes) => ({
+      ...prevRowModes,
+      [itemID]: { mode: GridRowModes.Edit },
+    }));
+
+  };
+
 
   const confirmEdit = async (item) => {
     if (window.confirm('Edit item Permanently?')) {
-      await updateItem(itemName, item);
       console.log('Edited item:', item);
       alert(`Edited item: ${item[itemID]}`);
-      fetchData();
       setRowModes((prevRowModes) => ({
         ...prevRowModes,
         [item[itemID]]: { mode: GridRowModes.View },
       }));
+      await updateItem(itemName, item);
+      fetchData();
+
     }
-    setEditMode(false);
   };
 
   const handleDelete = async (item) => {
-    if (window.confirm('Delete item?')) {
+    if (userRole.includes('Admin') && window.confirm('Delete item?')) {
       await deleteItem(itemName, item[itemID]);
       console.log('Delete item:', item);
       alert(`Deleting item: ${item[itemID]}`);
       fetchData();
     }
-    setEditMode(false);
   };
 
   const renderActionsCell = (params) => {
     const { row } = params;
     const { mode } = rowModes[row[itemID]] || {};
-    
-    if (mode === GridRowModes.Edit ) {
+
+    if (mode === GridRowModes.Edit) {
       return (
         <>
           <IconButton onClick={() => confirmEdit(row)}>
@@ -102,7 +98,6 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         </>
       );
     }
-
     return (
       <>
         <IconButton onClick={() => handleEdit(row[itemID])}>
@@ -124,8 +119,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
       filterable: false,
       width: 150,
       renderCell: renderActionsCell,
-
-    },
+    }
   ]
 
   const maxOfCol = (colIndex) => {
@@ -158,11 +152,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
 
   useEffect(() => {
     fetchData();
-    resizeColumns();
   }, []);
-
-
-
 
   return (
     <>
@@ -175,16 +165,10 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         getRowId={(row) => row[itemID]}
         rowModes={rowModes}
         onRowModeChange={(newRowModes) => setRowModes(newRowModes)}
-        rowModels={rowModels}
         apiRef={apiRef}
-        onRowModelChange={(newRowModels) => setRowModels(newRowModels)}
-        editMode="row"
         isCellEditable={isCellEditable}
         sx={{
           boxShadow: 2,
-          '& .MuiDataGrid-cell:hover': {
-            color: 'primary.main',
-          },
           '& .MuiDataGrid-columnHeader': {
             color: 'white',
             backgroundColor: 'secondary.main',
@@ -198,18 +182,6 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         slots={{
           toolbar: CustomGridToolbarNoAdd,
         }}
-        onRowEditStop={(params, event) => {
-          if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-            event.defaultMuiPrevented = true;
-          }
-        }}
-        processRowUpdate={(newRow) => {
-          const updatedRow = { ...newRow, isNew: false };
-          setItems((previtems) => previtems.map((item) => (item[itemID] === newRow[itemID] ? updatedRow : item))
-          );
-          return updatedRow;
-        }}
-        autoSizeColumns
         autoHeight
         initialState={{
           pagination: {
@@ -219,6 +191,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
           },
         }}
         pageSizeOptions={[5, 10, 15, 20, 100]}
+        rowHeight={'30px'}
       />
 
     </>

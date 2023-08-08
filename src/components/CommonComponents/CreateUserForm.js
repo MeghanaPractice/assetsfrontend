@@ -27,7 +27,7 @@ export default function CreateUserForm() {
         e.preventDefault();
         const connection = config.connection;
         const email_verified = false;
-        const user_metadata = { roles: [role] }
+        const user_metadata = { roles: [role], empID: emp }
         const userData = { username, email, password, connection, email_verified, user_metadata };
         if (userRole == 'Admin') {
             alert("User created. Verification and password reset email is being sent to the provided email")

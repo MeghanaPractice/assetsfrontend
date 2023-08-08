@@ -26,13 +26,13 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
 
 
   const isRowInEditMode = (rowID) => {
-    return rowModes[rowID]?.mode === GridRowModes.Edit;
+    return rowModes[rowID]?.mode === GridRowModes.Edit ? true : false;
   };
 
-  const isCellEditable = (params) => {
+  const isRowEditable = (params) => {
     if (((params.row.emp_ID || params.row.empID) === userID) && userRole.includes('Standard') ) {
       console.log('Standard user', userID);
-      return (params.row.emp_ID || params.row.empID) === userID;
+      return (params.row.emp_ID || params.row.empID) === userID ? true : false;
     }
     else if (userRole.includes('Admin')) {
       return isRowInEditMode(params.row[itemID]);
@@ -166,7 +166,6 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         rowModes={rowModes}
         onRowModeChange={(newRowModes) => setRowModes(newRowModes)}
         apiRef={apiRef}
-        isCellEditable={isCellEditable}
         sx={{
           boxShadow: 2,
           '& .MuiDataGrid-columnHeader': {
@@ -177,11 +176,17 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
             width: 'auto'
           },
         }}
+        onCellDoubleClick={(params, event) => {
+          if (!isRowEditable(params) && !isRowInEditMode(params.row[itemID])) {
+            event.defaultMuiPrevented = true;
+          }
+        }}
         density="comfortable"
         pageSize={5}
         slots={{
           toolbar: CustomGridToolbarNoAdd,
         }}
+        slotProps={{}}
         autoHeight
         initialState={{
           pagination: {
@@ -191,7 +196,6 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
           },
         }}
         pageSizeOptions={[5, 10, 15, 20, 100]}
-        rowHeight={'30px'}
       />
 
     </>

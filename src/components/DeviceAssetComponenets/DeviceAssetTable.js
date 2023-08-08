@@ -11,10 +11,11 @@ export default function DeviceAssetTable({ refreshTable }) {
   const { teamIDs } = useContext(TeamContext);
   const apiRef = useGridApiRef();
   const { userRole } = useContext(UserRoleContext);
-  const editOption = !userRole.includes('Standard');
+  const isAdmin = userRole.includes('Admin');
+  const editOption = isAdmin || (!isAdmin && !userRole.includes('Standard')); 
   const standardUserExceptions = ['inUse','team_IDf','emp_ID','additionalInfo'];
   const columns = [
-    { field: 'inUse', headerName: 'Device In Use', type: 'boolean', editable: !editOption, width: 150 },
+    { field: 'inUse', headerName: 'Device In Use', type: 'boolean', editable: standardUserExceptions.includes('inUse') ? true : editOption, width: 150 },
     { field: 'deviceAssetID', headerName: 'Device Asset ID', editable: editOption, width: 150 },
     { field: 'brand', headerName: 'Brand', editable: editOption, width: 150 },
     { field: 'codeRef2', headerName: 'Code Ref 2', editable: editOption, width: 150 },
@@ -40,7 +41,7 @@ export default function DeviceAssetTable({ refreshTable }) {
     {
       field: 'team_IDf',
       headerName: 'Team',
-      editable: !editOption,
+      editable: standardUserExceptions.includes('team_IDf') ? true : editOption,
       width: 150,
       renderEditCell: (params) => (
         <TeamSelectCell
@@ -56,7 +57,7 @@ export default function DeviceAssetTable({ refreshTable }) {
     {
       field: 'emp_ID',
       headerName: 'Assigned To',
-      editable: !editOption,
+      editable: standardUserExceptions.includes('emp_ID') ? true : editOption,
       width: 150,
       renderEditCell: (params) => (
         <EmployeeSelectCell
@@ -72,7 +73,7 @@ export default function DeviceAssetTable({ refreshTable }) {
     { field: 'imeiCode', headerName: 'IMEI Code', editable: editOption, width: 150 },
     { field: 'serialNo', headerName: 'Serial No', editable: editOption, width: 150 },
     { field: 'accessories', headerName: 'Accessories', editable: editOption, width: 300 },
-    { field: 'additionalInfo', headerName: 'Comments', editable: !editOption, width: 300 },
+    { field: 'additionalInfo', headerName: 'Comments', editable: standardUserExceptions.includes('additionalInfo') ? true : editOption, width: 300 },
   ];
   const itemName = 'deviceasset';
   const itemID = 'deviceNo';

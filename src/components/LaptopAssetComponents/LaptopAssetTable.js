@@ -33,7 +33,7 @@ export default function LaptopAssetTable({ refreshTable }) {
     { field: 'serialNo', headerName: 'Serial No', editable: editOption, width: 150 },
     {
       field: 'team_ID',
-      headerName: 'Team ID',
+      headerName: 'Team',
       editable: standardUserExceptions.includes('team_ID') ? true : editOption,
       width: 150,
       renderEditCell: (params) => (
@@ -49,7 +49,7 @@ export default function LaptopAssetTable({ refreshTable }) {
     },
     {
       field: 'empID',
-      headerName: 'Employee ID',
+      headerName: 'Assigned To',
       editable: standardUserExceptions.includes('empID') ? true : editOption,
       width: 150,
       renderEditCell: (params) => (

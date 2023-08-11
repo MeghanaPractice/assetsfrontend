@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridRowModes } from '@mui/x-data-grid';
-import { IconButton, Button } from '@mui/material';
+import { IconButton, Button, Dialog } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel, OpenInFull } from '@mui/icons-material';
@@ -8,11 +8,17 @@ import { fetchItems, updateItem, deleteItem } from '../../service/apiService';
 import CustomGridToolbarNoAdd from '../CommonComponents/CustomGridToolbarNoAdd';
 import { UserRoleContext } from '../../context/UserRoleContext';
 import { useContext } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import '../../App.css'
+
 export default function TableComponent({ refreshTable, itemName, itemID, columns, apiRef }) {
   const [items, setItems] = useState([]);
   const [rowModes, setRowModes] = useState({});
   const [column, setColumn] = useState(columns);
   const { userRole, userID } = useContext(UserRoleContext);
+  const [openConfirm, setOpenConfirm] = useState(false);
+
   const fetchData = () => {
     fetchItems(itemName).then((result) => {
       setItems(result);
@@ -30,15 +36,14 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
   };
 
   const isRowEditable = (params) => {
-    if (((params.row.emp_ID || params.row.empID) === userID) && userRole.includes('Standard') ) {
-      console.log('Standard user', userID);
+    if (((params.row.emp_ID || params.row.empID) === userID) && userRole.includes('Standard')) {
       return (params.row.emp_ID || params.row.empID) === userID ? true : false;
     }
     else if (userRole.includes('Admin')) {
-      return isRowInEditMode(params.row[itemID]);
+      return true;
     }
-    else 
-     return false;
+    else
+      return false;
   };
 
 
@@ -55,30 +60,59 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
       ...prevRowModes,
       [itemID]: { mode: GridRowModes.Edit },
     }));
+    setOpenConfirm(true);
 
   };
 
 
   const confirmEdit = async (item) => {
-    if (window.confirm('Edit item Permanently?')) {
-      console.log('Edited item:', item);
-      alert(`Edited item: ${item[itemID]}`);
-      setRowModes((prevRowModes) => ({
-        ...prevRowModes,
-        [item[itemID]]: { mode: GridRowModes.View },
-      }));
-      await updateItem(itemName, item);
-      fetchData();
-
-    }
+    confirmAlert({
+      title: "Edit item permanently?",
+      buttons: [
+        {
+          label: "Confirm",
+          onClick: async () => {
+            console.log('Edited item:', item);
+            alert(`Edited item: ${item[itemID]}`);
+            setRowModes((prevRowModes) => ({
+              ...prevRowModes,
+              [item[itemID]]: { mode: GridRowModes.View },
+            }));
+            await updateItem(itemName, item);
+            fetchData();
+          }
+        },
+        {
+          label: "Cancel"
+        }
+      ]
+    });
   };
 
   const handleDelete = async (item) => {
-    if (userRole.includes('Admin') && window.confirm('Delete item?')) {
-      await deleteItem(itemName, item[itemID]);
-      console.log('Delete item:', item);
-      alert(`Deleting item: ${item[itemID]}`);
-      fetchData();
+    if (userRole.includes('Admin')) {
+      confirmAlert({
+        title: "Edit item permanently?",
+        buttons: [
+          {
+            label: "Confirm",
+            onClick: async () => {
+              console.log('Edited item:', item);
+              alert(`Edited item: ${item[itemID]}`);
+              setRowModes((prevRowModes) => ({
+                ...prevRowModes,
+                [item[itemID]]: { mode: GridRowModes.View },
+              }));
+              await updateItem(itemName, item);
+              fetchData();
+            },
+          },
+          {
+            label: "Cancel"
+          }
+        ]
+      });
+
     }
   };
 
@@ -86,10 +120,11 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
     const { row } = params;
     const { mode } = rowModes[row[itemID]] || {};
 
+
     if (mode === GridRowModes.Edit) {
       return (
         <>
-          <IconButton onClick={() => confirmEdit(row)}>
+          <IconButton onClick={() => { setOpenConfirm(true); confirmEdit(row) }}>
             <Check />
           </IconButton>
           <IconButton onClick={() => handleCancelEdit(row[itemID])}>
@@ -98,16 +133,29 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         </>
       );
     }
-    return (
-      <>
-        <IconButton onClick={() => handleEdit(row[itemID])}>
-          <EditIcon />
-        </IconButton>
-        <IconButton onClick={() => handleDelete(row)}>
-          <DeleteIcon />
-        </IconButton>
-      </>
-    );
+    if (userRole == 'Standard' && isRowEditable(params)) {
+      return (
+        <>
+          <IconButton onClick={() => handleEdit(row[itemID])}>
+            <EditIcon />
+          </IconButton>
+        </>
+      );
+    }
+    else if (userRole == 'Admin') {
+      return (
+        <>
+          <IconButton onClick={() => handleEdit(row[itemID])}>
+            <EditIcon />
+          </IconButton>
+          <IconButton onClick={() => handleDelete(row)}>
+            <DeleteIcon />
+          </IconButton>
+        </>
+      );
+
+    }
+
   };
 
   const columnsWithActions = [
@@ -160,12 +208,15 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         <Button variant="outlined" color='secondary' onClick={resizeColumns}><OpenInFull />Resize Columns</Button>
       </div>
       <DataGrid
+        checkboxSelection
+        disableRowSelectionOnClick
         rows={items}
         columns={columnsWithActions}
         getRowId={(row) => row[itemID]}
         rowModes={rowModes}
         onRowModeChange={(newRowModes) => setRowModes(newRowModes)}
         apiRef={apiRef}
+        isRowSelectable={isRowEditable}
         sx={{
           boxShadow: 2,
           '& .MuiDataGrid-columnHeader': {
@@ -175,9 +226,15 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
           '& .MuiDataGrid-cell': {
             width: 'auto'
           },
+          '& .MuiDataGrid-row.Mui-selected': {
+            backgroundColor: 'primary.light',
+          },
+          '& .MuiDataGrid-row.Mui-selected:hover': {
+            backgroundColor: 'primary.light'
+          }
         }}
         onCellDoubleClick={(params, event) => {
-          if (!isRowEditable(params) && !isRowInEditMode(params.row[itemID])) {
+          if (!(isRowInEditMode(params.row[itemID]) && isRowEditable(params))) {
             event.defaultMuiPrevented = true;
           }
         }}
@@ -186,7 +243,6 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         slots={{
           toolbar: CustomGridToolbarNoAdd,
         }}
-        slotProps={{}}
         autoHeight
         initialState={{
           pagination: {

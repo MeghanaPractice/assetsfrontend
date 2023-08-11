@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState, useCallback } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { config } from '../usermanagementapiconfig';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -22,7 +22,7 @@ export const UserRoleProvider = ({ children }) => {
   }, [isLoading, role, ID]);
 
   if (isLoading) {
-    return <CircularProgress />;
+    return <div className="div-centerstyle"><CircularProgress/></div>;
   }
 
   return (

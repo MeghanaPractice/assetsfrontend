@@ -40,6 +40,7 @@ export default function Appbar() {
               <img src='https://beqisoft.netlify.app/static/media/logo.2b9cdc650085bb26e80a.png' alt='BQ' height='34px' width='120px' />
             </a>
           </div>
+          <Typography variant='h9' component={Link} to='/'>Home</Typography>
           <Typography variant='h9' component={Link} to='/team'>Team</Typography>
           <Typography variant='h9' component={Link} to='/employee'>Employee</Typography>
           <Typography variant='h9' component={Link} to='/deviceasset'>Mobile Device Asset</Typography>

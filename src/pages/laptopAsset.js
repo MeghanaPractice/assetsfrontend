@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Container, Paper, Typography } from '@mui/material';
 import { TeamProvider } from '../context/TeamContext';
 import LaptopAssetAdd from '../components/LaptopAssetComponents/LaptopAssetAdd';
@@ -10,6 +10,10 @@ export default function LaptopAsset() {
     const handleRefreshTable = (newState) => {
         setRefreshTable(newState);
     };
+
+    useEffect(() => {
+        handleRefreshTable();
+    }, [refreshTable])
 
     return (
         <TeamProvider>

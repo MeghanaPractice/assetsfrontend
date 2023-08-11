@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { OutlinedInput, Button } from '@mui/material';
 
-export default function CommentsEditCell({ id, value, field, apiRef }) {
+export default function CommentsEditCell({ id, value, field, apiRef,}) {
   const [inputValue, setInputValue] = useState('');
   const [isEditing, setIsEditing] = useState(true);
 
@@ -18,7 +18,7 @@ export default function CommentsEditCell({ id, value, field, apiRef }) {
 
   const handleSave = async () => {
     if (inputValue.trim() !== '') {
-      const updatedValue = value ? value + ', ' + inputValue : inputValue;
+      const updatedValue = value ? `${value}\n ${inputValue}` : inputValue;
       await apiRef.current.setEditCellValue({ id, field, value: updatedValue });
     }
   };

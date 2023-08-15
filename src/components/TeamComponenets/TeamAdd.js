@@ -3,12 +3,13 @@ import TextField from '@mui/material/TextField';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { addItem as addTeam } from '../../service/apiService';
+import { useAlert } from "react-alert";
 
 export default function TeamAdd({ setRefreshTable }) {
   const [open, setOpen] = useState(false);
   const [teamID, setTeamID] = useState('');
   const [teamName, setTeamName] = useState('');
-
+  const alert = useAlert();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -26,12 +27,13 @@ export default function TeamAdd({ setRefreshTable }) {
         console.log('New team added');
         setTeamID('');
         setTeamName('');
-        alert('Added team');
+        alert.success('Added team');
         setRefreshTable(true);
         handleClose();
       })
       .catch((error) => {
         console.error('Error adding team:', error);
+        alert.error('Error adding team');
       });
       setOpen(false);
       setRefreshTable(true);

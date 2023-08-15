@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridRowModes } from '@mui/x-data-grid';
-import { IconButton, Button, Dialog } from '@mui/material';
+import { IconButton, Box, Popover, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel, OpenInFull } from '@mui/icons-material';
@@ -9,15 +9,16 @@ import CustomGridToolbarNoAdd from '../CommonComponents/CustomGridToolbarNoAdd';
 import { UserRoleContext } from '../../context/UserRoleContext';
 import { useContext } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
-import '../../App.css'
-
+import "react-confirm-alert/src/react-confirm-customalert.css";
+import { useAlert } from 'react-alert'
+import CellPopoverContent from './CellPopoverContent';
 export default function TableComponent({ refreshTable, itemName, itemID, columns, apiRef }) {
   const [items, setItems] = useState([]);
   const [rowModes, setRowModes] = useState({});
   const [column, setColumn] = useState(columns);
   const { userRole, userID } = useContext(UserRoleContext);
   const [openConfirm, setOpenConfirm] = useState(false);
+  const alert = useAlert();
 
   const fetchData = () => {
     fetchItems(itemName).then((result) => {
@@ -29,7 +30,6 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
     if (refreshTable)
       fetchData();
   }, [refreshTable]);
-
 
   const isRowInEditMode = (rowID) => {
     return rowModes[rowID]?.mode === GridRowModes.Edit ? true : false;
@@ -73,7 +73,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
           label: "Confirm",
           onClick: async () => {
             console.log('Edited item:', item);
-            alert(`Edited item: ${item[itemID]}`);
+            alert.show(`Edited item: ${item[itemID]}`);
             setRowModes((prevRowModes) => ({
               ...prevRowModes,
               [item[itemID]]: { mode: GridRowModes.View },
@@ -92,18 +92,18 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
   const handleDelete = async (item) => {
     if (userRole.includes('Admin')) {
       confirmAlert({
-        title: "Edit item permanently?",
+        title: "Delete item permanently?",
         buttons: [
           {
             label: "Confirm",
             onClick: async () => {
-              console.log('Edited item:', item);
-              alert(`Edited item: ${item[itemID]}`);
+              console.log('Deleted item:', item);
+              alert.show(`Deleted item: ${item[itemID]}`);
               setRowModes((prevRowModes) => ({
                 ...prevRowModes,
                 [item[itemID]]: { mode: GridRowModes.View },
               }));
-              await updateItem(itemName, item);
+              await deleteItem(itemName, item[itemID]);
               fetchData();
             },
           },
@@ -120,15 +120,14 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
     const { row } = params;
     const { mode } = rowModes[row[itemID]] || {};
 
-
     if (mode === GridRowModes.Edit) {
       return (
         <>
           <IconButton onClick={() => { setOpenConfirm(true); confirmEdit(row) }}>
-            <Check />
+            <Check color='success' />
           </IconButton>
           <IconButton onClick={() => handleCancelEdit(row[itemID])}>
-            <Cancel />
+            <Cancel color='secondary' />
           </IconButton>
         </>
       );
@@ -137,7 +136,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
       return (
         <>
           <IconButton onClick={() => handleEdit(row[itemID])}>
-            <EditIcon />
+            <EditIcon color='secondary' />
           </IconButton>
         </>
       );
@@ -146,10 +145,10 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
       return (
         <>
           <IconButton onClick={() => handleEdit(row[itemID])}>
-            <EditIcon />
+            <EditIcon color='secondary' />
           </IconButton>
           <IconButton onClick={() => handleDelete(row)}>
-            <DeleteIcon />
+            <DeleteIcon color='warning' />
           </IconButton>
         </>
       );
@@ -159,7 +158,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
   };
 
   const columnsWithActions = [
-    ...columns,
+    ...column,
     {
       field: 'actions',
       headerName: 'Actions',
@@ -170,46 +169,31 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
     }
   ]
 
-  const maxOfCol = (colIndex) => {
-    let invisibleContainer = document.createElement('div');
-    invisibleContainer.style.cssText = 'visibility: hidden; z-index: -9999999999; position: absolute; font-size: 0.875rem; font-weight:400; top: 0; left: 0;';
-    document.body.append(invisibleContainer);
-    let widths = [];
-    document.querySelectorAll(`[aria-colindex="${colIndex + 1}"]`).forEach((cell) => {
-      let invisibleCell = document.createElement('div');
-      invisibleCell.innerHTML = cell.innerHTML;
-      invisibleCell.style.cssText = 'width: max-content; max-width: none; min-width: none;';
-      invisibleContainer.append(invisibleCell);
-      widths.push(Math.ceil(invisibleCell.clientWidth + 1));
-    });
-    let max = Math.max(...widths);
-    invisibleContainer.remove();
-    return max;
-  };
-
-  const resizeColumns = () => {
-    let cols = [...columnsWithActions];
-    cols.forEach((col, index) => {
-      let maxColWidth = maxOfCol(index);
-      if (maxColWidth > col.width) {
-        col.width = maxColWidth + 50;
-      }
-    });
-    setColumn(cols);
-  };
-
   useEffect(() => {
     fetchData();
   }, []);
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [value, setValue] = React.useState('');
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const open = Boolean(anchorEl);
+  const handlePopoverOpen = (params, event) => {
+    if (params.value != null && (typeof params.value!='boolean')) {
+      setValue(params.formattedValue);
+      setAnchorEl(event.currentTarget);
+      setIsPopoverOpen(true);
+    }
+  };
+  const handlePopoverClose = () => {
+    setIsPopoverOpen(false);
+    setAnchorEl(null);
+  };
+
+
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '5px' }}>
-        <Button variant="outlined" color='secondary' onClick={resizeColumns}><OpenInFull />Resize Columns</Button>
-      </div>
       <DataGrid
         checkboxSelection
-        disableRowSelectionOnClick
         rows={items}
         columns={columnsWithActions}
         getRowId={(row) => row[itemID]}
@@ -230,19 +214,24 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
             backgroundColor: 'primary.light',
           },
           '& .MuiDataGrid-row.Mui-selected:hover': {
-            backgroundColor: 'primary.light'
-          }
+            backgroundColor: 'primary.light',
+          },
         }}
         onCellDoubleClick={(params, event) => {
           if (!(isRowInEditMode(params.row[itemID]) && isRowEditable(params))) {
             event.defaultMuiPrevented = true;
           }
         }}
+        onCellClick={(params, event) => {
+          if (!isRowInEditMode(params.row[itemID]))
+            handlePopoverOpen(params, event);
+        }}
         density="comfortable"
         pageSize={5}
         slots={{
           toolbar: CustomGridToolbarNoAdd,
         }}
+        disableRowSelectionOnClick
         autoHeight
         initialState={{
           pagination: {
@@ -253,7 +242,11 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         }}
         pageSizeOptions={[5, 10, 15, 20, 100]}
       />
-
+      <CellPopoverContent
+        open={open}
+        anchorEl={anchorEl} 
+        value={value}
+        handlePopoverClose={ handlePopoverClose} />
     </>
   );
 }

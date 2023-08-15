@@ -4,6 +4,7 @@ import { Button, MenuItem, Select, InputLabel, Dialog, DialogTitle, DialogConten
 import AddIcon from '@mui/icons-material/Add';
 import { addItem as addEmployee } from '../../service/apiService';
 import { TeamContext } from '../../context/TeamContext';
+import { useAlert } from "react-alert";
 
 export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
   const [employeeID, setEmployeeID] = useState('');
@@ -14,6 +15,7 @@ export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
   const [email, setEmail] = useState('');
   const { teamIDs } = useContext(TeamContext);
   const [open, setOpen] = useState(false);
+  const alert = useAlert();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -37,7 +39,7 @@ export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
           setDesignation('');
           setContactNo('');
           setEmail('');
-          alert('Added employee');
+          alert.success('Added employee');
           setRefreshTable(true);
           setOpen(false);
         })
@@ -45,7 +47,7 @@ export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
           console.error('Error adding employee:', error);
         });
     } else {
-      alert('Some fields are missing');
+      alert.show('Some fields are missing');
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState, useContext,useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import { Button, Container, FormControl, InputLabel, MenuItem, Paper, Select } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -6,6 +6,7 @@ import { UserRoleContext } from '../../context/UserRoleContext';
 import { config } from '../../usermanagementapiconfig';
 import { createUser } from '../../service/authapiService';
 import { TeamContext } from '../../context/TeamContext';
+import { useAlert } from "react-alert";
 
 export default function CreateUserForm() {
     const [email, setEmail] = useState('');
@@ -13,11 +14,12 @@ export default function CreateUserForm() {
     const [password, setPassword] = useState('');
     const [role, setrole] = useState('Standard');
     const [emp, setEmp] = useState('');
-    const [team_ID,setTeam_ID]=useState('');
+    const [team_ID, setTeam_ID] = useState('');
     const [teamEmployees, setTeamEmployees] = useState([]);
     const { teamIDs, fetchEmployees } = useContext(TeamContext);
     const { userRole } = useContext(UserRoleContext);
-   
+    const alert = useAlert();
+
     useEffect(() => {
         fetchEmployees(team_ID, setTeamEmployees);
     }, [team_ID]);
@@ -30,12 +32,12 @@ export default function CreateUserForm() {
         const user_metadata = { roles: [role], empID: emp }
         const userData = { username, email, password, connection, email_verified, user_metadata };
         if (userRole == 'Admin') {
-            alert("User created. Verification and password reset email is being sent to the provided email")
+            alert.show("User created. Verification and password reset email is being sent to the provided email")
             createUser(userData);
         }
         else {
-            alert('Only admins are allowed to create users.');
-            console.log(userRole)
+            alert.show('Only admins are allowed to create users.');
+            console.log(userRole);
         }
         setUsername('');
         setEmail('');

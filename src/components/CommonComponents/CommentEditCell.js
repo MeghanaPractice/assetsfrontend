@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useContext} from 'react';
 import { OutlinedInput, Button } from '@mui/material';
-
+import { UserRoleContext } from '../../context/UserRoleContext';
 export default function CommentsEditCell({ id, value, field, apiRef,}) {
   const [inputValue, setInputValue] = useState('');
   const [isEditing, setIsEditing] = useState(true);
+  const { userRole, userID } = useContext(UserRoleContext);
 
 
   const handleInputChange = (event) => {
@@ -18,7 +19,7 @@ export default function CommentsEditCell({ id, value, field, apiRef,}) {
 
   const handleSave = async () => {
     if (inputValue.trim() !== '') {
-      const updatedValue = value ? `${value}\n ${inputValue}` : inputValue;
+      const updatedValue = value ? `${value}\n*${userID}(${userRole}): ${inputValue}` : `*${userID}(${userRole}): ${inputValue}`;
       await apiRef.current.setEditCellValue({ id, field, value: updatedValue });
     }
   };

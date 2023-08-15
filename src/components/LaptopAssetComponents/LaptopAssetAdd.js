@@ -7,8 +7,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { addItem as addLaptopAsset } from '../../service/apiService';
+import { useAlert } from "react-alert";
 
 export default function LaptopAssetAdd({ refreshTable, setRefreshTable }) {
+    const alert = useAlert();
     const [open, setOpen] = useState(false);
     const [brand, setBrand] = useState(null);
     const [laptopAssetID, setLaptopAssetID] = useState(null);
@@ -30,7 +32,6 @@ export default function LaptopAssetAdd({ refreshTable, setRefreshTable }) {
     const [otherDetails, setOtherDetails] = useState(null);
     const { teamIDs, fetchEmployees } = useContext(TeamContext);
     const [teamEmployees, setTeamEmployees] = useState([]);
-
     useEffect(() => {
         fetchEmployees(team_ID, setTeamEmployees);
     }, [team_ID]);
@@ -88,7 +89,7 @@ export default function LaptopAssetAdd({ refreshTable, setRefreshTable }) {
                     setWarranty(null);
                     setAdditionalItems(null);
                     setOtherDetails(null);
-                    alert('Added device asset');
+                    alert.success('Added laptop asset');
                     setRefreshTable(true);
                     handleClose();
                 })
@@ -96,7 +97,8 @@ export default function LaptopAssetAdd({ refreshTable, setRefreshTable }) {
                     console.error('Error adding device asset:', error);
                 });
         } else {
-            alert('Some fields are missing');
+            console.log('Failed to add laptop');
+            alert.error('Some fields are missing');
         }
     }
 
@@ -105,7 +107,7 @@ export default function LaptopAssetAdd({ refreshTable, setRefreshTable }) {
             <Button variant="contained"
                 className='button-gradient'
                 onClick={handleClickOpen}
-                style={{margin:'5px'}}>
+                style={{ margin: '5px' }}>
                 <AddIcon />Add Laptop Asset
             </Button>
             <Dialog open={open} onClose={handleClose}>

@@ -7,6 +7,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { addItem as addDeviceAsset } from '../../service/apiService';
 import AddIcon from '@mui/icons-material/Add';
+import { useAlert } from "react-alert";
+
 export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
     const [open, setOpen] = useState(false);
     const [deviceAssetID, setDeviceAssetID] = useState(null);
@@ -23,7 +25,7 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
     const [additionalInfo, setAdditionalInfo] = useState(null);
     const { teamIDs, fetchEmployees } = useContext(TeamContext);
     const [teamEmployees, setTeamEmployees] = useState([]);
-
+    const alert = useAlert();
     useEffect(() => {
         fetchEmployees(team_IDf, setTeamEmployees);
     }, [team_IDf]);
@@ -69,15 +71,16 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
                     setSerialNo(null);
                     setAccessories(null);
                     setAdditionalInfo(null);
-                    alert('Added device asset');
+                    alert.success('Added device asset');
                     setRefreshTable(true);
                     handleClose();
                 })
                 .catch((error) => {
                     console.error('Error adding device asset:', error);
+
                 });
         } else {
-            alert('Some fields are missing');
+            alert.error('Some fields are missing');
         }
     };
 

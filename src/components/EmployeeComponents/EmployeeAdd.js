@@ -90,6 +90,12 @@ export default function EmployeeAdd({ refreshTable, setRefreshTable }) {
                 inputProps={{ 'aria-label': 'Team ID' }}
                 renderValue={(selected) => selected || 'Team ID'}
                 label="Team ID"
+                MenuProps={{
+                  anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center',
+                  }
+                }}
               >
 
                 {teamIDs.map((team) => (

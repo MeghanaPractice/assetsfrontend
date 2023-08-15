@@ -1,8 +1,9 @@
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Icon, Paper, Typography } from '@mui/material';
 import DeviceAssetTable from '../components/DeviceAssetComponenets/DeviceAssetTable';
 import DeviceImport from '../components/DeviceAssetComponenets/DeviceImport';
 import DeviceAssetAdd from '../components/DeviceAssetComponenets/DeviceAssetAdd';
+import TableHelpModal from '../components/CommonComponents/TableHelpModal';
 import { TeamProvider } from '../context/TeamContext';
 import { PhoneAndroidOutlined } from '@mui/icons-material';
 import { UserRoleContext } from '../context/UserRoleContext';
@@ -23,11 +24,11 @@ export default function DeviceAsset() {
                 <Paper elevation={3} className='paperStyle2'>
                     <div className='div-spaceToSides'>
                         <Typography variant="h1"><PhoneAndroidOutlined /> Mobile Device Asset</Typography>
-                        {userRole == 'Admin' &&
-                            <div className='div-rightstyle'>
-                                <DeviceImport />
-                                <DeviceAssetAdd setRefreshTable={setRefreshTable}></DeviceAssetAdd>
-                            </div>}
+                        <div className='div-rightstyle'>
+                            <TableHelpModal />
+                            {userRole == 'Admin' &&
+                                <><DeviceImport /><DeviceAssetAdd setRefreshTable={setRefreshTable}></DeviceAssetAdd></>
+                            }</div>
                     </div>
                     <DeviceAssetTable refreshTable={refreshTable} />
                 </Paper>

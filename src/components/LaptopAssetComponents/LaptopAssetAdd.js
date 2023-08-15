@@ -161,6 +161,12 @@ export default function LaptopAssetAdd({ refreshTable, setRefreshTable }) {
                                     value={team_ID}
                                     label="Team ID"
                                     onChange={(e) => setTeam_ID(e.target.value)}
+                                    MenuProps={{
+                                        anchorOrigin: {
+                                          vertical: 'top',
+                                          horizontal: 'center',
+                                        }
+                                      }}
                                 >
                                     {teamIDs.map((team) => (
                                         <MenuItem key={team} value={team}>
@@ -178,6 +184,12 @@ export default function LaptopAssetAdd({ refreshTable, setRefreshTable }) {
                                     value={empID}
                                     label="Employee ID"
                                     onChange={(e) => setEmpID(e.target.value)}
+                                    MenuProps={{
+                                        anchorOrigin: {
+                                          vertical: 'top',
+                                          horizontal: 'center',
+                                        }
+                                      }}
                                 >
                                     {teamEmployees.map((employee) => (
                                         <MenuItem key={employee} value={employee}>

@@ -1,4 +1,4 @@
-import { useState, React, useEffect } from 'react';
+import { useState, React, useEffect,useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -6,11 +6,11 @@ import { IconButton, Avatar, Popover } from '@mui/material';
 import { useAuth0 } from '@auth0/auth0-react';
 import Profile from './Profile';
 import { Link } from 'react-router-dom';
-import { getManagementApiAccessToken, confirmIfAdmin } from '../../service/authapiService';
+import { UserRoleContext } from '../../context/UserRoleContext';
 export default function Appbar() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { isAuthenticated, user } = useAuth0();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { isAuthenticated, user, isLoading } = useAuth0();
+  const { userRole } = useContext(UserRoleContext);
   const handleProfileClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -19,18 +19,7 @@ export default function Appbar() {
     setAnchorEl(null);
   };
 
-  useEffect(() => {
-    async function checkIfAdmin() {
-      try {
-        const accessToken = await getManagementApiAccessToken();
-        const isAdminUser = await confirmIfAdmin(accessToken, user.sub);
-        setIsAdmin(isAdminUser);
-      } catch (error) {
-        console.error('Error checking if admin:', error);
-      }
-    }
-    checkIfAdmin();
-  }, [user]);
+
   if (isAuthenticated) {
     return (
       <AppBar position='relative' elevation={0}>
@@ -45,7 +34,7 @@ export default function Appbar() {
           <Typography variant='h9' component={Link} to='/employee'>Employee</Typography>
           <Typography variant='h9' component={Link} to='/deviceasset'>Mobile Device Asset</Typography>
           <Typography variant='h9' component={Link} to='/laptopasset'>Laptop Asset</Typography>
-          {isAdmin ? (
+          {userRole.includes("Admin") ? (
             <Typography variant='h9' component={Link} to='/createuser'>Create User</Typography>
           ) : null}
           <>

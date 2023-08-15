@@ -4,6 +4,7 @@ import { TeamProvider } from '../context/TeamContext';
 import LaptopAssetAdd from '../components/LaptopAssetComponents/LaptopAssetAdd';
 import LaptopAssetTable from '../components/LaptopAssetComponents/LaptopAssetTable';
 import { Laptop } from '@mui/icons-material';
+import TableHelpModal from '../components/CommonComponents/TableHelpModal';
 import LaptopImport from '../components/LaptopAssetComponents/LaptopImport';
 import { UserRoleContext } from '../context/UserRoleContext';
 export default function LaptopAsset() {
@@ -22,11 +23,11 @@ export default function LaptopAsset() {
                 <Paper elevation={3} className='paperStyle2'>
                     <div className='div-spaceToSides'>
                         <Typography variant="h1"><Laptop /> Laptop Asset</Typography>
-                        {userRole == 'Admin' && 
                         <div className='div-rightstyle'>
-                            <LaptopImport />
-                            <LaptopAssetAdd setRefreshTable={setRefreshTable}></LaptopAssetAdd>
-                        </div>}
+                            <TableHelpModal />
+                            {userRole == 'Admin' &&
+                                <><LaptopImport /><LaptopAssetAdd setRefreshTable={setRefreshTable}></LaptopAssetAdd></>
+                            }</div>
                     </div>
                     <LaptopAssetTable refreshTable={refreshTable} />
                 </Paper>

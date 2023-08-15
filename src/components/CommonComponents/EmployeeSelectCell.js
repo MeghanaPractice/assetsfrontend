@@ -24,6 +24,12 @@ export default function EmployeeSelectCell(props) {
             }}
             input={<OutlinedInput />}
             fullWidth
+            MenuProps={{
+                anchorOrigin: {
+                  vertical: 'top',
+                  horizontal: 'center',
+                }
+              }}
         >
             {teamEmployees.map((employee) => (
                 <MenuItem key={employee} value={employee}>

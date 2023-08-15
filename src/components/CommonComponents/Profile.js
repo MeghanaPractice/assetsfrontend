@@ -18,7 +18,7 @@ export default function Profile(){
     isAuthenticated && (
       <div className="div-centerstyle" style={{padding:'20px'}}>
         <Avatar src={user.picture} alt={user.name}></Avatar>
-        <Typography variant="h6">{user.email}</Typography>
+        <Typography variant="h6">{user.name}</Typography>
         <Typography variant="subtitle2">{userRole} User</Typography>
         <Button variant="contained" className="button-gradient" onClick={() => logout({ logoutParams: { returnTo: 'http://127.0.0.1:3000' } })}>Logout</Button>
       </div>

@@ -6,23 +6,23 @@ import CircularProgress from '@mui/material/CircularProgress';
 export const UserRoleContext = createContext();
 
 export const UserRoleProvider = ({ children }) => {
-  const { user, isLoading } = useAuth0();
+  const { user, isLoading, isAuthenticated } = useAuth0();
   const role = user?.[config.namespace + '/roles'];
   const ID = user?.[config.namespace + '/empID'];
   const [userRole, setUserRole] = useState([]);
   const [userID, setUserID] = useState(null);
 
   useEffect(() => {
-    if (!isLoading) {
-      setUserRole(role);
+    if (isAuthenticated && !isLoading) {
       setUserID(ID);
+      setUserRole(role);
       console.log('Logged in User Role:', role);
-      console.log('Logged in User Employee ID:', userID);
+      console.log('Logged in User Employee ID:', ID);
     }
-  }, [isLoading, role, ID]);
+  }, [isAuthenticated]); 
 
   if (isLoading) {
-    return <div className="div-centerstyle"><CircularProgress/></div>;
+     return <div className="div-centerstyle"><CircularProgress/></div>;
   }
 
   return (

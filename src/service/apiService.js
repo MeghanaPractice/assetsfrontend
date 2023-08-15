@@ -21,7 +21,7 @@ export const updateItem = async (modelName, item) => {
             case 'laptopasset': id = item.laptopNo; break;
             default: throw new Error('Invalid modelName');
         }
-
+        if(item) 
         await fetch(`${BASE_URL}/${modelName}/edit/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },

@@ -12,6 +12,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import "react-confirm-alert/src/react-confirm-customalert.css";
 import { useAlert } from 'react-alert'
 import CellPopoverContent from './CellPopoverContent';
+
 export default function TableComponent({ refreshTable, itemName, itemID, columns, apiRef }) {
   const [items, setItems] = useState([]);
   const [rowModes, setRowModes] = useState({});
@@ -30,6 +31,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
     if (refreshTable)
       fetchData();
   }, [refreshTable]);
+
 
   const isRowInEditMode = (rowID) => {
     return rowModes[rowID]?.mode === GridRowModes.Edit ? true : false;
@@ -135,7 +137,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
     if (userRole == 'Standard' && isRowEditable(params)) {
       return (
         <>
-          <IconButton onClick={() => handleEdit(row[itemID])}>
+          <IconButton onClick={() => handleEdit(row[itemID]) }>
             <EditIcon color='secondary' />
           </IconButton>
         </>
@@ -148,7 +150,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
             <EditIcon color='secondary' />
           </IconButton>
           <IconButton onClick={() => handleDelete(row)}>
-            <DeleteIcon color='warning' />
+            <DeleteIcon color='error' />
           </IconButton>
         </>
       );
@@ -178,7 +180,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const open = Boolean(anchorEl);
   const handlePopoverOpen = (params, event) => {
-    if (params.value != null && (typeof params.value!='boolean')) {
+    if (params.value != null && (typeof params.value != 'boolean')) {
       setValue(params.formattedValue);
       setAnchorEl(event.currentTarget);
       setIsPopoverOpen(true);
@@ -201,6 +203,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         onRowModeChange={(newRowModes) => setRowModes(newRowModes)}
         apiRef={apiRef}
         isRowSelectable={isRowEditable}
+        disableRowSelectionOnClick
         sx={{
           boxShadow: 2,
           '& .MuiDataGrid-columnHeader': {
@@ -231,7 +234,6 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         slots={{
           toolbar: CustomGridToolbarNoAdd,
         }}
-        disableRowSelectionOnClick
         autoHeight
         initialState={{
           pagination: {
@@ -244,9 +246,9 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
       />
       <CellPopoverContent
         open={open}
-        anchorEl={anchorEl} 
+        anchorEl={anchorEl}
         value={value}
-        handlePopoverClose={ handlePopoverClose} />
+        handlePopoverClose={handlePopoverClose} />
     </>
   );
 }

@@ -7,14 +7,16 @@ import { config } from '../../usermanagementapiconfig';
 import { createUser } from '../../service/authapiService';
 import { TeamContext } from '../../context/TeamContext';
 import { useAlert } from "react-alert";
+import { assignUserRole } from '../../service/authapiService';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 export default function CreateUserForm() {
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
     const [role, setrole] = useState('Standard');
-    const [emp, setEmp] = useState('');
-    const [team_ID, setTeam_ID] = useState('');
+    const [emp, setEmp] = useState(null);
+    const [team_ID, setTeam_ID] = useState(null);
     const [teamEmployees, setTeamEmployees] = useState([]);
     const { teamIDs, fetchEmployees } = useContext(TeamContext);
     const { userRole } = useContext(UserRoleContext);
@@ -31,12 +33,12 @@ export default function CreateUserForm() {
         const email_verified = false;
         const user_metadata = { roles: [role], empID: emp }
         const userData = { username, email, password, connection, email_verified, user_metadata };
-        if (userRole == 'Admin') {
+        if (userRole == 'Admin' && (email && password)!=null) {
             alert.show("User created. Verification and password reset email is being sent to the provided email")
             createUser(userData);
         }
         else {
-            alert.show('Only admins are allowed to create users.');
+            alert.show('Some fields may be missing.Please note that only admins can create users');
             console.log(userRole);
         }
         setUsername('');
@@ -49,7 +51,7 @@ export default function CreateUserForm() {
     return (
         <Container className='containerStyle2'>
             <Paper elevation={3} className='paperStyle2'>
-                <h1>Create a user</h1>
+                <h1><PersonAddAltIcon/> Create a user</h1>
                 <p>User will be able to access the site and perform various functions</p>
                 <form className="div-centerstyle" noValidate autoComplete="off">
                     <TextField
@@ -107,6 +109,12 @@ export default function CreateUserForm() {
                             value={team_ID}
                             label="Team ID"
                             onChange={(e) => setTeam_ID(e.target.value)}
+                            MenuProps={{
+                                anchorOrigin: {
+                                  vertical: 'top',
+                                  horizontal: 'center',
+                                }
+                              }}
                         >
                             {teamIDs.map((team) => (
                                 <MenuItem key={team} value={team}>
@@ -124,6 +132,12 @@ export default function CreateUserForm() {
                             value={emp}
                             label="Employee ID"
                             onChange={(e) => setEmp(e.target.value)}
+                            MenuProps={{
+                                anchorOrigin: {
+                                  vertical: 'top',
+                                  horizontal: 'center',
+                                }
+                              }}
                         >
                             {teamEmployees.map((employee) => (
                                 <MenuItem key={employee} value={employee}>

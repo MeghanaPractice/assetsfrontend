@@ -146,6 +146,12 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
                                     value={team_IDf}
                                     label="Team ID"
                                     onChange={(e) => setteam_IDf(e.target.value)}
+                                    MenuProps={{
+                                        anchorOrigin: {
+                                          vertical: 'top',
+                                          horizontal: 'center',
+                                        }
+                                      }}
                                 >
                                     {teamIDs.map((team) => (
                                         <MenuItem key={team} value={team}>
@@ -163,6 +169,12 @@ export default function DeviceAssetAdd({ refreshTable, setRefreshTable }) {
                                     value={emp_ID}
                                     label="Employee ID"
                                     onChange={(e) => setemp_ID(e.target.value)}
+                                    MenuProps={{
+                                        anchorOrigin: {
+                                          vertical: 'top',
+                                          horizontal: 'center',
+                                        }
+                                      }}
                                 >
                                     {teamEmployees.map((employee) => (
                                         <MenuItem key={employee} value={employee}>

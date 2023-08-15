@@ -123,10 +123,35 @@ export const createUser = async (userData) => {
             console.error('Failed to create user:', response.status, response.statusText);
             return;
         }
-        await setPasswordResetEmail(userData);
-        console.log('User created successfully:',userData);
+        console.log('User created successfully:', userData);
 
     } catch (error) {
         console.error('Error creating user:', error);
+    }
+};
+
+export const assignUserRole = async (userID, roles) => {
+    try {
+        const accessToken = await getManagementApiAccessToken();
+
+        const response = await fetch(`https://${config.domain}/api/v2/users/${userID}/roles`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + accessToken,
+            },
+            body: JSON.stringify({ roles: roles }),
+        });
+
+        if (!response.ok) {
+            console.error('Failed to assign user role:', response.status, response.statusText);
+            return;
+        }
+
+        console.log('User role assigned successfully:', roles);
+
+    } catch (error) {
+        console.error('Error assigning user role:', error);
     }
 };

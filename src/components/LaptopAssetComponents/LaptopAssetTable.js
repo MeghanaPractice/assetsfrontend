@@ -3,14 +3,12 @@ import { useGridApiRef } from '@mui/x-data-grid';
 import PurchaseDateCell from '../CommonComponents/PurchaseDateCell';
 import TeamSelectCell from '../CommonComponents/TeamSelectCell';
 import EmployeeSelectCell from '../CommonComponents/EmployeeSelectCell';
-import { TeamContext } from '../../context/TeamContext';
 import TableComponent from '../CommonComponents/TableComponent';
 import dayjs from 'dayjs';
 import { UserRoleContext } from '../../context/UserRoleContext';
 import CommentsEditCell from '../CommonComponents/CommentEditCell';
 
 export default function LaptopAssetTable({ refreshTable }) {
-  const { teamIDs } = useContext(TeamContext);
   const apiRef = useGridApiRef();
   const { userRole } = useContext(UserRoleContext);
   const isAdmin = userRole.includes('Admin');
@@ -41,7 +39,6 @@ export default function LaptopAssetTable({ refreshTable }) {
           value={params.value}
           field={params.field}
           onChange={params.onChange}
-          teamIDs={teamIDs}
           apiGridContext={apiRef}
         />
       ),

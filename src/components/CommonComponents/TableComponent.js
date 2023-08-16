@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridRowModes } from '@mui/x-data-grid';
-import { IconButton, Box, Popover, Typography } from '@mui/material';
+import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Check, Cancel, OpenInFull } from '@mui/icons-material';
+import { Check, Cancel } from '@mui/icons-material';
 import { fetchItems, updateItem, deleteItem } from '../../service/apiService';
 import CustomGridToolbarNoAdd from '../CommonComponents/CustomGridToolbarNoAdd';
 import { UserRoleContext } from '../../context/UserRoleContext';
@@ -175,8 +175,8 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
     fetchData();
   }, []);
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [value, setValue] = React.useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [value, setValue] = useState(null);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const open = Boolean(anchorEl);
   const handlePopoverOpen = (params, event) => {

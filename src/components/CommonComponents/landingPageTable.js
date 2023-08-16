@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchEmployeesAssigned } from '../../service/apiService';
 import { DataGrid } from '@mui/x-data-grid';
-
+import CellPopoverContent from './CellPopoverContent';
 export default function LandingPageTable() {
 
   const [columns, setColumns] = useState([
@@ -12,6 +12,7 @@ export default function LandingPageTable() {
     { field: 'laptopNames', headerName: 'Assigned Laptops', flex: 1 },
     { field: 'deviceNames', headerName: 'Assigned Mobile Devices', flex: 1 }
   ]);
+  const itemID = 'personID';
 
   const [rows, setRows] = useState([]);
 
@@ -22,7 +23,24 @@ export default function LandingPageTable() {
       });
     };
     fetchData();
-  }, [])
+  }, [fetchEmployeesAssigned])
+
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [value, setValue] = React.useState(null);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const open = Boolean(anchorEl);
+  const handlePopoverOpen = (params, event) => {
+    if (params.value != null && (typeof params.value != 'boolean')) {
+      setValue(params.formattedValue);
+      setAnchorEl(event.currentTarget);
+      setIsPopoverOpen(true);
+    }
+  };
+  const handlePopoverClose = () => {
+    setIsPopoverOpen(false);
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -49,5 +67,15 @@ export default function LandingPageTable() {
             },
           },
         }}
-        pageSizeOptions={[5, 10, 15, 20, 100]} /></>);
+        onCellClick={(params, event) => {
+            handlePopoverOpen(params, event);
+        }}
+        pageSizeOptions={[5, 10, 15, 20, 100]} />
+      <CellPopoverContent
+        open={open}
+        anchorEl={anchorEl}
+        value={value}
+        handlePopoverClose={handlePopoverClose} />
+    </>
+  );
 }

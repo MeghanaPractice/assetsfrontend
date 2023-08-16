@@ -52,9 +52,9 @@ export default function ImportExcel({ fields, itemName }) {
                     colors: {
                         background: 'white',
                         rsi: {
-                            50: 'teal',
+                            50: 'paleturquoise',
                             500: 'blue',
-                            900: 'green',
+                            900: 'teal',
                         },
                     },
                     components:
@@ -67,7 +67,7 @@ export default function ImportExcel({ fields, itemName }) {
                                     h: "90px",
                                 },
                             }
-                        }
+                        },
                     }
                 }}
                 translations={{

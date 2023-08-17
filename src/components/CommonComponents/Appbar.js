@@ -1,4 +1,4 @@
-import { useState, React, useEffect,useContext } from 'react';
+import { useState, React, useEffect, useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -30,8 +30,10 @@ export default function Appbar() {
             </a>
           </div>
           <Typography variant='h9' component={Link} to='/'>Home</Typography>
-          <Typography variant='h9' component={Link} to='/team'>Team</Typography>
-          <Typography variant='h9' component={Link} to='/employee'>Employee</Typography>
+          {userRole.includes("Admin") ? (
+            <Typography variant='h9' component={Link} to='/team'>Team</Typography>) : null}
+          {userRole.includes("Admin") ? (  
+          <Typography variant='h9' component={Link} to='/employee'>Employee</Typography> ) : null}
           <Typography variant='h9' component={Link} to='/deviceasset'>Mobile Device Asset</Typography>
           <Typography variant='h9' component={Link} to='/laptopasset'>Laptop Asset</Typography>
           {userRole.includes("Admin") ? (

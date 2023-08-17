@@ -7,6 +7,7 @@ import { TeamContext } from '../../context/TeamContext';
 import dayjs from 'dayjs';
 import TableComponent from '../CommonComponents/TableComponent';
 import { UserRoleContext } from '../../context/UserRoleContext';
+import CommentsEditCell from '../CommonComponents/CommentEditCell';
 export default function DeviceAssetTable({ refreshTable }) {
   const { teamIDs } = useContext(TeamContext);
   const apiRef = useGridApiRef();
@@ -73,7 +74,14 @@ export default function DeviceAssetTable({ refreshTable }) {
     { field: 'imeiCode', headerName: 'IMEI Code', editable: editOption, width: 150 },
     { field: 'serialNo', headerName: 'Serial No', editable: editOption, width: 150 },
     { field: 'accessories', headerName: 'Accessories', editable: editOption, width: 300 },
-    { field: 'additionalInfo', headerName: 'Comments', editable: standardUserExceptions.includes('additionalInfo') ? true : editOption, width: 300 },
+    { field: 'additionalInfo', headerName: 'Comments', editable: standardUserExceptions.includes('additionalInfo') ? true : editOption, width: 300, 
+      renderEditCell:(params)=>(<CommentsEditCell
+        id={params.id}
+        value={params.value}
+        field={params.field}
+        onChange={params.onChange}
+        apiRef={apiRef}
+      /> )},
   ];
   const itemName = 'deviceasset';
   const itemID = 'deviceNo';

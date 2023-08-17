@@ -21,12 +21,12 @@ export const updateItem = async (modelName, item) => {
             case 'laptopasset': id = item.laptopNo; break;
             default: throw new Error('Invalid modelName');
         }
-        if(item) 
-        await fetch(`${BASE_URL}/${modelName}/edit/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(item),
-        });
+        if (item)
+            await fetch(`${BASE_URL}/${modelName}/edit/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(item),
+            });
     } catch (error) {
         console.error(`Error editing ${modelName}:`, error);
     }
@@ -67,38 +67,60 @@ export const fetchEmp = async (teamID) => {
         console.error(`Error finding employees`, error);
         return [];
     }
-    
+}
+
+export const fetchLoggedInEmployeeAssigned = async (modelName, empID) => {
+    try {
+        if (modelName == 'deviceasset') {
+            const employeesDevices = await fetch(
+                `${BASE_URL}/employee/getdevices/${empID}`
+            );
+            const devices = await employeesDevices.json();
+            return devices;
+        }
+        else if (modelName == 'laptopasset') {
+            const employeesLaptops = await fetch(
+                `${BASE_URL}/employee/getlaptops/${empID}`
+            );
+            const laptops = await employeesLaptops.json();
+            return laptops;
+        }
+        else return [];
+    }
+    catch (error) {
+        console.error("Error fetching employees:", error);
+        return [];
+    }
 }
 
 export const fetchEmployeesAssigned = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/employee/getAll`);
-      const employees = await response.json();
-      const employeesWithDevices = await Promise.all(
-        employees.map(async (employee) => {
-          const devicesResponse = await fetch(
-            `${BASE_URL}/employee/getdevices/${employee.employeeID}`
-          );
-          const devices = await devicesResponse.json();
-          const deviceNames = devices.map((device)=> device.modelName)
-          return { ...employee, deviceNames };
-        })
-      );
- 
-      const employeesWithDevicesAndLaptops = await Promise.all(
-        employeesWithDevices.map(async (employee) => {
-          const laptopsResponse = await fetch(
-            `${BASE_URL}/employee/getlaptops/${employee.employeeID}`
-          );
-          const laptops = await laptopsResponse.json();
-          const laptopNames = laptops.map((laptop)=> laptop.modelName)
-          return { ...employee, laptopNames };
-        })
-      );
-     return employeesWithDevicesAndLaptops;
+        const response = await fetch(`${BASE_URL}/employee/getAll`);
+        const employees = await response.json();
+        const employeesWithDevices = await Promise.all(
+            employees.map(async (employee) => {
+                const devicesResponse = await fetch(
+                    `${BASE_URL}/employee/getdevices/${employee.employeeID}`
+                );
+                const devices = await devicesResponse.json();
+                const deviceNames = devices.map((device) => device.modelName)
+                return { ...employee, deviceNames };
+            })
+        );
+
+        const employeesWithDevicesAndLaptops = await Promise.all(
+            employeesWithDevices.map(async (employee) => {
+                const laptopsResponse = await fetch(
+                    `${BASE_URL}/employee/getlaptops/${employee.employeeID}`
+                );
+                const laptops = await laptopsResponse.json();
+                const laptopNames = laptops.map((laptop) => laptop.modelName)
+                return { ...employee, laptopNames };
+            })
+        );
+        return employeesWithDevicesAndLaptops;
     } catch (error) {
-      console.error("Error fetching employees:", error);
-      return [];
+        console.error("Error fetching employees:", error);
+        return [];
     }
-  };
-  
+};

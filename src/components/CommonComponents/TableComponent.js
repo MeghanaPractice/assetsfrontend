@@ -4,7 +4,7 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel } from '@mui/icons-material';
-import { fetchItems, updateItem, deleteItem } from '../../service/apiService';
+import { fetchItems, updateItem, deleteItem, fetchLoggedInEmployeeAssigned } from '../../service/apiService';
 import CustomGridToolbarNoAdd from '../CommonComponents/CustomGridToolbarNoAdd';
 import { UserRoleContext } from '../../context/UserRoleContext';
 import { useContext } from 'react';
@@ -22,9 +22,16 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
   const alert = useAlert();
 
   const fetchData = () => {
-    fetchItems(itemName).then((result) => {
-      setItems(result);
-    });
+    if (userRole.includes('Admin')) {
+      fetchItems(itemName).then((result) => {
+        setItems(result);
+      });
+    }
+    else {
+      fetchLoggedInEmployeeAssigned(itemName, userID).then((result) => {
+        setItems(result);
+      });
+    }
   };
 
   useEffect(() => {
@@ -137,7 +144,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
     if (userRole == 'Standard' && isRowEditable(params)) {
       return (
         <>
-          <IconButton onClick={() => handleEdit(row[itemID]) }>
+          <IconButton onClick={() => handleEdit(row[itemID])}>
             <EditIcon color='secondary' />
           </IconButton>
         </>

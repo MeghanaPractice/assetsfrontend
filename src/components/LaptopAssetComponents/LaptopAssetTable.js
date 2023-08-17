@@ -100,6 +100,7 @@ export default function LaptopAssetTable({ refreshTable }) {
 
   const itemName = 'laptopasset';
   const itemID = 'laptopNo';
+  
   return (
     <TableComponent
       refreshTable={refreshTable}

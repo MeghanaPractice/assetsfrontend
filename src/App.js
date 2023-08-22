@@ -10,7 +10,11 @@ import LaptopAsset from './pages/laptopAsset';
 import LoginButton from './components/CommonComponents/login';
 import PrivateRoute from './components/CommonComponents/PrivateRoute';
 import CreateUser from './pages/createUser';
+import History from './pages/history';
 import Footer from './components/CommonComponents/Footer';
+import Software from './pages/software';
+import Hardware from './pages/hardware';
+import OtherAssets from './pages/otherassets';
 function App() {
   return (
     <Router>
@@ -23,6 +27,10 @@ function App() {
         <Route path='/deviceasset' element={<PrivateRoute><DeviceAsset /></PrivateRoute>} />
         <Route path='/laptopasset' element={<PrivateRoute><LaptopAsset /></PrivateRoute>} />
         <Route path='/createuser' element={<PrivateRoute><CreateUser/></PrivateRoute>}/>
+        <Route path='/software' element={<PrivateRoute><Software/></PrivateRoute>}/>
+        <Route path='/hardware' element={<PrivateRoute><Hardware/></PrivateRoute>}/>
+        <Route path='/otherassets' element={<PrivateRoute><OtherAssets/></PrivateRoute>}/>
+        <Route path='/history' element={<PrivateRoute><History/></PrivateRoute>}/>
       </Routes>
       <Footer />
     </Router>

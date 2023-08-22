@@ -6,7 +6,7 @@ import LoginButton from "./login";
 import { UserRoleContext } from "../../context/UserRoleContext";
 export default function Profile(){
   const { user, isAuthenticated, isLoading, logout } = useAuth0();
-  const { userRole } = useContext(UserRoleContext);
+  const { userRole,userID } = useContext(UserRoleContext);
   if (isLoading) {
     return <div className="div-centerstyle"><CircularProgress/></div>
   }
@@ -19,6 +19,7 @@ export default function Profile(){
       <div className="div-centerstyle" style={{padding:'20px'}}>
         <Avatar src={user.picture} alt={user.name}></Avatar>
         <Typography variant="h6">{user.name}</Typography>
+        <Typography variant="subtitle2">ID: {userID}</Typography>
         <Typography variant="subtitle2">{userRole} User</Typography>
         <Button variant="contained" className="button-gradient" onClick={() => logout({ logoutParams: { returnTo: 'http://127.0.0.1:3000' } })}>Logout</Button>
       </div>

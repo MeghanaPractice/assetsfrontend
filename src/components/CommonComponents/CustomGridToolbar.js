@@ -25,7 +25,8 @@ export default function CustomGridToolbar(props) {
             <RenderAddButton />
             <GridToolbar
                 showQuickFilter={true}
-                quickFilterProps={{ debounceMs: 500 }}
+                quickfilteprops={{ debounceMs: 500 }}
+                
 
             />
         </GridToolbarContainer>

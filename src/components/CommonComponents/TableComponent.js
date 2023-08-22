@@ -21,23 +21,32 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
   const [openConfirm, setOpenConfirm] = useState(false);
   const alert = useAlert();
 
-  const fetchData = () => {
+  const fetchData = async () => {
     if (userRole.includes('Admin')) {
-      fetchItems(itemName).then((result) => {
+      await fetchItems(itemName).then((result) => {
         setItems(result);
       });
     }
     else {
-      fetchLoggedInEmployeeAssigned(itemName, userID).then((result) => {
+      await fetchLoggedInEmployeeAssigned(itemName, userID).then((result) => { 
         setItems(result);
-      });
+      })
     }
   };
+
+
+
+  useEffect(() => {
+     fetchData();
+  }, []);
+
 
   useEffect(() => {
     if (refreshTable)
       fetchData();
   }, [refreshTable]);
+
+
 
 
   const isRowInEditMode = (rowID) => {
@@ -87,7 +96,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
               ...prevRowModes,
               [item[itemID]]: { mode: GridRowModes.View },
             }));
-            await updateItem(itemName, item);
+            await updateItem(itemName, item, userID, userRole);
             fetchData();
           }
         },
@@ -112,7 +121,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
                 ...prevRowModes,
                 [item[itemID]]: { mode: GridRowModes.View },
               }));
-              await deleteItem(itemName, item[itemID]);
+              await deleteItem(itemName, item[itemID],userID,userRole);
               fetchData();
             },
           },
@@ -178,9 +187,6 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
     }
   ]
 
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [value, setValue] = useState(null);
@@ -204,7 +210,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
       <DataGrid
         checkboxSelection
         rows={items}
-        columns={columnsWithActions}
+        columns={(itemName)=='history' ? column : columnsWithActions}
         getRowId={(row) => row[itemID]}
         rowModes={rowModes}
         onRowModeChange={(newRowModes) => setRowModes(newRowModes)}

@@ -6,7 +6,6 @@ import {
   GridToolbarFilterButton,
   GridToolbarQuickFilter
 } from "@mui/x-data-grid";
-import { Button } from "@mui/material";
 
 export default function CustomGridToolbarNoAdd() {
   return (
@@ -29,7 +28,7 @@ export default function CustomGridToolbarNoAdd() {
         gap:'5%'
       }}
     >
-      <GridToolbarQuickFilter quickFilterProps={{ debounceMs: 500 }} />
+      <GridToolbarQuickFilter quickfilterprops={{ debounceMs: 500 }} />
       <div>
         <GridToolbarFilterButton />
         <GridToolbarColumnsButton />

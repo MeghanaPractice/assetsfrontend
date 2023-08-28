@@ -7,6 +7,7 @@ import TableComponent from '../CommonComponents/TableComponent';
 import dayjs from 'dayjs';
 import { UserRoleContext } from '../../context/UserRoleContext';
 import CommentsEditCell from '../CommonComponents/CommentEditCell';
+import LaptopSelectCell from '../CommonComponents/LaptopSelectCell';
 
 export default function SoftwareTable({ refreshTable }) {
   const apiRef = useGridApiRef();
@@ -16,47 +17,23 @@ export default function SoftwareTable({ refreshTable }) {
   const standardUserExceptions = ['inTeam', 'assignedTo', 'additionalInformation'];
   const columns = [
     {
-      field: 'softwareID',
-      headerName: 'Software ID',
-      editable: editOption,
-      width: 150,
-    },
-    {
       field: 'softwareName',
       headerName: 'Software Name',
       editable: editOption,
       width: 150,
     },
     {
-      field: 'inTeam',
-      headerName: 'In Team',
-      editable: standardUserExceptions.includes('inTeam') ? true : editOption,
+      field: 'type',
+      headerName: 'Type',
+      editable: editOption,
       width: 150,
-      renderEditCell: (params) => (
-        <TeamSelectCell
-          id={params.id}
-          value={params.value}
-          field={params.field}
-          onChange={params.onChange}
-          apiGridContext={apiRef}
-        />
-      ),
     },
     {
-      field: 'assignedTo',
-      headerName: 'Assigned To',
-      editable: standardUserExceptions.includes('assignedTo') ? true : editOption,
+      field: 'maxUsers',
+      headerName: 'Max Users',
+      editable: editOption,
+      type:'number',
       width: 150,
-      renderEditCell: (params) => (
-        <EmployeeSelectCell
-          id={params.id}
-          value={params.value}
-          field={params.field}
-          teamID={params.row.inTeam}
-          onChange={params.onChange}
-          apiRef={apiRef}
-        />
-      ),
     },
     {
       field: 'purchaseDate',
@@ -109,6 +86,30 @@ export default function SoftwareTable({ refreshTable }) {
       headerName: 'Password',
       editable: editOption,
       width: 150,
+    },
+    {
+      field: 'assignedLaptops',
+      headerName: 'Assigned To Laptops',
+      editable: editOption,
+      width: 400,
+      valueFormatter: ({ value }) => {
+        if (value != null && Array.isArray(value)) {
+          const laptopIDs = value.map(laptop => laptop.laptopAssetID).join(', ');
+          return laptopIDs;
+        }
+        return '';
+      },
+      renderEditCell: (params) => (
+        <LaptopSelectCell
+        id={params.id}
+        value={params.value}
+        field={params.field}
+        onChange={params.onChange}
+        apiRef={apiRef}
+        softwareID={params.row.softwareID}
+        maxUsers={params.row.maxUsers}
+        />
+      )
     },
     {
       field: 'additionalInformation',

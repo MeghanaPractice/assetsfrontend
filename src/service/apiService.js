@@ -11,6 +11,18 @@ export const fetchItems = async (modelName) => {
     }
 };
 
+export const fetchItemByID = async(modelName,itemID) =>
+{
+    try {
+        const response = await fetch(`${BASE_URL}/${modelName}/get/${itemID}`);
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error(`Error fetching ${modelName}s:`, error);
+        return null;
+    }
+
+}
 
 export const updateHistory = async (modelName, changeType, userID, userRole) => {
     try {
@@ -90,14 +102,21 @@ export const deleteItem = async (modelName, itemId, changedBy, role) => {
 
 export const addItem = async (modelName, item) => {
     try {
-        await fetch(`${BASE_URL}/${modelName}/add`, {
+        const response = await fetch(`${BASE_URL}/${modelName}/add`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(item),
         });
+        if (response.ok) {
+            return 1;
+        } else {
+           return null;
+        }
     } catch (error) {
         console.error(`Error adding ${modelName}:`, error);
+        return null;
     }
+
 };
 
 export const fetchEmp = async (teamID) => {
@@ -115,19 +134,22 @@ export const fetchEmp = async (teamID) => {
 
 export const fetchLoggedInEmployeeAssigned = async (modelName, empID) => {
     try {
-        if (modelName == 'deviceasset') {
+        let id;
+        const from='employee'
+        switch (modelName) {
+            case 'deviceasset': id = 'getdevices'; break;
+            case 'laptopasset': id = 'getlaptops'; break;
+            case 'software': id = 'getsoftwares'; break;
+            case 'hardware': id = 'gethardwares'; break;
+            default: throw new Error('Invalid modelName');
+        }
+        if(id)
+         {
             const employeesDevices = await fetch(
-                `${BASE_URL}/employee/getdevices/${empID}`
+                `${BASE_URL}/${from}/${id}/${empID}`
             );
             const devices = await employeesDevices.json();
             return devices;
-        }
-        else if (modelName == 'laptopasset') {
-            const employeesLaptops = await fetch(
-                `${BASE_URL}/employee/getlaptops/${empID}`
-            );
-            const laptops = await employeesLaptops.json();
-            return laptops;
         }
         else return [];
     }
@@ -136,6 +158,41 @@ export const fetchLoggedInEmployeeAssigned = async (modelName, empID) => {
         return [];
     }
 }
+
+export const assignLaptop = async (softwareID,laptopID) => {
+
+    try{
+        let from = 'software'
+        
+        console.log('assigning for:',softwareID)
+        const response = await fetch(`${BASE_URL}/${from}/assign/${softwareID}/${laptopID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+    } catch (error) {
+        console.error("Error assigning:", error);
+        return null;
+    }
+}
+
+export const deassignLaptop = async (softwareID,laptopID) => {
+
+    try{
+        let from = 'software'
+        
+        console.log('assigning for:',softwareID)
+        const response = await fetch(`${BASE_URL}/${from}/deassign/${softwareID}/${laptopID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+    } catch (error) {
+        console.error("Error assigning:", error);
+        return null;
+    }
+}
+
 
 export const fetchEmployeesAssigned = async () => {
     try {
@@ -179,3 +236,4 @@ export const fetchEmployeesAssigned = async () => {
         return [];
     }
 };
+

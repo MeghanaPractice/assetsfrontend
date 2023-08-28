@@ -85,6 +85,7 @@ export default function LaptopAssetTable({ refreshTable }) {
     { field: 'accessories', headerName: 'Accessories', editable: editOption, width: 300 },
     { field: 'warranty', headerName: 'Warranty', editable: editOption, width: 150 },
     { field: 'additionalItems', headerName: 'Additional Items', editable: editOption, width: 150 },
+    { field: 'assignedSoftwareNames', headerName: 'Assigned Softwares', editable: editOption, width: 150   },
     { field: 'otherDetails', headerName: 'Comments', editable: standardUserExceptions.includes('otherDetails') ? true : editOption, width: 400,
     renderEditCell: (params) => (
       <CommentsEditCell

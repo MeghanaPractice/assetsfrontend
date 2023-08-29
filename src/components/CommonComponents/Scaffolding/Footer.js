@@ -1,9 +1,8 @@
 /*For use of BeQiSoft Pvt Ltd. */
 
+import React from 'react'
 
-import React from 'react';
-
-export default function Footer(){
+export default function Footer () {
   return (
     <footer
       style={{
@@ -14,11 +13,10 @@ export default function Footer(){
         bottom: -300,
         width: '100%',
         padding: '10px 0',
-        color: 'white',
+        color: 'white'
       }}
     >
-     © BeQisoft. All rights reserved.
+      © BeQisoft. All rights reserved.
     </footer>
-  );
-};
-
+  )
+}

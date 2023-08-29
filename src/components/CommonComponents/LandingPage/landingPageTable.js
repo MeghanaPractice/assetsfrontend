@@ -1,84 +1,84 @@
 /*For use of BeQiSoft Pvt Ltd. */
 
-
-import React, { useEffect, useState } from 'react';
-import { fetchEmployeesAssigned } from '../../../service/fetchEmployeesAssigned';
-import { DataGrid } from '@mui/x-data-grid';
-import CellPopoverContent from '../TableParts/CellPopoverContent';
-export default function LandingPageTable() {
-
+import React, { useEffect, useState } from 'react'
+import { fetchEmployeesAssigned } from '../../../service/fetchEmployeesAssigned'
+import { DataGrid } from '@mui/x-data-grid'
+import CellPopoverContent from '../TableParts/CellPopoverContent'
+export default function LandingPageTable () {
   const [columns, setColumns] = useState([
     { field: 'employeeID', headerName: 'Employee ID', flex: 1 },
     { field: 'employeeName', headerName: 'Employee name', flex: 1 },
-    { field: 'teamIDNo', headerName: 'Team ID', flex: 1, },
+    { field: 'teamIDNo', headerName: 'Team ID', flex: 1 },
     { field: 'designation', headerName: 'Designation', flex: 1 },
     { field: 'laptopNames', headerName: 'Assigned Laptops', flex: 1 },
     { field: 'deviceNames', headerName: 'Assigned Mobile Devices', flex: 1 }
-  ]);
-  const itemID = 'personID';
+  ])
+  const itemID = 'personID'
 
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState([])
 
   useEffect(() => {
     const fetchData = () => {
-      fetchEmployeesAssigned().then((result) => {
-        setRows(result);
-      });
-    };
-    fetchData();
+      fetchEmployeesAssigned().then(result => {
+        setRows(result)
+      })
+    }
+    fetchData()
   }, [fetchEmployeesAssigned])
 
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [value, setValue] = React.useState(null);
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const open = Boolean(anchorEl);
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [value, setValue] = React.useState(null)
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+  const open = Boolean(anchorEl)
   const handlePopoverOpen = (params, event) => {
-    if (params.value != null && (typeof params.value != 'boolean')) {
-      setValue(params.formattedValue);
-      setAnchorEl(event.currentTarget);
-      setIsPopoverOpen(true);
+    if (params.value != null && typeof params.value != 'boolean') {
+      setValue(params.formattedValue)
+      setAnchorEl(event.currentTarget)
+      setIsPopoverOpen(true)
     }
-  };
+  }
   const handlePopoverClose = () => {
-    setIsPopoverOpen(false);
-    setAnchorEl(null);
-  };
+    setIsPopoverOpen(false)
+    setAnchorEl(null)
+  }
 
   return (
     <>
       <DataGrid
         rows={rows}
         columns={columns}
-        getRowId={(row) => row.personID}
+        getRowId={row => row.personID}
         sx={{
           boxShadow: 2,
           '& .MuiDataGrid-cell:hover': {
-            color: 'primary.main',
+            color: 'primary.main'
           },
           '& .MuiDataGrid-columnHeader': {
             color: 'white',
-            backgroundColor: 'teal',
-          },
+            backgroundColor: 'teal'
+          }
         }}
-        density="comfortable"
+        density='comfortable'
         pageSize={5}
         initialState={{
           pagination: {
             paginationModel: {
-              page: 0, pageSize: 5,
-            },
-          },
+              page: 0,
+              pageSize: 5
+            }
+          }
         }}
         onCellClick={(params, event) => {
-            handlePopoverOpen(params, event);
+          handlePopoverOpen(params, event)
         }}
-        pageSizeOptions={[5, 10, 15, 20, 100]} />
+        pageSizeOptions={[5, 10, 15, 20, 100]}
+      />
       <CellPopoverContent
         open={open}
         anchorEl={anchorEl}
         value={value}
-        handlePopoverClose={handlePopoverClose} />
+        handlePopoverClose={handlePopoverClose}
+      />
     </>
-  );
+  )
 }

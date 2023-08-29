@@ -1,41 +1,45 @@
 /*For use of BeQiSoft Pvt Ltd. */
 
-import React, { useContext } from 'react';
-import { useGridApiRef } from '@mui/x-data-grid';
-import PurchaseDateCell from '../CommonComponents/TableParts/TableCells/PurchaseDateCell';
-import TeamSelectCell from '../CommonComponents/TableParts/TableCells/TeamSelectCell';
-import EmployeeSelectCell from '../CommonComponents/TableParts/TableCells/EmployeeSelectCell';
-import TableComponent from '../CommonComponents/TableParts/TableComponent';
-import dayjs from 'dayjs';
-import { UserRoleContext } from '../../context/UserRoleContext';
-import CommentsEditCell from '../CommonComponents/TableParts/TableCells/CommentEditCell';
-import LaptopSelectCell from '../CommonComponents/TableParts/TableCells/LaptopSelectCell';
+import React, { useContext } from 'react'
+import { useGridApiRef } from '@mui/x-data-grid'
+import PurchaseDateCell from '../CommonComponents/TableParts/TableCells/PurchaseDateCell'
+import TeamSelectCell from '../CommonComponents/TableParts/TableCells/TeamSelectCell'
+import EmployeeSelectCell from '../CommonComponents/TableParts/TableCells/EmployeeSelectCell'
+import TableComponent from '../CommonComponents/TableParts/TableComponent'
+import dayjs from 'dayjs'
+import { UserRoleContext } from '../../context/UserRoleContext'
+import CommentsEditCell from '../CommonComponents/TableParts/TableCells/CommentEditCell'
+import LaptopSelectCell from '../CommonComponents/TableParts/TableCells/LaptopSelectCell'
 
-export default function SoftwareTable({ refreshTable }) {
-  const apiRef = useGridApiRef();
-  const { userRole } = useContext(UserRoleContext);
-  const isAdmin = userRole.includes('Admin');
-  const editOption = isAdmin || (!isAdmin && !userRole.includes('Standard')); 
-  const standardUserExceptions = ['inTeam', 'assignedTo', 'additionalInformation'];
+export default function SoftwareTable ({ refreshTable }) {
+  const apiRef = useGridApiRef()
+  const { userRole } = useContext(UserRoleContext)
+  const isAdmin = userRole.includes('Admin')
+  const editOption = isAdmin || (!isAdmin && !userRole.includes('Standard'))
+  const standardUserExceptions = [
+    'inTeam',
+    'assignedTo',
+    'additionalInformation'
+  ]
   const columns = [
     {
       field: 'softwareName',
       headerName: 'Software Name',
       editable: editOption,
-      width: 150,
+      width: 150
     },
     {
       field: 'type',
       headerName: 'Type',
       editable: editOption,
-      width: 150,
+      width: 150
     },
     {
       field: 'maxUsers',
       headerName: 'Max Users',
       editable: editOption,
-      type:'number',
-      width: 150,
+      type: 'number',
+      width: 150
     },
     {
       field: 'purchaseDate',
@@ -44,7 +48,7 @@ export default function SoftwareTable({ refreshTable }) {
       width: 150,
       type: 'date',
       valueGetter: ({ value }) => (value !== null ? new Date(value) : null),
-      renderEditCell: (params) => (
+      renderEditCell: params => (
         <PurchaseDateCell
           id={params.id}
           value={dayjs(params.value, 'YYYY-MM-DD')}
@@ -52,7 +56,7 @@ export default function SoftwareTable({ refreshTable }) {
           onChange={params.onChange}
           apiRef={apiRef}
         />
-      ),
+      )
     },
     {
       field: 'expirationDate',
@@ -61,7 +65,7 @@ export default function SoftwareTable({ refreshTable }) {
       width: 150,
       type: 'date',
       valueGetter: ({ value }) => (value !== null ? new Date(value) : null),
-      renderEditCell: (params) => (
+      renderEditCell: params => (
         <PurchaseDateCell
           id={params.id}
           value={dayjs(params.value, 'YYYY-MM-DD')}
@@ -69,25 +73,25 @@ export default function SoftwareTable({ refreshTable }) {
           onChange={params.onChange}
           apiRef={apiRef}
         />
-      ),
+      )
     },
     {
       field: 'softwareKey',
       headerName: 'Software Key',
       editable: editOption,
-      width: 150,
+      width: 150
     },
     {
       field: 'username',
       headerName: 'Username',
       editable: editOption,
-      width: 150,
+      width: 150
     },
     {
       field: 'password',
       headerName: 'Password',
       editable: editOption,
-      width: 150,
+      width: 150
     },
     {
       field: 'assignedLaptops',
@@ -96,29 +100,31 @@ export default function SoftwareTable({ refreshTable }) {
       width: 400,
       valueFormatter: ({ value }) => {
         if (value != null && Array.isArray(value)) {
-          const laptopIDs = value.map(laptop => laptop.laptopAssetID).join(', ');
-          return laptopIDs;
+          const laptopIDs = value.map(laptop => laptop.laptopAssetID).join(', ')
+          return laptopIDs
         }
-        return '';
+        return ''
       },
-      renderEditCell: (params) => (
+      renderEditCell: params => (
         <LaptopSelectCell
-        id={params.id}
-        value={params.value}
-        field={params.field}
-        onChange={params.onChange}
-        apiRef={apiRef}
-        softwareID={params.row.softwareID}
-        maxUsers={params.row.maxUsers}
+          id={params.id}
+          value={params.value}
+          field={params.field}
+          onChange={params.onChange}
+          apiRef={apiRef}
+          softwareID={params.row.softwareID}
+          maxUsers={params.row.maxUsers}
         />
       )
     },
     {
       field: 'additionalInformation',
       headerName: 'Comments',
-      editable: standardUserExceptions.includes('additionalInformation') ? true : editOption,
+      editable: standardUserExceptions.includes('additionalInformation')
+        ? true
+        : editOption,
       width: 300,
-      renderEditCell: (params) => (
+      renderEditCell: params => (
         <CommentsEditCell
           id={params.id}
           value={params.value}
@@ -126,12 +132,12 @@ export default function SoftwareTable({ refreshTable }) {
           onChange={params.onChange}
           apiRef={apiRef}
         />
-      ),
-    },
-  ];
+      )
+    }
+  ]
 
-  const itemName = 'software';
-  const itemID = 'softwareNo';
+  const itemName = 'software'
+  const itemID = 'softwareNo'
 
   return (
     <TableComponent
@@ -141,5 +147,5 @@ export default function SoftwareTable({ refreshTable }) {
       columns={columns}
       apiRef={apiRef}
     />
-  );
+  )
 }

@@ -1,22 +1,26 @@
 /*For use of BeQiSoft Pvt Ltd. */
 
+import React from 'react'
+import { Popover, Typography, Box, IconButton } from '@mui/material'
+import { Cancel } from '@mui/icons-material'
 
-import React from 'react';
-import { Popover, Typography,Box,IconButton } from '@mui/material';
-import { Cancel } from '@mui/icons-material';
-
-export default function CellPopoverContent({open,anchorEl, handlePopoverClose, value }) {
+export default function CellPopoverContent ({
+  open,
+  anchorEl,
+  handlePopoverClose,
+  value
+}) {
   return (
     <Popover
       open={open}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'center',
+        horizontal: 'center'
       }}
       transformOrigin={{
         vertical: 'top',
-        horizontal: 'center',
+        horizontal: 'center'
       }}
       disableRestoreFocus
     >
@@ -25,7 +29,7 @@ export default function CellPopoverContent({open,anchorEl, handlePopoverClose, v
         style={{
           display: 'flex',
           flexDirection: 'column',
-          position: 'relative',
+          position: 'relative'
         }}
       >
         <IconButton
@@ -33,16 +37,18 @@ export default function CellPopoverContent({open,anchorEl, handlePopoverClose, v
           style={{
             position: 'absolute',
             top: 0,
-            right: 0,
+            right: 0
           }}
         >
           <Cancel />
         </IconButton>
-        <Typography variant="body2" style={{ whiteSpace: 'pre-line',margin:'5px' }}>
+        <Typography
+          variant='body2'
+          style={{ whiteSpace: 'pre-line', margin: '5px' }}
+        >
           {value}
         </Typography>
       </Box>
     </Popover>
-  );
-};
-
+  )
+}

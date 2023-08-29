@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { addItem as addTeam } from '../../service/apiService';
+import { addItem as addTeam } from '../../service/addItem';
 import { useAlert } from "react-alert";
 
 export default function TeamAdd({ setRefreshTable }) {

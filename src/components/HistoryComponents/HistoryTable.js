@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useGridApiRef } from '@mui/x-data-grid';
-import TableComponent from '../CommonComponents/TableComponent';
+import TableComponent from '../CommonComponents/TableParts/TableComponent';
 export default function HistoryTable({ refreshTable }) {
     const apiRef = useGridApiRef();
     const columns = [

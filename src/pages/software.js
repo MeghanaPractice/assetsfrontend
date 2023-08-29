@@ -4,7 +4,7 @@ import { TeamProvider } from '../context/TeamContext';
 import SoftwareAdd from '../components/SoftwareComponents/SoftwareAdd';
 import SoftwareTable from '../components/SoftwareComponents/SoftwareTable';
 import { Laptop } from '@mui/icons-material';
-import TableHelpModal from '../components/CommonComponents/TableHelpModal';
+import TableHelpModal from '../components/CommonComponents/TableParts/TableHelpModal';
 import SoftwareImport from '../components/SoftwareComponents/SoftwareImport';
 import { UserRoleContext } from '../context/UserRoleContext';
 export default function Software() {

@@ -5,7 +5,7 @@ import { TeamContext } from '../../context/TeamContext';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { addItem as addDeviceAsset } from '../../service/apiService';
+import { addItem as addDeviceAsset } from '../../service/addItem';
 import AddIcon from '@mui/icons-material/Add';
 import { useAlert } from "react-alert";
 

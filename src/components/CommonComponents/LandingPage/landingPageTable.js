@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { fetchEmployeesAssigned } from '../../service/apiService';
+import { fetchEmployeesAssigned } from '../../../service/fetchEmployeesAssigned';
 import { DataGrid } from '@mui/x-data-grid';
-import CellPopoverContent from './CellPopoverContent';
+import CellPopoverContent from '../TableParts/CellPopoverContent';
 export default function LandingPageTable() {
 
   const [columns, setColumns] = useState([

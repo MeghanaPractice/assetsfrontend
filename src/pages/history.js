@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Paper, Typography } from '@mui/material';
 import HistoryTable from '../components/HistoryComponents/HistoryTable';
-import TableHelpModal from '../components/CommonComponents/TableHelpModal';
+import TableHelpModal from '../components/CommonComponents/TableParts/TableHelpModal';
 import { PunchClock } from '@mui/icons-material';
 export default function History() {
     const [refreshTable, setRefreshTable] = useState(false)

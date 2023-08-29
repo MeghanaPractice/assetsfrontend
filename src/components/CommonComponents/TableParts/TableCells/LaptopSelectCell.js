@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Popover, List, ListItem, ListItemText, Checkbox, Paper } from '@mui/material';
-import { fetchItems, assignLaptop, deassignLaptop } from '../../service/apiService';
+import { deassignLaptop } from "../../../../service/deassignLaptop";
+import { assignLaptop } from '../../../../service/assignLaptop';
+import { fetchItems } from "../../../../service/fetchItems";
 import { confirmAlert } from 'react-confirm-alert';
 import "react-confirm-alert/src/react-confirm-customalert.css";
 export default function LaptopSelectCell({ id, value, onChange, field, apiRef, softwareID, maxUsers }) {

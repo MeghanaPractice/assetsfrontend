@@ -3,7 +3,7 @@ import { Container, Icon, Paper, Typography } from '@mui/material';
 import DeviceAssetTable from '../components/DeviceAssetComponenets/DeviceAssetTable';
 import DeviceImport from '../components/DeviceAssetComponenets/DeviceImport';
 import DeviceAssetAdd from '../components/DeviceAssetComponenets/DeviceAssetAdd';
-import TableHelpModal from '../components/CommonComponents/TableHelpModal';
+import TableHelpModal from '../components/CommonComponents/TableParts/TableHelpModal';
 import { TeamProvider } from '../context/TeamContext';
 import { PhoneAndroidOutlined } from '@mui/icons-material';
 import { UserRoleContext } from '../context/UserRoleContext';

@@ -4,9 +4,12 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Check, Cancel } from '@mui/icons-material';
-import { fetchItems, updateItem, deleteItem, fetchLoggedInEmployeeAssigned } from '../../service/apiService';
-import CustomGridToolbarNoAdd from '../CommonComponents/CustomGridToolbarNoAdd';
-import { UserRoleContext } from '../../context/UserRoleContext';
+import { fetchLoggedInEmployeeAssigned } from "../../../service/fetchLoggedInEmployeeAssigned";
+import { deleteItem } from "../../../service/deleteItem";
+import { updateItem } from "../../../service/updateItem";
+import { fetchItems } from "../../../service/fetchItems";
+import CustomGridToolbarNoAdd from './CustomGridToolbarNoAdd';
+import { UserRoleContext } from '../../../context/UserRoleContext';
 import { useContext } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import "react-confirm-alert/src/react-confirm-customalert.css";
@@ -150,7 +153,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         </>
       );
     }
-    if (userRole == 'Standard' && isRowEditable(params)) {
+    if (userRole == 'Standard') {
       return (
         <>
           <IconButton onClick={() => handleEdit(row[itemID])}>
@@ -215,7 +218,6 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
         rowModes={rowModes}
         onRowModeChange={(newRowModes) => setRowModes(newRowModes)}
         apiRef={apiRef}
-        isRowSelectable={isRowEditable}
         disableRowSelectionOnClick
         sx={{
           boxShadow: 2,
@@ -234,7 +236,7 @@ export default function TableComponent({ refreshTable, itemName, itemID, columns
           },
         }}
         onCellDoubleClick={(params, event) => {
-          if (!(isRowInEditMode(params.row[itemID]) && isRowEditable(params))) {
+          if (!(isRowInEditMode(params.row[itemID]))) {
             event.defaultMuiPrevented = true;
           }
         }}

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import LoginButton from '../components/CommonComponents/login';
 import { Container, Paper, CircularProgress, Card } from '@mui/material';
-import LandingPageTable from '../components/CommonComponents/landingPageTable';
-import LandingPageCharts from '../components/CommonComponents/LandingPageCharts';
+import LandingPageTable from '../components/CommonComponents/LandingPage/landingPageTable';
+import LandingPageCharts from '../components/CommonComponents/LandingPage/LandingPageCharts';
 import { TeamProvider } from '../context/TeamContext';
 
 export default function Home() {

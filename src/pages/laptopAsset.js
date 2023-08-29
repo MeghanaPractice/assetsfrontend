@@ -4,7 +4,7 @@ import { TeamProvider } from '../context/TeamContext';
 import LaptopAssetAdd from '../components/LaptopAssetComponents/LaptopAssetAdd';
 import LaptopAssetTable from '../components/LaptopAssetComponents/LaptopAssetTable';
 import { Laptop } from '@mui/icons-material';
-import TableHelpModal from '../components/CommonComponents/TableHelpModal';
+import TableHelpModal from '../components/CommonComponents/TableParts/TableHelpModal';
 import LaptopImport from '../components/LaptopAssetComponents/LaptopImport';
 import { UserRoleContext } from '../context/UserRoleContext';
 export default function LaptopAsset() {

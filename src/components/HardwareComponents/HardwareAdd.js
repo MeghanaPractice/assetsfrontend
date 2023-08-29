@@ -6,9 +6,9 @@ import { TeamContext } from '../../context/TeamContext';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { addItem as addhardware } from '../../service/apiService';
+import { addItem as addhardware } from "../../service/addItem";
 import { useAlert } from "react-alert";
-import { fetchItems } from '../../service/apiService';
+import { fetchItems } from '../../service/fetchItems';
 
 export default function HardwareAdd({ refreshTable, setRefreshTable }) {
     const alert = useAlert();

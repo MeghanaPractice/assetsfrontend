@@ -1,4 +1,4 @@
-import TableComponent from '../CommonComponents/TableComponent';
+import TableComponent from '../CommonComponents/TableParts/TableComponent';
 
 export default function TeamTable({ refreshTable }) {
     const columns = [

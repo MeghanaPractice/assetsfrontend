@@ -4,7 +4,7 @@ import EmployeeAdd from '../components/EmployeeComponents/EmployeeAdd';
 import EmployeeTable2 from '../components/EmployeeComponents/EmployeeTable2';
 import EmployeeImport from '../components/EmployeeComponents/EmployeeImport';
 import { TeamProvider } from '../context/TeamContext';
-import TableHelpModal from '../components/CommonComponents/TableHelpModal';
+import TableHelpModal from '../components/CommonComponents/TableParts/TableHelpModal';
 import { Person2Outlined } from '@mui/icons-material';
 import { UserRoleContext } from '../context/UserRoleContext';
 export default function Employee() {

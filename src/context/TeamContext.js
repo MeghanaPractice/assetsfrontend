@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { fetchItems as fetchTeams, fetchEmp } from '../service/apiService';
+import { fetchEmp } from "../service/fetchEmp";
+import { fetchItems as fetchTeams } from "../service/fetchItems";
 
 export const TeamContext = createContext();
 

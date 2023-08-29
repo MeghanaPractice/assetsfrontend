@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { useGridApiRef } from '@mui/x-data-grid';
-import PurchaseDateCell from '../CommonComponents/PurchaseDateCell';
-import TeamSelectCell from '../CommonComponents/TeamSelectCell';
-import EmployeeSelectCell from '../CommonComponents/EmployeeSelectCell';
+import PurchaseDateCell from '../CommonComponents/TableParts/TableCells/PurchaseDateCell';
+import TeamSelectCell from '../CommonComponents/TableParts/TableCells/TeamSelectCell';
+import EmployeeSelectCell from '../CommonComponents/TableParts/TableCells/EmployeeSelectCell';
 import { TeamContext } from '../../context/TeamContext';
 import dayjs from 'dayjs';
-import TableComponent from '../CommonComponents/TableComponent';
+import TableComponent from '../CommonComponents/TableParts/TableComponent';
 import { UserRoleContext } from '../../context/UserRoleContext';
-import CommentsEditCell from '../CommonComponents/CommentEditCell';
+import CommentsEditCell from '../CommonComponents/TableParts/TableCells/CommentEditCell';
 export default function DeviceAssetTable({ refreshTable }) {
   const { teamIDs } = useContext(TeamContext);
   const apiRef = useGridApiRef();

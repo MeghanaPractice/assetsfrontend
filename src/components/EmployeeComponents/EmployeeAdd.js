@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Button, MenuItem, Select, InputLabel, Dialog, DialogTitle, DialogContent, DialogActions, FormControl } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { addItem as addEmployee } from '../../service/apiService';
+import { addItem as addEmployee } from '../../service/addItem';
 import { TeamContext } from '../../context/TeamContext';
 import { useAlert } from "react-alert";
 

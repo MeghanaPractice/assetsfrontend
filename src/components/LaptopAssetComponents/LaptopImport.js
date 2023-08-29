@@ -1,4 +1,4 @@
-import ImportExcel from "../CommonComponents/ImportExcel";
+import ImportExcel from "../CommonComponents/TableParts/ImportExcel";
 
 export default function LaptopImport() {
     const fields = [

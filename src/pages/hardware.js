@@ -3,7 +3,7 @@ import { Container, Paper, Typography } from '@mui/material';
 import { TeamProvider } from '../context/TeamContext';
 import HardwareAdd from '../components/HardwareComponents/HardwareAdd';
 import HardwareTable from '../components/HardwareComponents/HardwareTable';
-import TableHelpModal from '../components/CommonComponents/TableHelpModal';
+import TableHelpModal from '../components/CommonComponents/TableParts/TableHelpModal';
 import HardwareImport from '../components/HardwareComponents/HardwareImport';
 import { UserRoleContext } from '../context/UserRoleContext';
 export default function Hardware() {

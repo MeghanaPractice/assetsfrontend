@@ -1,5 +1,5 @@
 import './App.css';
-import Appbar from './components/CommonComponents/Appbar';
+import Appbar from './components/CommonComponents/Scaffolding/Appbar';
 import Home from './pages/index'
 import Team from './pages/Team';
 import Employee from './pages/employee';
@@ -11,7 +11,7 @@ import LoginButton from './components/CommonComponents/login';
 import PrivateRoute from './components/CommonComponents/PrivateRoute';
 import CreateUser from './pages/createUser';
 import History from './pages/history';
-import Footer from './components/CommonComponents/Footer';
+import Footer from './components/CommonComponents/Scaffolding/Footer';
 import Software from './pages/software';
 import Hardware from './pages/hardware';
 import OtherAssets from './pages/otherassets';

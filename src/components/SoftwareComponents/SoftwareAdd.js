@@ -6,7 +6,9 @@ import { TeamContext } from '../../context/TeamContext';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { addItem as addSoftware, fetchItems, assignLaptop, handleResponse } from '../../service/apiService';
+import { addItem as addSoftware } from '../../service/addItem';
+import { assignLaptop } from "../../service/assignLaptop";
+import { fetchItems } from "../../service/fetchItems";
 import { useAlert } from "react-alert";
 export default function SoftwareAdd({ refreshTable, setRefreshTable }) {
     const alert = useAlert();

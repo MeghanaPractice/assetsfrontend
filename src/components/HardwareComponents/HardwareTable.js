@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 import { useGridApiRef } from '@mui/x-data-grid';
-import PurchaseDateCell from '../CommonComponents/PurchaseDateCell';
-import TeamSelectCell from '../CommonComponents/TeamSelectCell';
-import EmployeeSelectCell from '../CommonComponents/EmployeeSelectCell';
-import TableComponent from '../CommonComponents/TableComponent';
+import PurchaseDateCell from '../CommonComponents/TableParts/TableCells/PurchaseDateCell';
+import TeamSelectCell from '../CommonComponents/TableParts/TableCells/TeamSelectCell';
+import EmployeeSelectCell from '../CommonComponents/TableParts/TableCells/EmployeeSelectCell';
+import TableComponent from '../CommonComponents/TableParts/TableComponent';
 import dayjs from 'dayjs';
 import { UserRoleContext } from '../../context/UserRoleContext';
-import CommentsEditCell from '../CommonComponents/CommentEditCell';
+import CommentsEditCell from '../CommonComponents/TableParts/TableCells/CommentEditCell';
 
 export default function HardwareTable({ refreshTable }) {
   const apiRef = useGridApiRef();
   const { userRole } = useContext(UserRoleContext);
   const isAdmin = userRole.includes('Admin');
-  const editOption = isAdmin || (!isAdmin && !userRole.includes('Standard'));
+  const editOption = isAdmin || (!isAdmin && !userRole.includes('Standard')); 
   const standardUserExceptions = ['inTeamf', 'assignedToEmp', 'additionalInfo'];
   const columns = [
     {

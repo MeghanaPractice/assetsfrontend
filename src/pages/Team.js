@@ -3,7 +3,7 @@ import { Container, Paper, Typography } from '@mui/material';
 import TeamTable2 from '../components/TeamComponenets/TeamTable2';
 import TeamAdd from '../components/TeamComponenets/TeamAdd'
 import TeamImport from '../components/TeamComponenets/TeamImport';
-import TableHelpModal from '../components/CommonComponents/TableHelpModal';
+import TableHelpModal from '../components/CommonComponents/TableParts/TableHelpModal';
 import { Groups3Outlined } from '@mui/icons-material';
 import { UserRoleContext } from '../context/UserRoleContext';
 export default function Team() {

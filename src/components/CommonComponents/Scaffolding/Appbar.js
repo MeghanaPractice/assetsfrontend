@@ -1,17 +1,15 @@
-import { useState, React, useEffect, useContext } from 'react';
+import { useState, React, useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { IconButton, Avatar, Popover, Select, MenuItem, Menu, MenuList, Button } from '@mui/material';
+import { IconButton, Avatar, Popover, MenuItem, MenuList } from '@mui/material';
 import { useAuth0 } from '@auth0/auth0-react';
 import Profile from './Profile';
 import { Link } from 'react-router-dom';
-import { UserRoleContext } from '../../context/UserRoleContext';
+import { UserRoleContext } from '../../../context/UserRoleContext';
 import { ExpandMoreRounded } from '@mui/icons-material';
 import { PhoneAndroidOutlined } from '@mui/icons-material';
-import { Person2Outlined } from '@mui/icons-material';
 import { Laptop } from '@mui/icons-material';
-import { Groups3Outlined } from '@mui/icons-material';
 
 export default function Appbar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -62,10 +60,10 @@ export default function Appbar() {
                 horizontal: 'left',
               }}>
               <MenuList>
-                <MenuItem component={Link} to='/deviceasset'><Typography variant='h9' sx={{display:'inline-flex',alignItems:'center'}}><PhoneAndroidOutlined />Mobile Device Asset</Typography></MenuItem>
-                <MenuItem component={Link} to='/laptopasset'> <Typography variant='h9' sx={{display:'inline-flex',alignItems:'center'}}><Laptop />Laptop Asset</Typography></MenuItem>
-                <MenuItem component={Link} to='/software'><Typography variant='h9' sx={{display:'inline-flex',alignItems:'center'}} ><img width="25" height="25"  src="https://img.icons8.com/ios/50/laptop-settings--v2.png" alt="laptop-settings--v2" /><button style={{visibility:'hidden',marginRight:'10'}}> </button>Software</Typography></MenuItem>
-                <MenuItem component={Link} to='/hardware'><Typography variant='h9' sx={{display:'inline-flex',alignItems:'center'}}><img width="25" height="25" src='./hardwarelogo.png' /><button style={{visibility:'hidden',marginRight:'10'}}> </button>Hardware</Typography></MenuItem>
+                <MenuItem component={Link} to='/deviceasset'><Typography variant='h9' sx={{ display: 'inline-flex', alignItems: 'center' }}><PhoneAndroidOutlined />Mobile Device Asset</Typography></MenuItem>
+                <MenuItem component={Link} to='/laptopasset'> <Typography variant='h9' sx={{ display: 'inline-flex', alignItems: 'center' }}><Laptop />Laptop Asset</Typography></MenuItem>
+                <MenuItem component={Link} to='/software'><Typography variant='h9' sx={{ display: 'inline-flex', alignItems: 'center' }} ><img width="25" height="25" src="https://img.icons8.com/ios/50/laptop-settings--v2.png" alt="laptop-settings--v2" /> Software</Typography></MenuItem>
+                <MenuItem component={Link} to='/hardware'><Typography variant='h9' sx={{ display: 'inline-flex', alignItems: 'center' }}><img width="25" height="25" src='./hardwarelogo.png' /> Hardware</Typography></MenuItem>
               </MenuList>
             </Popover>
           </>

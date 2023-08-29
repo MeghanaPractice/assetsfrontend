@@ -1,8 +1,10 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import { PieChart } from '@mui/x-charts';
-import { fetchEmployeesAssigned } from '../../service/apiService';
+import { fetchEmployeesAssigned } from '../../../service/fetchEmployeesAssigned';
 import { useEffect, useState, useContext } from 'react';
 import { FormControl, InputLabel, MenuItem, Select, Card } from '@mui/material';
-import { TeamContext } from '../../context/TeamContext';
+import { TeamContext } from '../../../context/TeamContext';
 
 export default function LandingPageCharts() {
     const [employees, setEmployees] = useState([]);

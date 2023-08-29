@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ReactSpreadsheetImport } from "react-spreadsheet-import";
 import { Button, Dialog,DialogContent,CircularProgress } from "@mui/material";
 import { Upload } from "@mui/icons-material";
-import { addItem } from "../../service/apiService";
+import { addItem } from "../../../service/addItem";
 import dayjs from "dayjs";
 export default function ImportExcel({ fields, itemName }) {
     const [data, setData] = useState([]);

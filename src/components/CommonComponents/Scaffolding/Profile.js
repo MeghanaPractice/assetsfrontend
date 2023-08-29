@@ -2,8 +2,8 @@ import { React, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Button, Typography } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
-import LoginButton from "./login";
-import { UserRoleContext } from "../../context/UserRoleContext";
+import LoginButton from "../login";
+import { UserRoleContext } from "../../../context/UserRoleContext";
 export default function Profile(){
   const { user, isAuthenticated, isLoading, logout } = useAuth0();
   const { userRole,userID } = useContext(UserRoleContext);

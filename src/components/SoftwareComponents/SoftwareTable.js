@@ -13,7 +13,7 @@ import LaptopSelectCell from '../CommonComponents/TableParts/TableCells/LaptopSe
 
 export default function SoftwareTable ({ refreshTable }) {
   const apiRef = useGridApiRef()
-  const { userRole } = useContext(UserRoleContext)
+  const { userRole,userID } = useContext(UserRoleContext)
   const isAdmin = userRole.includes('Admin')
   const editOption = isAdmin || (!isAdmin && !userRole.includes('Standard'))
   const standardUserExceptions = [
@@ -22,6 +22,12 @@ export default function SoftwareTable ({ refreshTable }) {
     'additionalInformation'
   ]
   const columns = [
+    {
+      field: 'softwareID',
+      headerName: 'Software ID',
+      editable: editOption,
+      width: 150
+    },
     {
       field: 'softwareName',
       headerName: 'Software Name',
@@ -114,6 +120,9 @@ export default function SoftwareTable ({ refreshTable }) {
           apiRef={apiRef}
           softwareID={params.row.softwareID}
           maxUsers={params.row.maxUsers}
+          changedBy={userID}
+          role={userRole}
+
         />
       )
     },

@@ -137,6 +137,8 @@ export default function LaptopAssetAdd ({ refreshTable, setRefreshTable }) {
                 fullWidth
                 value={laptopAssetID}
                 onChange={e => setLaptopAssetID(e.target.value)}
+                required={true}
+                error={!Boolean(laptopAssetID)}
                 style={{ margin: '20px auto' }}
               />
               <TextField
@@ -145,6 +147,8 @@ export default function LaptopAssetAdd ({ refreshTable, setRefreshTable }) {
                 variant='outlined'
                 fullWidth
                 value={brand}
+                required={true}
+                error={!Boolean(brand)}
                 onChange={e => setBrand(e.target.value)}
                 style={{ margin: '20px auto' }}
               />

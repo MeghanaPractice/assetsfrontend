@@ -19,7 +19,7 @@ export const updateHistory = async (
     )
     const history = await response.json()
     if (history) {
-      const maxTimeDifference = 1000
+      const maxTimeDifference =1000
       const historyTimestamp = new Date(history.time).getTime()
       const currentTime = new Date().getTime()
       const historyDate = new Date(history.time).getDate()

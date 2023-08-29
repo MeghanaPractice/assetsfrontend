@@ -9,14 +9,14 @@ export default function HardwareImport () {
       key: 'hardwareID',
       fieldType: {
         type: 'input'
-      }
-    },
-    {
-      label: 'Hardware Number',
-      key: 'hardwareNo',
-      fieldType: {
-        type: 'input'
-      }
+      },
+      validations: [
+        {
+          rule: 'required',
+          errorMessage: 'ID is required',
+          level: 'error'
+        }
+      ]
     },
     {
       label: 'Hardware Name',

@@ -91,6 +91,8 @@ export default function EmployeeAdd ({ refreshTable, setRefreshTable }) {
               variant='outlined'
               fullWidth
               value={employeeID}
+              required={true}
+              error={!Boolean(employeeID)}
               onChange={e => setEmployeeID(e.target.value)}
               style={{ margin: '20px auto' }}
             />
@@ -100,6 +102,8 @@ export default function EmployeeAdd ({ refreshTable, setRefreshTable }) {
               variant='outlined'
               fullWidth
               value={employeeName}
+              required={true}
+              error={!Boolean(employeeName)}
               onChange={e => setEmployeeName(e.target.value)}
               style={{ margin: '20px auto' }}
             />

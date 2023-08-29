@@ -117,6 +117,8 @@ export default function DeviceAssetAdd ({ refreshTable, setRefreshTable }) {
                 variant='outlined'
                 fullWidth
                 value={deviceAssetID}
+                required={true}
+                error={!Boolean(deviceAssetID)}
                 onChange={e => setDeviceAssetID(e.target.value)}
                 style={{ margin: '20px auto' }}
               />

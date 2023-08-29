@@ -15,7 +15,7 @@ export default function TeamImport () {
       validations: [
         {
           rule: 'required',
-          errorMessage: 'Name is required',
+          errorMessage: 'ID is required',
           level: 'error'
         }
       ]

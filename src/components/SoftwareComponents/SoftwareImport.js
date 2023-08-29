@@ -9,14 +9,14 @@ export default function SoftwareImport () {
       key: 'softwareID',
       fieldType: {
         type: 'input'
-      }
-    },
-    {
-      label: 'Software Number',
-      key: 'softwareNo',
-      fieldType: {
-        type: 'input'
-      }
+      },
+      validations: [
+        {
+          rule: 'required',
+          errorMessage: 'ID is required',
+          level: 'error'
+        }
+      ]
     },
     {
       label: 'Software Key',
@@ -33,6 +33,20 @@ export default function SoftwareImport () {
       }
     },
     {
+      label: 'Software Type',
+      key: 'type',
+      fieldType: {
+        type: 'input'
+      }
+    },
+    {
+      label: 'Max Users',
+      key: 'maxUsers',
+      fieldType: {
+        type: 'input'
+      }
+    },
+    {
       label: 'Purchase Date',
       key: 'purchaseDate',
       fieldType: {
@@ -42,20 +56,6 @@ export default function SoftwareImport () {
     {
       label: 'Expiration Date',
       key: 'expirationDate',
-      fieldType: {
-        type: 'input'
-      }
-    },
-    {
-      label: 'Assigned To',
-      key: 'assignedTo',
-      fieldType: {
-        type: 'input'
-      }
-    },
-    {
-      label: 'In Team',
-      key: 'inTeam',
       fieldType: {
         type: 'input'
       }

@@ -30,19 +30,22 @@ export default function TeamAdd ({ setRefreshTable }) {
     e.preventDefault()
     const team = { teamID, teamName }
     console.log(team)
-    addTeam('team', team)
-      .then(() => {
-        console.log('New team added')
-        setTeamID('')
-        setTeamName('')
-        alert.success('Added team')
-        setRefreshTable(true)
-        handleClose()
-      })
-      .catch(error => {
-        console.error('Error adding team:', error)
-        alert.error('Error adding team')
-      })
+    if (teamID && teamName) {
+      addTeam('team', team)
+        .then(() => {
+          console.log('New team added')
+          setTeamID('')
+          setTeamName('')
+          alert.success('Added team')
+          setRefreshTable(true)
+          handleClose()
+        })
+        .catch(error => {
+          console.error('Error adding team:', error)
+          alert.error('Error adding team')
+        })
+    } else alert.error('Some fields are missing')
+
     setOpen(false)
     setRefreshTable(true)
   }
@@ -68,6 +71,8 @@ export default function TeamAdd ({ setRefreshTable }) {
               variant='outlined'
               fullWidth
               value={teamID}
+              required={true}
+              error={!Boolean(teamID)}
               onChange={e => setTeamID(e.target.value)}
               style={{ margin: '20px auto' }}
             />
@@ -77,6 +82,8 @@ export default function TeamAdd ({ setRefreshTable }) {
               variant='outlined'
               fullWidth
               value={teamName}
+              required={true}
+              error={!Boolean(teamName)}
               onChange={e => setTeamName(e.target.value)}
               style={{ margin: '20px auto' }}
             />

@@ -22,7 +22,9 @@ export default function LaptopSelectCell ({
   field,
   apiRef,
   softwareID,
-  maxUsers
+  maxUsers,
+  changedBy,
+  role
 }) {
   const [laptops, setLaptops] = useState(Array.isArray(value) ? value : [])
   const [selectedLaptops, setSelectedLaptops] = useState([])
@@ -73,7 +75,7 @@ export default function LaptopSelectCell ({
             if (selectedLaptops != null) {
               let i
               for (i = 0; i < maxUsers - laptops.length; i++) {
-                assignLaptop(softwareID, selectedLaptops[i])
+                await assignLaptop(softwareID, selectedLaptops[i],changedBy,role)
               }
             }
           }
@@ -93,7 +95,7 @@ export default function LaptopSelectCell ({
         {
           label: 'Confirm',
           onClick: async () => {
-            deassignLaptop(softwareID, laptopID)
+            deassignLaptop(softwareID, laptopID,changedBy,role)
           }
         },
         {

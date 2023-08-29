@@ -117,11 +117,13 @@ export default function HardwareAdd ({ refreshTable, setRefreshTable }) {
                 variant='outlined'
                 fullWidth
                 value={hardwareID}
+                required={true}
+                error={!Boolean(hardwareID)}
                 onChange={e => setHardwareID(e.target.value)}
                 style={{ margin: '20px auto' }}
               />
               <FormControl fullWidth style={{ margin: '20px auto' }}>
-                <InputLabel id='hardware-select-label'>
+                <InputLabel required id='hardware-select-label'>
                   Hardware Name
                 </InputLabel>
                 <Select
@@ -130,6 +132,8 @@ export default function HardwareAdd ({ refreshTable, setRefreshTable }) {
                   fullWidth
                   value={hardwareName}
                   label='Hardware Name'
+                  required={true}
+                  error={!Boolean(hardwareName)}
                   onChange={e => setHardwareName(e.target.value)}
                   MenuProps={{
                     anchorOrigin: {

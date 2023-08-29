@@ -152,11 +152,13 @@ export default function SoftwareAdd ({ refreshTable, setRefreshTable }) {
                 variant='outlined'
                 fullWidth
                 value={softwareID}
+                required={true}
+                error={!Boolean(softwareID)}
                 onChange={e => setSoftwareID(e.target.value)}
                 style={{ margin: '20px auto' }}
               />
               <FormControl fullWidth style={{ margin: '20px auto' }}>
-                <InputLabel id='Software-select-label'>
+                <InputLabel required  error={!Boolean(softwareName)} id='Software-select-label'>
                   Software Name
                 </InputLabel>
                 <Select
@@ -165,6 +167,8 @@ export default function SoftwareAdd ({ refreshTable, setRefreshTable }) {
                   fullWidth
                   value={softwareName}
                   label='Software Name'
+                  required={true}
+                  error={!Boolean(softwareName)}
                   onChange={e => setSoftwareName(e.target.value)}
                   MenuProps={{
                     anchorOrigin: {

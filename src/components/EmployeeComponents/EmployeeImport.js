@@ -8,7 +8,14 @@ export default function EmployeeImport () {
       key: 'employeeID',
       fieldType: {
         type: 'input'
-      }
+      },
+      validations: [
+        {
+          rule: 'required',
+          errorMessage: 'ID is required',
+          level: 'error'
+        }
+      ]
     },
     {
       label: 'Employee Name',

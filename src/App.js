@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import './App.css';
 import Appbar from './components/CommonComponents/Scaffolding/Appbar';
 import Home from './pages/index'

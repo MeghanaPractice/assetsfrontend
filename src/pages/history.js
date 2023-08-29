@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Paper, Typography } from '@mui/material';
 import HistoryTable from '../components/HistoryComponents/HistoryTable';

@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React, { useState, useEffect } from 'react';
 import { Button, Popover, List, ListItem, ListItemText, Checkbox, Paper } from '@mui/material';
 import { deassignLaptop } from "../../../../service/deassignLaptop";

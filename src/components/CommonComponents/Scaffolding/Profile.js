@@ -1,3 +1,6 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
+
 import { React, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Button, Typography } from "@mui/material";

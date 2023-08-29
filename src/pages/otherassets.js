@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Paper, Typography, Card } from '@mui/material';
 import { Link } from 'react-router-dom';

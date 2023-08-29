@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React, { useEffect, useState, useContext } from 'react';
 import { Container, Paper, Typography } from '@mui/material';
 import TeamTable2 from '../components/TeamComponenets/TeamTable2';

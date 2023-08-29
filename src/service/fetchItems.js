@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import { BASE_URL } from "./apiService";
 
 //Fetches items from databse to populate tables

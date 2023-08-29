@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import { BASE_URL } from "./apiService";
 import { updateHistory } from "./updateHistory";
 

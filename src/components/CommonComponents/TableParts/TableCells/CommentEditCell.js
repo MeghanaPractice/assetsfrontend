@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React, { useState,useContext} from 'react';
 import { OutlinedInput, Button } from '@mui/material';
 import { UserRoleContext } from '../../../../context/UserRoleContext';

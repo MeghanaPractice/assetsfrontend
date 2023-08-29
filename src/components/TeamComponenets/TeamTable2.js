@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import TableComponent from '../CommonComponents/TableParts/TableComponent';
 
 export default function TeamTable({ refreshTable }) {

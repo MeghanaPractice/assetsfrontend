@@ -1,4 +1,5 @@
-import { teal } from '@mui/material/colors';
+/*For use of BeQiSoft Pvt Ltd. */
+
 import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({

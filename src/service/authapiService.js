@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import { config } from '../usermanagementapiconfig';
 
 export const getManagementApiAccessToken = async () => {

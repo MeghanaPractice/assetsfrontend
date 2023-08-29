@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import { BASE_URL } from "./apiService";
 
 //Updates the history with logged in user ID and role for specific changes made to the tables(reassignment or delettion)

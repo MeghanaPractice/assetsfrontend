@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React, { createContext, useState, useEffect } from 'react';
 import { fetchEmp } from "../service/fetchEmp";
 import { fetchItems as fetchTeams } from "../service/fetchItems";

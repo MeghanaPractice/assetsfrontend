@@ -1,3 +1,6 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
+
 import React from 'react';
 
 export default function Footer(){

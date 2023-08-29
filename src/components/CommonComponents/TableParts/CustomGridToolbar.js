@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React from "react";
 import { DataGrid, GridToolbar, GridToolbarContainer, GridRowModes } from "@mui/x-data-grid";
 

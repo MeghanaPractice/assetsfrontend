@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React, { useState } from "react";
 import { ReactSpreadsheetImport } from "react-spreadsheet-import";
 import { Button, Dialog,DialogContent,CircularProgress } from "@mui/material";

@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React, { useContext } from 'react';
 import { useGridApiRef } from '@mui/x-data-grid';
 import PurchaseDateCell from '../CommonComponents/TableParts/TableCells/PurchaseDateCell';

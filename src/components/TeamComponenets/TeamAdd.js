@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';

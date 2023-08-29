@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React, { useState, useEffect, useContext } from 'react';
 import { Select, MenuItem, OutlinedInput } from '@mui/material';
 import { TeamContext } from '../../../../context/TeamContext';

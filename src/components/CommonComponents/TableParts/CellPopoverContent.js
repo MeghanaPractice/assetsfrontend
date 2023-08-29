@@ -1,3 +1,6 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
+
 import React from 'react';
 import { Popover, Typography,Box,IconButton } from '@mui/material';
 import { Cancel } from '@mui/icons-material';

@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Icon, Paper, Typography } from '@mui/material';
 import DeviceAssetTable from '../components/DeviceAssetComponenets/DeviceAssetTable';

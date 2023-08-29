@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import ImportExcel from "../CommonComponents/TableParts/ImportExcel";
 
 export default function HardwareImport() {

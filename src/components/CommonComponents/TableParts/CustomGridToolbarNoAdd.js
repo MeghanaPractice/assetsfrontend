@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React from "react";
 import {
    GridToolbarColumnsButton,

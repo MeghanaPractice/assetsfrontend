@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import { React, useContext,useState } from 'react';
 import { IconButton, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { UserRoleContext } from '../../../context/UserRoleContext';

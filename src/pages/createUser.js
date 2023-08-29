@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React from 'react';
 import { Container } from '@mui/material';
 import {  TeamProvider } from '../context/TeamContext';

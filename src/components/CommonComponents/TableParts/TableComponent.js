@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridRowModes } from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';

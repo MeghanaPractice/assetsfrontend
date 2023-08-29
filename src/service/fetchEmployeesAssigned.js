@@ -1,3 +1,5 @@
+/*For use of BeQiSoft Pvt Ltd. */
+
 import { BASE_URL } from "./apiService";
 
 //Gives the employees along with the names of the laptops and mobiles assigned to them

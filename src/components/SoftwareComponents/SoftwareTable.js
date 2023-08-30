@@ -3,17 +3,16 @@
 import React, { useContext } from 'react'
 import { useGridApiRef } from '@mui/x-data-grid'
 import PurchaseDateCell from '../CommonComponents/TableParts/TableCells/PurchaseDateCell'
-import TeamSelectCell from '../CommonComponents/TableParts/TableCells/TeamSelectCell'
-import EmployeeSelectCell from '../CommonComponents/TableParts/TableCells/EmployeeSelectCell'
 import TableComponent from '../CommonComponents/TableParts/TableComponent'
 import dayjs from 'dayjs'
 import { UserRoleContext } from '../../context/UserRoleContext'
 import CommentsEditCell from '../CommonComponents/TableParts/TableCells/CommentEditCell'
 import LaptopSelectCell from '../CommonComponents/TableParts/TableCells/LaptopSelectCell'
+import SoftwareTypeSelectCell from '../CommonComponents/TableParts/TableCells/SoftwareTypeSelectCell'
 
 export default function SoftwareTable ({ refreshTable }) {
   const apiRef = useGridApiRef()
-  const { userRole,userID } = useContext(UserRoleContext)
+  const { userRole, userID } = useContext(UserRoleContext)
   const isAdmin = userRole.includes('Admin')
   const editOption = isAdmin || (!isAdmin && !userRole.includes('Standard'))
   const standardUserExceptions = [
@@ -38,7 +37,9 @@ export default function SoftwareTable ({ refreshTable }) {
       field: 'type',
       headerName: 'Type',
       editable: editOption,
-      width: 150
+      width: 150,
+      type: 'singleSelect',
+      valueOptions: ['SingleUser','MultiUser']   
     },
     {
       field: 'maxUsers',
@@ -122,7 +123,6 @@ export default function SoftwareTable ({ refreshTable }) {
           maxUsers={params.row.maxUsers}
           changedBy={userID}
           role={userRole}
-
         />
       )
     },

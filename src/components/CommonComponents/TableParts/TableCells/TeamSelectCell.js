@@ -2,11 +2,6 @@
 
 import { React, useContext } from 'react'
 import { Select, MenuItem, OutlinedInput } from '@mui/material'
-import {
-  GridApiContext,
-  useGridApiContext,
-  useGridApiRef
-} from '@mui/x-data-grid'
 import { TeamContext } from '../../../../context/TeamContext'
 
 export default function TeamSelectCell (props) {
@@ -28,6 +23,7 @@ export default function TeamSelectCell (props) {
       onChange={handleSelectChange}
       input={<OutlinedInput />}
       fullWidth
+      defaultValue={' '}
       MenuProps={{
         anchorOrigin: {
           vertical: 'top',

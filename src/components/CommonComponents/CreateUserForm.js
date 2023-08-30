@@ -49,7 +49,7 @@ export default function CreateUserForm () {
       email_verified,
       user_metadata
     }
-    if (userRole == 'Admin' && (email && password) != null) {
+    if (userRole == 'Admin' && (email && password && user_metadata) != null) {
       alert.show(
         'User created. Verification and password reset email is being sent to the provided email'
       )
@@ -60,11 +60,11 @@ export default function CreateUserForm () {
       )
       console.log(userRole)
     }
-    setUsername('')
-    setEmail('')
-    setPassword('')
-    setEmp('')
-    setTeam_ID('')
+    setUsername(null)
+    setEmail(null)
+    setPassword(null)
+    setEmp(null)
+    setTeam_ID(null)
   }
 
   return (
@@ -78,6 +78,7 @@ export default function CreateUserForm () {
         </p>
         <form className='div-centerstyle' noValidate autoComplete='off'>
           <TextField
+            required
             id='outlined-basic-username'
             label='Username'
             variant='outlined'
@@ -87,6 +88,7 @@ export default function CreateUserForm () {
             style={{ margin: '20px auto' }}
           />
           <TextField
+            required
             id='outlined-basic-email'
             label='Email'
             variant='outlined'
@@ -96,6 +98,7 @@ export default function CreateUserForm () {
             style={{ margin: '20px auto' }}
           />
           <TextField
+            required
             id='outlined-basic-password'
             label='Password'
             variant='outlined'
@@ -104,9 +107,10 @@ export default function CreateUserForm () {
             onChange={e => setPassword(e.target.value)}
             style={{ margin: '20px auto' }}
           />
-          <FormControl fullWidth style={{ margin: '20px auto' }}>
+          <FormControl required fullWidth style={{ margin: '20px auto' }}>
             <InputLabel>User Role</InputLabel>
             <Select
+              required
               label='User Role'
               variant='outlined'
               value={role}
@@ -126,9 +130,10 @@ export default function CreateUserForm () {
               </MenuItem>
             </Select>
           </FormControl>
-          <FormControl fullWidth style={{ margin: '20px auto' }}>
+          <FormControl required fullWidth style={{ margin: '20px auto' }}>
             <InputLabel id='teamID-select-label'>Team ID</InputLabel>
             <Select
+              required
               id='teamID-select'
               variant='outlined'
               fullWidth
@@ -149,9 +154,10 @@ export default function CreateUserForm () {
               ))}
             </Select>
           </FormControl>
-          <FormControl fullWidth style={{ margin: '20px auto' }}>
+          <FormControl required fullWidth style={{ margin: '20px auto' }}>
             <InputLabel id='emp_ID-select-label'>Employee ID</InputLabel>
             <Select
+              required
               id='emp_ID-select'
               variant='outlined'
               fullWidth

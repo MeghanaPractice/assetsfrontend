@@ -30,6 +30,7 @@ export default function EmployeeSelectCell (props) {
       }}
       input={<OutlinedInput />}
       fullWidth
+      defaultValue={' '}
       MenuProps={{
         anchorOrigin: {
           vertical: 'top',

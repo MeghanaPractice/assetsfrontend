@@ -18,28 +18,28 @@ export const updateHistory = async (
       }
     )
     const history = await response.json()
-    if (history) {
-      const maxTimeDifference =1000
-      const historyTimestamp = new Date(history.time).getTime()
+    const maxTimeDifference = 5000
+    const currentDate = new Date().getDate()
+    const recentHistory = history.filter(hist => {
+      const historyTimestamp = new Date(hist.time).getTime()
       const currentTime = new Date().getTime()
-      const historyDate = new Date(history.time).getDate()
-      const currentDate = new Date().getDate()
-
+      const historyDate = new Date(hist.time).getDate()
       const timeDifference = currentTime - historyTimestamp
-      if (historyDate == currentDate && timeDifference <= maxTimeDifference) {
-        const id = history.id
-        const updatedHistoryEntry = {
-          id: history.id,
-          changedBy: userID,
-          role: userRole[0]
-        }
-        await fetch(`${BASE_URL}/history/edit/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedHistoryEntry)
-        })
+      return historyDate === currentDate && timeDifference <= maxTimeDifference
+    })
+    recentHistory.forEach(async hist => {
+      const id = hist.id
+      const updatedHistoryEntry = {
+        id: hist.id,
+        changedBy: userID,
+        role: userRole[0]
       }
-    }
+      await fetch(`${BASE_URL}/history/edit/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedHistoryEntry)
+      })
+    })
   } catch (error) {
     console.error(`Error updating history for ${modelName}:`, error)
     throw error

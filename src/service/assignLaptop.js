@@ -16,7 +16,7 @@ export const assignLaptop = async (softwareID, laptopID,changedBy,role) => {
       }
     )
     if (response.ok) {
-      const update = await updateHistory(
+      await updateHistory(
         'software',
         'Assign',
         changedBy,

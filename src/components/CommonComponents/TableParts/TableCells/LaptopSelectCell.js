@@ -130,6 +130,7 @@ export default function LaptopSelectCell ({
       <Popover
         open={Boolean(popoverAnchorEl)}
         anchorEl={popoverAnchorEl}
+        sx={{zIndex:1}}
         onClose={handleClosePopover}
       >
         {deassignMode ? (
@@ -142,7 +143,6 @@ export default function LaptopSelectCell ({
                     variant='outlined'
                     color='error'
                     onClick={() => {
-                      handleClosePopover()
                       handleDeassignLaptop(laptop.laptopAssetID)
                     }}
                   >
@@ -159,7 +159,6 @@ export default function LaptopSelectCell ({
               color='info'
               sx={{ margin: 5 }}
               onClick={() => {
-                handleClosePopover()
                 confirmLaptopAssignment()
               }}
             >

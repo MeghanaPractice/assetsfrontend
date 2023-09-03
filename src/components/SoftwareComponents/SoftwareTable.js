@@ -39,7 +39,7 @@ export default function SoftwareTable ({ refreshTable }) {
       editable: editOption,
       width: 150,
       type: 'singleSelect',
-      valueOptions: ['SingleUser','MultiUser']   
+      valueOptions: ['SingleUser','MultiUser'],
     },
     {
       field: 'maxUsers',
@@ -105,6 +105,7 @@ export default function SoftwareTable ({ refreshTable }) {
       headerName: 'Assigned To Laptops',
       editable: editOption,
       width: 400,
+      sortable: false,
       valueFormatter: ({ value }) => {
         if (value != null && Array.isArray(value)) {
           const laptopIDs = value.map(laptop => laptop.laptopAssetID).join(', ')

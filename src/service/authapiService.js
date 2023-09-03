@@ -2,6 +2,7 @@
 
 import { config } from '../usermanagementapiconfig'
 
+//retrieves the access token from Auth0
 export const getManagementApiAccessToken = async () => {
   try {
     const response = await fetch(`https://${config.domain}/oauth/token`, {
@@ -34,67 +35,7 @@ export const getManagementApiAccessToken = async () => {
   }
 }
 
-export const confirmIfAdmin = async (accessToken, userId) => {
-  try {
-    const response = await fetch(
-      `https://${config.domain}/api/v2/users/${userId}/roles`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`
-        }
-      }
-    )
-
-    if (response.ok) {
-      const data = await response.json()
-      console.log(data)
-      return data.some(role => role.name === 'Admin')
-    } else {
-      console.error(
-        'Failed to fetch user roles:',
-        response.status,
-        response.statusText
-      )
-      throw new Error('Failed to fetch user roles')
-    }
-  } catch (error) {
-    console.error('Error fetching user roles:', error)
-    throw error
-  }
-}
-export const confirmIfStandard = async (accessToken, userId) => {
-  try {
-    const response = await fetch(
-      `https://${config.domain}/api/v2/users/${userId}/roles`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`
-        }
-      }
-    )
-
-    if (response.ok) {
-      const data = await response.json()
-      console.log(data)
-      return data.some(role => role.name === 'Standard')
-    } else {
-      console.error(
-        'Failed to fetch user roles:',
-        response.status,
-        response.statusText
-      )
-      throw new Error('Failed to fetch user roles')
-    }
-  } catch (error) {
-    console.error('Error fetching user roles:', error)
-    throw error
-  }
-}
-
+//Helps to reset password for created user
 const setPasswordResetEmail = async userData => {
   try {
     const accessToken = await getManagementApiAccessToken()
@@ -131,6 +72,7 @@ const setPasswordResetEmail = async userData => {
   }
 }
 
+//Create user in Auth0
 export const createUser = async userData => {
   try {
     const accessToken = await getManagementApiAccessToken()
@@ -153,11 +95,13 @@ export const createUser = async userData => {
       return
     }
     console.log('User created successfully:', userData)
+    setPasswordResetEmail(userData);
   } catch (error) {
     console.error('Error creating user:', error)
   }
 }
 
+//Assign role of user in Auth0
 export const assignUserRole = async (userID, roles) => {
   try {
     const accessToken = await getManagementApiAccessToken()

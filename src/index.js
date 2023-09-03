@@ -9,13 +9,10 @@ import { theme } from './theme.js'
 import auth_config from './auth_config.json'
 import { UserRoleProvider } from './context/UserRoleContext'
 import AlertTemplate from 'react-alert-template-basic'
-import { positions, Provider } from 'react-alert'
+import { Provider } from 'react-alert'
+import { options } from './options'
 
 const { domain, clientId, appOrigin } = auth_config
-const options = {
-  timeout: 5000,
-  position: positions.TOP_RIGHT
-}
 ReactDOM.render(
   <Auth0Provider
     domain={domain}

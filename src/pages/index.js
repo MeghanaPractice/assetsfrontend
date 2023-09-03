@@ -32,7 +32,7 @@ export default function Home () {
       </TeamProvider>
     </>
   ) : (
-    <Container className='containerStyle2'>
+    <Container className='containerStyle2' sx={{marginTop:20,marginBottom:15}}>
       <Paper className='div-centerstyle' style={{ padding: '50px' }}>
         <h1>Need to Login to access</h1>
         <LoginButton />

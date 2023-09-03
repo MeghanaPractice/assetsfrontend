@@ -23,7 +23,7 @@ export default function HistoryTable ({ refreshTable }) {
     },
     { field: 'changedBy', headerName: 'Changed By', flex: 1 },
     { field: 'role', headerName: 'Role', flex: 1 },
-    {field:'time', headerName:'TimeStamp', type:'datetime',flex:2,   valueFormatter: ({ value }) => (value !== null ? (new  Date(value).toLocaleString()) : null)}
+    {field:'time', headerName:'TimeStamp', type:'dateTime',flex:2,valueFormatter: params => new Date(params?.value).toLocaleString()}
   ]
   const itemName = 'history'
   const itemID = 'id'

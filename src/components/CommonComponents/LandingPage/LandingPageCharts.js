@@ -5,7 +5,7 @@ import { fetchEmployeesAssigned } from '../../../service/fetchEmployeesAssigned'
 import { useEffect, useState, useContext } from 'react'
 import { FormControl, InputLabel, MenuItem, Select, Card } from '@mui/material'
 import { TeamContext } from '../../../context/TeamContext'
-
+import { PieChart as ChartIcon } from '@mui/icons-material'
 export default function LandingPageCharts () {
   const [employees, setEmployees] = useState([])
   const [chartData, setChartData] = useState([])
@@ -67,7 +67,7 @@ export default function LandingPageCharts () {
         height: 'auto'
       }}
     >
-      <h1>Charts</h1>
+      <h1><ChartIcon/>Charts</h1>
       <div>
         <FormControl variant='outlined' sx={{ m: 5, width: 300 }}>
           <InputLabel id='chart-option-label'>Chart Option</InputLabel>
@@ -132,8 +132,8 @@ export default function LandingPageCharts () {
           series={[
             {
               data: chartData,
-              innerRadius: 50,
-              outerRadius: 98,
+              innerRadius: 60,
+              outerRadius: 150,
               paddingAngle: 0,
               cornerRadius: 4
             }

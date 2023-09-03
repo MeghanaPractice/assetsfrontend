@@ -22,6 +22,7 @@ export default function SoftwareTypeSelectCell (props) {
           id,
           field,
           value: event.target.value
+          , debounceMs: 200
         })
         apiRef.current.stopCellEditMode({ id, field })
       }}

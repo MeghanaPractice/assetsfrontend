@@ -155,7 +155,8 @@ export default function LaptopAssetTable ({ refreshTable }) {
       field: 'assignedSoftwareNames',
       headerName: 'Assigned Softwares',
       editable: editOption,
-      width: 150
+      width: 150,
+      sortable: false,
     },
     {
       field: 'otherDetails',

@@ -229,7 +229,11 @@ export default function TableComponent ({
           },
           '& .MuiDataGrid-row.Mui-selected:hover': {
             backgroundColor: 'primary.light'
+          },
+          '.MuiDataGrid-cell.MuiDataGrid-cell--editing ': {
+            border: 'turquoise 3px solid'
           }
+
         }}
         onCellDoubleClick={(params, event) => {
           if (!isRowInEditMode(params.row[itemID])) {
@@ -245,7 +249,7 @@ export default function TableComponent ({
         slots={{
           toolbar: CustomGridToolbarNoAdd
         }}
-        autoHeight
+        rowHeight={55}
         initialState={{
           pagination: {
             paginationModel: {

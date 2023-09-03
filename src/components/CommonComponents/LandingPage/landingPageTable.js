@@ -10,8 +10,18 @@ export default function LandingPageTable () {
     { field: 'employeeName', headerName: 'Employee name', flex: 1 },
     { field: 'teamIDNo', headerName: 'Team ID', flex: 1 },
     { field: 'designation', headerName: 'Designation', flex: 1 },
-    { field: 'laptopNames', headerName: 'Assigned Laptops', flex: 1 },
-    { field: 'deviceNames', headerName: 'Assigned Mobile Devices', flex: 1 }
+    {
+      field: 'laptopNames',
+      headerName: 'Assigned Laptops',
+      flex: 1,
+      sortable: false
+    },
+    {
+      field: 'deviceNames',
+      headerName: 'Assigned Mobile Devices',
+      flex: 1,
+      sortable: false
+    }
   ])
   const itemID = 'personID'
 

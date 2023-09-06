@@ -16,11 +16,7 @@ import { fetchItems } from '../../../../service/fetchItems'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-customalert.css'
 export default function LaptopSelectCell ({
-  id,
   value,
-  onChange,
-  field,
-  apiRef,
   softwareID,
   maxUsers,
   changedBy,

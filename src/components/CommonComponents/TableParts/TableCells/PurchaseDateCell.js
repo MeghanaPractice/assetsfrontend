@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 export default function PurchaseDateCell (props) {
-  const { id, value, onChange, field, apiRef } = props
+  const { id, value, field, apiRef } = props
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker

@@ -17,7 +17,6 @@ import {
   ListItemText
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import { TeamContext } from '../../context/TeamContext'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -28,10 +27,7 @@ import { useAlert } from 'react-alert'
 export default function SoftwareAdd ({ refreshTable, setRefreshTable }) {
   const alert = useAlert()
   const [open, setOpen] = useState(false)
-  const { teamIDs, fetchEmployees } = useContext(TeamContext)
-  const [teamEmployees, setTeamEmployees] = useState([])
   const [username, setUsername] = useState(null)
-  const [softwareNo, setSoftwareNo] = useState(null)
   const [softwareName, setSoftwareName] = useState(null)
   const [type, setType] = useState(null)
   const [maxUsers, setMaxUsers] = useState(null)
@@ -48,9 +44,7 @@ export default function SoftwareAdd ({ refreshTable, setRefreshTable }) {
   const [additionalInformation, setAdditionalInformation] = useState(null)
   const [visibleAdd, setVisibleAdd] = useState(false)
 
-  useEffect(() => {
-    fetchEmployees(inTeam, setTeamEmployees)
-  }, [inTeam])
+
 
   useEffect(() => {
     const fetchSoftwareList = async () => {
@@ -91,8 +85,6 @@ export default function SoftwareAdd ({ refreshTable, setRefreshTable }) {
       softwareName,
       purchaseDate,
       expirationDate,
-      assignedTo,
-      inTeam,
       username,
       password,
       additionalInformation
@@ -112,8 +104,6 @@ export default function SoftwareAdd ({ refreshTable, setRefreshTable }) {
         setSoftwareName(null)
         setMaxUsers(null)
         setType(null)
-        setAssignedTo(null)
-        setInTeam(null)
         setPurchaseDate(null)
         setExpirationDate(null)
         setSoftwareKey(null)

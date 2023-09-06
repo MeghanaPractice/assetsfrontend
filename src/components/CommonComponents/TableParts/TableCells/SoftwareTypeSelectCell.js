@@ -1,10 +1,10 @@
 /*For use of BeQiSoft Pvt Ltd. */
 
-import React, { useState, useEffect, useContext } from 'react'
+import React from 'react'
 import { Select, MenuItem, OutlinedInput, FormControl } from '@mui/material'
 
 export default function SoftwareTypeSelectCell (props) {
-  const { id, value, onChange, field, apiRef } = props
+  const { id, value, field, apiRef } = props
   const softwaretypes = [
     {
       name: 'SingleUser'

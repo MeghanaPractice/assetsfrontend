@@ -17,7 +17,6 @@ import { config } from '../../usermanagementapiconfig'
 import { createUser } from '../../service/authapiService'
 import { TeamContext } from '../../context/TeamContext'
 import { useAlert } from 'react-alert'
-import { assignUserRole } from '../../service/authapiService'
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt'
 
 export default function CreateUserForm () {

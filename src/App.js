@@ -16,7 +16,6 @@ import History from './pages/history'
 import Footer from './components/CommonComponents/Scaffolding/Footer'
 import Software from './pages/software'
 import Hardware from './pages/hardware'
-import OtherAssets from './pages/otherassets'
 function App () {
   return (
     <Router>
@@ -77,14 +76,6 @@ function App () {
           element={
             <PrivateRoute>
               <Hardware />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path='/otherassets'
-          element={
-            <PrivateRoute>
-              <OtherAssets />
             </PrivateRoute>
           }
         />

@@ -1,7 +1,7 @@
 /*For use of BeQiSoft Pvt Ltd. */
 
 import React, { useState, useEffect, useContext } from 'react'
-import { Container, Icon, Paper, Typography } from '@mui/material'
+import { Container, Paper, Typography } from '@mui/material'
 import DeviceAssetTable from '../components/DeviceAssetComponenets/DeviceAssetTable'
 import DeviceImport from '../components/DeviceAssetComponenets/DeviceImport'
 import DeviceAssetAdd from '../components/DeviceAssetComponenets/DeviceAssetAdd'

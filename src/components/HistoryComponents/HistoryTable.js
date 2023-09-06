@@ -1,6 +1,6 @@
 /*For use of BeQiSoft Pvt Ltd. */
 
-import React, { useContext } from 'react'
+import React from 'react'
 import { useGridApiRef } from '@mui/x-data-grid'
 import TableComponent from '../CommonComponents/TableParts/TableComponent'
 export default function HistoryTable ({ refreshTable }) {
@@ -23,7 +23,7 @@ export default function HistoryTable ({ refreshTable }) {
     },
     { field: 'changedBy', headerName: 'Changed By', flex: 1 },
     { field: 'role', headerName: 'Role', flex: 1 },
-    {field:'time', headerName:'TimeStamp', type:'dateTime',flex:2,valueFormatter: params => new Date(params?.value).toLocaleString()}
+    {field:'time', headerName:'Time Stamp', type:'dateTime',flex:2,valueFormatter: params => new Date(params?.value).toLocaleString()}
   ]
   const itemName = 'history'
   const itemID = 'id'

@@ -33,7 +33,7 @@ export default function Hardware () {
               <TableHelpModal />
               {userRole == 'Admin' && (
                 <>
-                  <HardwareImport />
+                  <HardwareImport setRefreshTable={setRefreshTable}/>
                   <HardwareAdd setRefreshTable={setRefreshTable}></HardwareAdd>
                 </>
               )}

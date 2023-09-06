@@ -6,7 +6,7 @@ import { Button, Dialog, DialogContent, CircularProgress } from '@mui/material'
 import { Upload } from '@mui/icons-material'
 import { addItem } from '../../../service/addItem'
 import dayjs from 'dayjs'
-export default function ImportExcel ({ fields, itemName }) {
+export default function ImportExcel ({ fields, itemName, setRefreshTable }) {
   const [data, setData] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -29,6 +29,8 @@ export default function ImportExcel ({ fields, itemName }) {
         console.error('Error:', error)
       } finally {
         setLoading(false)
+        setRefreshTable(true)
+
       }
     }
   }

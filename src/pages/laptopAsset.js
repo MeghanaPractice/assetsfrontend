@@ -31,7 +31,7 @@ export default function LaptopAsset () {
               <TableHelpModal />
               {userRole == 'Admin' && (
                 <>
-                  <LaptopImport />
+                  <LaptopImport setRefreshTable={setRefreshTable}/>
                   <LaptopAssetAdd
                     setRefreshTable={setRefreshTable}
                   ></LaptopAssetAdd>

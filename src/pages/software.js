@@ -39,7 +39,7 @@ export default function Software () {
               <TableHelpModal />
               {userRole == 'Admin' && (
                 <>
-                  <SoftwareImport />
+                  <SoftwareImport setRefreshTable={setRefreshTable}/>
                   <SoftwareAdd setRefreshTable={setRefreshTable}></SoftwareAdd>
                 </>
               )}

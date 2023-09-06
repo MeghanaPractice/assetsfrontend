@@ -2,7 +2,7 @@
 
 import ImportExcel from '../CommonComponents/TableParts/ImportExcel'
 
-export default function TeamImport () {
+export default function TeamImport ({ setRefreshTable }) {
   const fields = [
     {
       label: 'Team ID',
@@ -29,5 +29,5 @@ export default function TeamImport () {
     }
   ]
 
-  return <ImportExcel fields={fields} itemName='team'></ImportExcel>
+  return <ImportExcel fields={fields} itemName='team' setRefreshTable={setRefreshTable}></ImportExcel>
 }

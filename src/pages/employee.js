@@ -32,7 +32,7 @@ export default function Employee () {
               <TableHelpModal />
               {userRole == 'Admin' && (
                 <>
-                  <EmployeeImport />
+                  <EmployeeImport setRefreshTable={setRefreshTable}/>
                   <EmployeeAdd setRefreshTable={setRefreshTable}></EmployeeAdd>
                 </>
               )}

@@ -30,7 +30,7 @@ export default function Team () {
             <TableHelpModal />
             {userRole == 'Admin' && (
               <>
-                <TeamImport />
+                <TeamImport setRefreshTable={setRefreshTable}/>
                 <TeamAdd setRefreshTable={setRefreshTable}></TeamAdd>
               </>
             )}

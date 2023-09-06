@@ -1,7 +1,7 @@
 /*For use of BeQiSoft Pvt Ltd. */
 
 import ImportExcel from '../CommonComponents/TableParts/ImportExcel'
-export default function EmployeeImport () {
+export default function EmployeeImport ({ setRefreshTable }) {
   const fields = [
     {
       label: 'Employee ID',
@@ -54,5 +54,5 @@ export default function EmployeeImport () {
     }
   ]
 
-  return <ImportExcel fields={fields} itemName='employee'></ImportExcel>
+  return <ImportExcel fields={fields} itemName='employee' setRefreshTable={setRefreshTable}></ImportExcel>
 }

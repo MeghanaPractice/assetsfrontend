@@ -23,9 +23,9 @@ export default function TableHelpModal () {
   }
 
   const StandardUserHelp =
-    'Please ensure that all celss are not in edit mode(green border around cell) before confirming edit. Standard users can only edit certain options("inUse", "Team", "Assigned To","Comments") for devices they are assigned. While reassigning, ensure that employee that is reassigned is present in the corresponding team.Once reassigned, the device will no longer be available for edit for the current user'
+    'Please ensure that cells are not in edit mode(green border around cell) before confirming edit. Standard users can only edit certain options("inUse", "Team", "Assigned To","Comments") for devices they are assigned. While reassigning, ensure that employee that is reassigned is present in the corresponding team.Once reassigned, the device will no longer be available for edit for the current user'
   const AdminUserHelp =
-    'Please ensure that all celss are not in edit mode(green border around cell) before confirming edit. Admin users can edit, delete and add to all tables. Excel sheets can also be imported. While reassigning, ensure that employee that is reassigned is present in the corresponding team'
+    'Please ensure that cells are not in edit mode(green border around cell) before confirming edit. Admin users can edit, delete and add to all tables. Excel sheets can also be imported. While reassigning, ensure that employee that is reassigned is present in the corresponding team'
   const helpDialog = userRole == 'Admin' ? AdminUserHelp : StandardUserHelp
   return (
     <div>

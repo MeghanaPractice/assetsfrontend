@@ -32,7 +32,7 @@ export default function DeviceAsset () {
               <TableHelpModal />
               {userRole == 'Admin' && (
                 <>
-                  <DeviceImport />
+                  <DeviceImport setRefreshTable={setRefreshTable} />
                   <DeviceAssetAdd
                     setRefreshTable={setRefreshTable}
                   ></DeviceAssetAdd>

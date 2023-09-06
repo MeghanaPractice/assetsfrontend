@@ -2,7 +2,7 @@
 
 import ImportExcel from '../CommonComponents/TableParts/ImportExcel'
 
-export default function DeviceImport () {
+export default function DeviceImport ({ setRefreshTable }) {
   const fields = [
     {
       label: 'Device Asset ID',
@@ -98,5 +98,5 @@ export default function DeviceImport () {
     }
   ]
 
-  return <ImportExcel fields={fields} itemName='deviceasset'></ImportExcel>
+  return <ImportExcel fields={fields} itemName='deviceasset' setRefreshTable={setRefreshTable}></ImportExcel>
 }
